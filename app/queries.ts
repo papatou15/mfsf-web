@@ -29,6 +29,20 @@ export const heroSectionHomepageQuery = `
     }
 `
 
+export const heroSectionHomepageImageQuery = `
+    *[_type == "pageMaker" && title == "Accueil"][0]{
+  sections[_type == "heroSection"][0]{
+    image{
+      asset->{
+        metadata{
+          dimensions
+        }
+      }
+    }
+  }
+}
+`
+
 
 export async function queryFetcher(query: string) {
     const data = await sanityClient.fetch(query)

@@ -1,6 +1,6 @@
 import { tv } from "tailwind-variants"
 
-const typography = tv({
+const typographyTheme = tv({
     variants: {
         size: {
             h1: 'text-5xl',
@@ -17,4 +17,4 @@ const typography = tv({
     }
 })
 
-export default typography
+export default typographyTheme

@@ -14,10 +14,13 @@ export const tabsQuery = `
     }`
 
 export const homePageQuery = `
-    *[_type == 'pageMaker' && title == "Accueil"]{
+    *[_type == 'pageMaker' && title == "Accueil"][0]{
         title,
         sections[]{
           ...,
+          items[]{
+            ...,
+          },
           "imageUrl": image.asset->url
         }
     }
@@ -27,20 +30,6 @@ export const heroSectionHomepageQuery = `
     *[_type == "pageMaker" && title == "Accueil"][0]{
         sections[_type == "heroSection"][0]
     }
-`
-
-export const heroSectionHomepageImageQuery = `
-    *[_type == "pageMaker" && title == "Accueil"][0]{
-  sections[_type == "heroSection"][0]{
-    image{
-      asset->{
-        metadata{
-          dimensions
-        }
-      }
-    }
-  }
-}
 `
 
 

@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-
+import plugin from 'tailwindcss/plugin';
 
 const config: Config = {
   content: [
@@ -22,10 +22,27 @@ const config: Config = {
         'off-white': "#e5e5e5"
       },
       boxShadow: {
-        button: '-4px 4px 0 0 rgba(0,0,0,1)'
-      }
+        button: '-4px 4px 0 0 rgba(0,0,0,1)',
+        box: '-15px 15px 0 0 rgba(0,0,0,1)'
+      },
+      textShadow: {
+        sm: '0 1px 2px var(--tw-shadow-color)',
+        DEFAULT: '0 2px 4px var(--tw-shadow-color)',
+        lg: '0 8px 16px var(--tw-shadow-color)',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'text-shadow': (value) => ({
+            textShadow: value,
+          }),
+        },
+        { values: theme('textShadow') }
+      )
+    }),
+  ],
 };
 export default config;

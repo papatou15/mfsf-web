@@ -9,12 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/localizations": "^3.6.4",
+    "@clerk/nextjs": "^6.3.4",
     "@headlessui/react": "^2.1.8",
     "@mantine/carousel": "^7.13.0",
     "@mantine/core": "^7.13.0",
     "@mantine/dates": "^7.13.0",
     "@mantine/hooks": "^7.13.0",
     "@mantine/modals": "^7.13.0",
+    "@react-google-maps/api": "^2.20.3",
     "@sanity/client": "^6.22.2",
     "@sanity/image-url": "^1.1.0",
     "dayjs": "^1.11.13",

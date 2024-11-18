@@ -6,8 +6,8 @@ import { queryFetcher, contactQuery, tabsQuery, homePageQuery, heroSectionHomepa
 import TextOnPicture from "./components/TextOverImage";
 
 export default async function Home() {
-    const contacts = await queryFetcher(contactQuery)
-    const tabs = await queryFetcher(tabsQuery)
+    
+    
     const homepage = await queryFetcher(homePageQuery)
     const heroHomepage = await queryFetcher(heroSectionHomepageQuery)
     
@@ -16,13 +16,11 @@ export default async function Home() {
 
     return (
         <div>
-            <Header tabs={tabs} />
             <MFHero title={heroHomepage.sections.title} subTitle={heroHomepage.sections.subTitle} _type={heroHomepage.sections._type} layout={heroHomepage.sections.layout} image={heroHomepage.sections.image}/>
             <div className="flex flex-col md:flex-row w-full">
                 <MFCard _type="" title="Yeet" subtitle="Yeetus" image={heroHomepage.sections.image}/>
             </div>
             <TextOnPicture _type={homepage.sections[2]._type} title={homepage.sections[2].title} text={homepage.sections[2].text} layout="default" image={homepage.sections[2].image}/>
-            <Footer tabs={tabs} contacts={contacts} />
         </div>
 
     );

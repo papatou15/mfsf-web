@@ -10,7 +10,8 @@ export const contactQuery = `
 export const tabsQuery = `
     *[_type == "pageMaker"]{
         _id,
-        title
+        title,
+        slug
     }`
 
 export const homePageQuery = `

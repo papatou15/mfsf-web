@@ -18,9 +18,9 @@ const buttonStyle = tv({
     }
 })
 
-const MFButton: React.FC<ButtonProps & MFButtonProps> = ({styling, extraCSS, ...props}) =>{
+const MFButton: React.FC<ButtonProps & MFButtonProps> = ({styling, extraCSS, type, ...props}) =>{
     return(
-        <Button {...props} className={`${buttonStyle({ styling: `${styling}`})} ${extraCSS}`}/>
+        <Button {...props} type={type} className={`${buttonStyle({ styling: `${styling}`})} ${extraCSS}`}/>
     )
 }
 

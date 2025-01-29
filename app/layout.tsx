@@ -19,9 +19,9 @@ export default async function RootLayout({
   const tabsQuery = await queryFetcher(menuQuery)
   const contacts = await queryFetcher(contactQuery)
 
-  const tabs = tabsQuery.map((tab) => tab.pages.map((page) => page))
+  const tabs = tabsQuery.flatMap((tab) => tab.pages)
 
-  console.log("Layout tabs:", tabs[0][0])
+  console.log("Layout tabs:", tabs)
 
   return (
     <ClerkProvider localization={frFR}>

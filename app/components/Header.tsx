@@ -18,15 +18,12 @@ const Header: React.FC<Props> = ({ tabs }) => {
 
             </div>
             <div className="flex flex-row w-fit justify-center">
-                {tabs ? tabs.map((tabArray) => {
-                    console.log("TabArray", tabArray);
-                    return tabArray.map((tab) => {
-                        return (
-                            <MFLink link={`/${tab.slug?.current == "accueil" ? "" : tab.slug?.current}`} styling="nobg" key={tab._id} extraCSS="h-auto mx-10 md:mx-12 text-off-white text-2xl">
-                                {tab.title || "No Title"} {/* Fallback text if title is missing */}
-                            </MFLink>
-                        );
-                    });
+                {tabs ? tabs.map((tab) => {
+                    return (
+                        <MFLink link={`/${tab.slug?.current == "accueil" ? "" : tab.slug?.current}`} styling="nobg" key={tab._id} extraCSS="h-auto mx-10 md:mx-12 text-off-white text-2xl">
+                            {tab.title || "No Title"} {/* Fallback text if title is missing */}
+                        </MFLink>
+                    );
                 }) : "no tabs"}
             </div>
             <div className="flex items-center flex-row ml-auto">

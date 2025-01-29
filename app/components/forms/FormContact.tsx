@@ -4,59 +4,62 @@ import React, { useState } from "react";
 import inputTheme from "../theme/Input";
 import formLabelTheme from "../theme/FormLabel";
 import typographyTheme from "../theme/Typography";
+import { sanityClient } from "@/app/sanityClient";
 import MFButton from "../MFButton";
 
-export default function FormContact() {
+interface FormContactProps {
+  success: boolean,
+  setSuccess: (loading: boolean) => void
+}
+
+export default function FormContact({ success, setSuccess }: FormContactProps) {
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [question, setQuestion] = useState("")
-  const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("https://www.formbackend.com/f/bb2f77904ac5ae5b", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify({ email, subject, question }),
-    })
-    .then((response) => {
-      if (response.status === 422) {
-        throw new Error("Validation error");
-      } else if (!response.ok) {
-        throw new Error("Something went wrong");
-      }
+    setLoading(true);
+    setSuccess(false);
 
-      return response.json();
-    })
-    .then(data => {
-      // You can even use `data` here. Access `data.submission_text`, `data.values` etc.
-      console.log(data)
-      setSuccessMessage(data.submission_text);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+    const data = {
+      _type: "contactForm",
+      email: email,
+      subject: subject,
+      message: question,
+      createdAt: new Date().toISOString()
+    }
+    sanityClient.create(data)
+      .then(response => {
+        console.log(response);
+        setLoading(false);
+        setSuccess(true);
+      })
+      .catch(err => {
+        console.error("Error creating document:", err);
+        if (err.statusCode === 403) {
+          alert("You do not have permission to submit this form.");
+        } else {
+          alert("An error occurred while submitting the form. Please try again later.");
+        }
+      });
   }
 
   return (
     <>
-      {successMessage.length == 0 && <form onSubmit={handleSubmit} className="flex flex-col">
-        <label htmlFor="name" className={`${formLabelTheme()} ${typographyTheme({size: 'paragraph'})}`}>Ton courriel</label>
-        <input type="email" id="Courriel" name="email" required onChange={(e) => setEmail(e.target.value)} className={inputTheme()}/>
+      {success == false && <form onSubmit={handleSubmit} className="flex flex-col">
+        <label htmlFor="name" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })}`}>Ton courriel</label>
+        <input type="email" id="Courriel" name="email" required onChange={(e) => setEmail(e.target.value)} className={inputTheme()} />
 
-        <label htmlFor="email" className={`${formLabelTheme()} ${typographyTheme({size: 'paragraph'})}`}>Sujet</label>
-        <input type="text" id="Sujet" name="subject" required onChange={(e) => setSubject(e.target.value)} className={inputTheme()}/>
+        <label htmlFor="email" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })}`}>Sujet</label>
+        <input type="text" id="Sujet" name="subject" required onChange={(e) => setSubject(e.target.value)} className={inputTheme()} />
 
-        <label htmlFor="question" className={`${formLabelTheme()} ${typographyTheme({size: 'paragraph'})}`}>Question</label>
-        <textarea id="Question" name="question" rows={10} required onChange={(e) => setQuestion(e.target.value)} className={inputTheme()}/>
+        <label htmlFor="question" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })}`}>Question</label>
+        <textarea id="Question" name="question" rows={10} required onChange={(e) => setQuestion(e.target.value)} className={inputTheme()} />
 
-        <MFButton styling="smallbg" type="submit" extraCSS="w-1/3 ml-auto rounded-xl">Soumettre</MFButton>
+        <MFButton styling="smallbg" type="submit" extraCSS="w-1/3 ml-auto rounded-xl">{loading ? "En cours d'envoi" : "Soumettre"}</MFButton>
       </form>}
-
-      {successMessage.length > 0 && <p>{successMessage}</p>}
     </>
   )
 }

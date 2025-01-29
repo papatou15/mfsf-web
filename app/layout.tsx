@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs"
-import { queryFetcher, contactQuery, tabsQuery} from "./queries";
+import { queryFetcher, contactQuery, menuQuery} from "./queries";
 import {frFR} from "@clerk/localizations"
 import "./globals.css";
 import Header from "./components/Header";
@@ -16,8 +16,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const tabs = await queryFetcher(tabsQuery)
+  const tabsQuery = await queryFetcher(menuQuery)
   const contacts = await queryFetcher(contactQuery)
+
+  const tabs = tabsQuery.map((tab) => tab.pages.map((page) => page))
+
+  console.log("Layout tabs:", tabs[0][0])
 
   return (
     <ClerkProvider localization={frFR}>

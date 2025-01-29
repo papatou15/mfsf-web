@@ -32,7 +32,17 @@ export const heroSectionHomepageQuery = `
         sections[_type == "heroSection"][0]
     }
 `
+export const menuQuery = `
+    *[_type == "menu"]{
+        pages[]->{
+            title,
+            slug{
+                current
+            }
+        }
+    }
 
+`
 
 export async function queryFetcher(query: string) {
     const data = await sanityClient.fetch(query)

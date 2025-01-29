@@ -1,13 +1,19 @@
+"use client"
+
 import typographyTheme from "../components/theme/Typography";
 import Typography from "../components/Typography/Typography";
 import Map from "../components/GoogleMap";
 import FormContact from "../components/forms/FormContact";
+import { useState } from "react";
 
-export default async function Contact() {
+export default function Contact() {
     // const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""
     const markers = [
         { lat: 45.66297421713217, lng: -73.57978371107636 },
     ]
+
+    
+    const [success, setSuccess] = useState(false);
 
     return (
         <div className="flex flex-col mx-24 my-12">
@@ -36,9 +42,9 @@ export default async function Contact() {
                 </div>
                 <div className="w-1/2 flex flex-col">
                     <div className="m-auto">
-                        <Typography as="h3" className={typographyTheme({size: 'h5'})}>Vous avez une question?</Typography>
+                        <Typography as="h3" className={typographyTheme({size: 'h5'})}>{success ? "Merci de votre question!" : "Vous avez une question?"}</Typography>
                     </div>
-                    <FormContact />
+                    <FormContact success={success} setSuccess={setSuccess}/>
                 </div>
             </div>
         </div>

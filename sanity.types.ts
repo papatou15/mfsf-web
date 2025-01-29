@@ -323,6 +323,21 @@ export type HeroSection = {
   layout?: "default" | "mirrored";
 };
 
+export type Menu = {
+  _id: string;
+  _type: "menu";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  pages?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "pageMaker";
+  }>;
+};
+
 export type PageMaker = {
   _id: string;
   _type: "pageMaker";
@@ -337,7 +352,25 @@ export type PageMaker = {
     _key: string;
   } & ColumnBlock) | ({
     _key: string;
-  } & StackBlock)>;
+  } & StackBlock) | ({
+    _key: string;
+  } & LargeTitle) | ({
+    _key: string;
+  } & MediumTitle) | ({
+    _key: string;
+  } & SmallTitle) | ({
+    _key: string;
+  } & StringText) | ({
+    _key: string;
+  } & TextInput) | ({
+    _key: string;
+  } & Card) | ({
+    _key: string;
+  } & Button) | ({
+    _key: string;
+  } & Carousel) | ({
+    _key: string;
+  } & TextOnPicture)>;
 };
 
 export type SanityImageCrop = {
@@ -716,5 +749,5 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Contact | TextOnPicture | Carousel | Button | Card | StringText | TextInput | SmallTitle | MediumTitle | LargeTitle | StackBlock | ColumnBlock | HeroSection | PageMaker | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Formulaires | FormGarderie | Form612 | Activity | Event | Inscription | MediaTag | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Contact | TextOnPicture | Carousel | Button | Card | StringText | TextInput | SmallTitle | MediumTitle | LargeTitle | StackBlock | ColumnBlock | HeroSection | Menu | PageMaker | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Formulaires | FormGarderie | Form612 | Activity | Event | Inscription | MediaTag | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;

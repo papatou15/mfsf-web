@@ -21,7 +21,7 @@ const Header: React.FC<Props> = ({ tabs }) => {
                 {tabs ? tabs.map((tab) => {
                     return (
                         <MFLink link={`/${tab.slug?.current == "accueil" ? "" : tab.slug?.current}`} styling="nobg" key={tab._id} extraCSS="h-auto mx-10 md:mx-12 text-off-white text-2xl">
-                            {tab.title || "No Title"} {/* Fallback text if title is missing */}
+                            {tab.title || "No Title"}
                         </MFLink>
                     );
                 }) : "no tabs"}

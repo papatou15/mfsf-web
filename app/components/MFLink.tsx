@@ -3,8 +3,8 @@ import MFButton, { MFButtonProps } from "./MFButton";
 import { tv } from "tailwind-variants";
 
 export interface MFLinkProps{
-    link: string
-}
+    link: string | '#'
+} 
 
 const linkStyle = tv({
     base: 'w-auto flex justify-center items-center font-text'

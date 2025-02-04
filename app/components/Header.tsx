@@ -1,7 +1,6 @@
 import MFButton from "./MFButton";
 import { PageMaker } from "@/sanity.types";
-import { FaRegUserCircle } from "react-icons/fa";
-import { SignInButton, SignOutButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import MFLink from "./MFLink";
 
 interface Props {
@@ -9,8 +8,6 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ tabs }) => {
-
-    console.log("Tabs:", tabs);
 
     return (
         <div className="w-full bg-primary h-28 flex flex-row border-[5px] border-black">
@@ -20,7 +17,7 @@ const Header: React.FC<Props> = ({ tabs }) => {
             <div className="flex flex-row w-fit justify-center">
                 {tabs ? tabs.map((tab) => {
                     return (
-                        <MFLink link={`/${tab.slug?.current == "accueil" ? "" : tab.slug?.current}`} styling="nobg" key={tab._id} extraCSS="h-auto mx-10 md:mx-12 text-off-white text-2xl">
+                        <MFLink link={`/${tab.slug?.current == "accueil" ? "" : tab.slug?.current}`} styling="smallcolorless" key={tab._id} extraCSS="h-auto mx-10 md:mx-12 text-off-white text-2xl">
                             {tab.title || "No Title"}
                         </MFLink>
                     );

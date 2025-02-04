@@ -21,9 +21,6 @@ export default async function RootLayout({
 
   const tabs = tabsQuery.flatMap((tab) => tab.pages)
 
-  console.log("Query tabs:", tabsQuery)
-  console.log("Layout tabs:", tabs)
-
   return (
     <ClerkProvider localization={frFR}>
       <html lang="en">

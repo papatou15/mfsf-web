@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @next/next/no-img-element */
 import { Card } from "@/sanity.types";
 import Typography from "./Typography/Typography";
@@ -12,7 +13,7 @@ const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title}) => {
             <div className="h-[45%]">
                 <img src={sanityImgUrl(image).fit("fillmax").url()} alt=""/>
             </div>
-            <div className="h-[55%] pt-8 bg-yellow-2 flex flex-col items-center border-t-4 border-black">
+            <div className="h-[55%] pt-8 px-6 bg-yellow-2 flex flex-col text-center items-center border-t-4 border-black">
                 <Typography as="h3" className={typographyTheme({size: 'h3'})}>
                     {title}
                 </Typography>

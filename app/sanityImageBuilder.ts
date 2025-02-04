@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { sanityClient } from "./sanityClient";
 import imageUrlBuilder from '@sanity/image-url'
 

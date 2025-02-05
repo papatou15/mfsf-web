@@ -19,7 +19,7 @@ export default async function RootLayout({
   const tabsQuery = await queryFetcher(menuQuery)
   const contacts = await queryFetcher(contactQuery)
 
-  const tabs = tabsQuery.flatMap((tab) => tab.pages)
+  const tabs = tabsQuery.flatMap((tab: { pages: string[] }) => tab.pages)
 
   return (
     <ClerkProvider localization={frFR}>

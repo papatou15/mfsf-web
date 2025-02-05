@@ -18,7 +18,7 @@ export default function FormContact({ success, setSuccess }: FormContactProps) {
   const [question, setQuestion] = useState("")
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setSuccess(false);

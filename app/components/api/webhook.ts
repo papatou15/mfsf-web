@@ -2,7 +2,9 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export default async function handler(req, res) {
+import { NextApiRequest, NextApiResponse } from 'next';
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
       // Parse the webhook data (Sanity sends the document data here)
@@ -19,7 +21,8 @@ export default async function handler(req, res) {
       res.status(200).json({ success: true });
     } catch (error) {
       console.error('Error sending email:', error);
-      res.status(500).json({ success: false, error: error.message });
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      res.status(500).json({ success: false, error: errorMessage });
     }
   } else {
     res.status(405).json({ error: 'Method Not Allowed' });

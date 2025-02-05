@@ -1,17 +1,22 @@
 import React from 'react';
+import SectionRenderer from '../components/SectionRenderer';
+import { SectionProps } from '../components/SectionRenderer';
+import { queryFetcher, servicesPagesQuery } from '../queries';
 
-const ServicesPage: React.FC = () => {
+interface ServicesPageProps {
+    sections: SectionProps[];
+}
+
+export default async function ServicesPage() {
+    const servicesPage: ServicesPageProps = await queryFetcher(servicesPagesQuery);
+
+    console.log(servicesPage.sections.map((section) => section.items));
+
     return (
         <div>
-            <h1>Our Services</h1>
-            <ul>
-                <li>Service 1: Description of service 1.</li>
-                <li>Service 2: Description of service 2.</li>
-                <li>Service 3: Description of service 3.</li>
-                <li>Service 4: Description of service 4.</li>
-            </ul>
+            {servicesPage.sections.map((section) => (
+                <SectionRenderer key={section._key} section={section} {...section} />
+            ))}
         </div>
     );
-};
-
-export default ServicesPage;
+}

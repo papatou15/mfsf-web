@@ -6,14 +6,11 @@ import Typography from "./components/Typography/Typography";
 import typographyTheme from "./components/theme/Typography";
 import MFLink from "./components/MFLink";
 import inputTheme from "./components/theme/Input";
+import { SectionProps } from "./components/SectionRenderer";
 
-interface Section {
-    _key: string;
-    _type: 'heroSection' | 'card' | 'carousel' | 'stackBlock' | 'textOnPicture' | 'hero' | 'button';
-}
 
 interface Homepage {
-    sections: Section[];
+    sections: SectionProps[];
 }
 
 export default async function Home() {

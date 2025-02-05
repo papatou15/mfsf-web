@@ -213,6 +213,9 @@ export type StackBlock = {
       } & TextOnPicture)
     | ({
         _key: string
+      } & ColumnBlock)
+    | ({
+        _key: string
       } & StackBlock)
   >
   layout?: 'horizontal' | 'vertical'

@@ -27,7 +27,19 @@ export const homePageQuery = `
     }
 `
 
+export const servicesPagesQuery = `
+    *[_type == 'pageMaker' && title == "Services"][0]{
+        title,
+        sections[]{
+        ...,
+        items[]{
+            ...,
+        },
+        "imageUrl": image.asset->url
+        }
+    }
 
+`
 
 export const menuQuery = `
     *[_type == "menu"]{

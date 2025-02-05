@@ -7,9 +7,9 @@ import sanityImgUrl from "../sanityImageBuilder";
 
 export type MFCardProps = Card
 
-const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title}) => {
+const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title, _type}) => {
     return(
-        <div className="flex flex-col h-[470px] w-[385px] rounded-xl border-black border-4 overflow-hidden transition-all hover:cursor-pointer hover:shadow-button hover:translate-x-1 hover:-translate-y-1">
+        <div className={`${_type} flex flex-col h-[470px] w-[385px] rounded-xl border-black border-4 overflow-hidden transition-all hover:cursor-pointer hover:shadow-button hover:translate-x-1 hover:-translate-y-1`}>
             <div className="h-[45%]">
                 <img src={sanityImgUrl(image).fit("fillmax").url()} alt=""/>
             </div>

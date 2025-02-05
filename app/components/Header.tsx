@@ -10,7 +10,7 @@ interface Props {
 const Header: React.FC<Props> = ({ tabs }) => {
 
     return (
-        <div className="w-full bg-primary h-28 flex flex-row border-[5px] border-black">
+        <div className="header w-full bg-primary h-28 flex flex-row border-[5px] border-black">
             <div className="w-44 h-full">
 
             </div>

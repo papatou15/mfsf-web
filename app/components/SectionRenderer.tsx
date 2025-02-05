@@ -20,7 +20,7 @@ const components: { [key in Section['_type']]: any } = {
 
 interface SectionRendererProps {
   section: Section;
-  [key: string]: any; // Allow additional props
+  [key: string]: any;
 }
 
 export default function SectionRenderer({ section, ...props }: SectionRendererProps) {

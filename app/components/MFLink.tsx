@@ -10,10 +10,10 @@ const linkStyle = tv({
     base: 'w-auto flex justify-center items-center font-text'
 })
 
-const MFLink: React.FC<MFButtonProps & ButtonProps & MFLinkProps> = ({styling, extraCSS, link, ...props}) => {
+const MFLink: React.FC<MFButtonProps & ButtonProps & MFLinkProps> = ({style, extraCSS, link, ...props}) => {
     return(
-        <a href={link} className={`${linkStyle()} ${extraCSS}`}>
-            <MFButton {...props} styling={styling}/>
+        <a href={link} className={`${props._type} ${linkStyle()} ${extraCSS}`}>
+            <MFButton {...props} className={style}/>
         </a>
     )
 }

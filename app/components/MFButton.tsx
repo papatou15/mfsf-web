@@ -21,7 +21,7 @@ const buttonStyle = tv({
 
 const MFButton: React.FC<ButtonProps & MFButtonProps> = ({ style, extraCSS, type, title, children, ...props }) => {
     return (
-        <HeadlessButton {...props} type={type} className={`${buttonStyle({ styling: `${style}` })} ${extraCSS ? extraCSS : ''}`}>
+        <HeadlessButton {...props} type={type} className={`${type}${buttonStyle({ styling: `${style}` })} ${extraCSS ? extraCSS : ''}`}>
             {title || children}
         </HeadlessButton>
     );

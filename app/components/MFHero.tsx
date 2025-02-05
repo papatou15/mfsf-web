@@ -6,10 +6,10 @@ import sanityImgUrl from "../sanityImageBuilder";
 
 export type MFHeroProps = HeroSection
 
-const MFHero: React.FC<MFHeroProps> = ({title, subTitle, image, layout}) => {
+const MFHero: React.FC<MFHeroProps> = ({title, subTitle, image, layout, _type, bgColor}) => {
 
     return(
-        <div className={`md:min-h-96 xl:min-h-[50rem] flex ${layout == 'default' ? 'md:flex-row' : 'md:flex-row-reverse'} justify-center items-center`}>
+        <div className={`${_type} ${bgColor?.hex ? bgColor.hex : 'bg-transparent'}  md:min-h-96 xl:min-h-[50rem] flex ${layout == 'default' ? 'md:flex-row' : 'md:flex-row-reverse'} justify-center items-center`}>
             <div className="w-[50%] flex flex-col justify-center items-center">
                 <Typography as="h1" className={typographyTheme({size: 'h1'})}>
                     {title}

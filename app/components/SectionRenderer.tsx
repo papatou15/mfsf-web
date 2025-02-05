@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // components/SectionRenderer.js
 import dynamic from 'next/dynamic';
+import Typography from './Typography/Typography';
+import typographyTheme from './theme/Typography';
 
 // Define the type for the section prop
 export interface SectionProps {
-  _type: 'heroSection' | 'card' | 'carousel' | 'stackBlock' | 'textOnPicture' | 'hero' | 'button' | 'columnBlock';
+  _type: 'heroSection' | 'card' | 'carousel' | 'stackBlock' | 'textOnPicture' | 'hero' | 'button' | 'columnBlock' | 'largeTitle' | 'mediumTitle' | 'smallTitle';
+  title?: string;
 }
 
 // Dynamically import components based on section type
@@ -17,6 +20,9 @@ const components: { [key in SectionProps['_type']]: any } = {
   hero: dynamic(() => import('./MFHero')),
   button: dynamic(() => import('./MFButton')),
   columnBlock: dynamic(() => import('./Columns')),
+  largeTitle: dynamic(() => import('./Typography/Typography')),
+  mediumTitle: dynamic(() => import('./Typography/Typography')),
+  smallTitle: dynamic(() => import('./Typography/Typography')),
 };
 
 interface SectionRendererProps {
@@ -30,6 +36,17 @@ export default function SectionRenderer({ section, ...props }: SectionRendererPr
 
   // If no matching component is found, return null or a fallback
   if (!Component) return null;
+
+  // Handle title components
+  if (section._type === 'largeTitle') {
+    return <Typography as="h1" className={typographyTheme({ size: 'h1' })}>{section.title}</Typography>;
+  }
+  if (section._type === 'mediumTitle') {
+    return <Typography as="h2" className={typographyTheme({ size: 'h3' })}>{section.title}</Typography>;
+  }
+  if (section._type === 'smallTitle') {
+    return <Typography as="h3" className={typographyTheme({ size: 'h5' })}>{section.title}</Typography>;
+  }
 
   return <Component {...section} {...props} />;
 }

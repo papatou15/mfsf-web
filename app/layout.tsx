@@ -3,6 +3,7 @@ import { ClerkProvider } from "@clerk/nextjs"
 import { queryFetcher, contactQuery, menuQuery} from "./queries";
 import {frFR} from "@clerk/localizations"
 import "./globals.css";
+import "./homepage.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 

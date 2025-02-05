@@ -2,7 +2,7 @@ import { ButtonProps } from "@headlessui/react";
 import MFButton, { MFButtonProps } from "./MFButton";
 import { tv } from "tailwind-variants";
 
-export interface MFLinkProps{
+export interface MFLinkProps extends MFButtonProps {
     link: string | '#'
 } 
 

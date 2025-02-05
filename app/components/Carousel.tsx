@@ -38,22 +38,22 @@ const Carousel = ({ images, title }: CarouselProps) => {
     }
 
     return (
-        <div>
+        <div className="w-full px-24">
             {title && <Typography as="h2" className={`${typographyTheme({ size: 'h4' })} text-center my-14`}>{title}</Typography>}
             <div className="carousel flex items-center space-x-4 overflow-hidden">
-                <button onClick={prev} className="p-2 bg-primary rounded-full hover:bg-yellow-1">
+                <button onClick={prev} className="p-4 bg-off-white rounded-xl border-black border-2 hover:bg-yellow-1 transition-all duration-200 ease-in-out">
                     <FaArrowLeft />
                 </button>
                 <div className="carousel-images-wrapper overflow-hidden relative w-full">
                     <div className="carousel-images flex transition-transform duration-500 ease-in-out">
                         {displayedImages.map((image, index) => (
-                            <MFLink link={image.link ?? '#'} key={image._key} styling={"smallcolorless"}>
-                                <img key={index} src={sanityImgUrl(image.carouselImage).width(200).url()} alt={`Slide ${index}`} className="w-1/7 sm:w-1/2 object-cover transition-all ease-in-out duration-300" />
+                            <MFLink link={image.link ?? '#'} key={image._key} styling={"smallcolorless"} extraCSS="h-40 w-56 mx-2 overflow-hidden border-black rounded-2xl border-2">
+                                <img key={index} src={sanityImgUrl(image.carouselImage).url()} alt={`Slide ${index}`} className="object-cover" />
                             </MFLink>
                         ))}
                     </div>
                 </div>
-                <button onClick={next} className="p-2 bg-primary rounded-full hover:bg-gray-300">
+                <button onClick={next} className="p-4 bg-off-white rounded-xl border-black border-2 hover:bg-yellow-1 transition-all duration-200 ease-in-out">
                     <FaArrowRight />
                 </button>
             </div>

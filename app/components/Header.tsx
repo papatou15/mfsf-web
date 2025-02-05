@@ -26,7 +26,7 @@ const Header: React.FC<Props> = ({ tabs }) => {
             <div className="flex items-center flex-row ml-auto">
                 <SignedOut>
                     <SignInButton>
-                        <MFButton styling="smallbg">
+                        <MFButton style="smallbg">
                             Connexion
                         </MFButton>
                     </SignInButton>

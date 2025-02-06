@@ -130,6 +130,7 @@ export type Card = {
   _type: 'card'
   title?: string
   subtitle?: string
+  modalContent?: StackBlock
   image?: {
     asset?: {
       _ref: string

@@ -1,0 +1,12 @@
+.column .stackBlock{
+    padding-left: 0;
+    padding-right: 0;
+    width: 85%;
+}
+
+@media screen and (max-width: 1024px) {
+    .column .stackBlock {
+        width: 100%;
+    }
+    
+}

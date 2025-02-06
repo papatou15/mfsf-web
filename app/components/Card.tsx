@@ -1,13 +1,53 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @next/next/no-img-element */
+"use client"
+
 import { Card } from "@/sanity.types";
 import Typography from "./Typography/Typography";
 import typographyTheme from "./theme/Typography";
 import sanityImgUrl from "../sanityImageBuilder";
+import MFButton from "./MFButton";
+import { HiChevronDown } from "react-icons/hi";
+import { useState } from "react";
+import Modal from "./Modal";
 
 export type MFCardProps = Card
 
 const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title, _type}) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    if (layout === 'smallCard') {
+        return (
+            <>
+                <div className={`${_type} ${layout} w-full m-auto grid grid-cols-1 relative rounded-3xl border-black border-4 overflow-hidden`} >
+                    <div className="w-full h-full bg-gradient-to-r from-primary via-[#A6298B] via-[40%] absolute z-10"></div>
+                    <div className="row-start-1 col-start-1 flex flex-col justify-center pl-8 w-3/5 z-20 text-off-white">
+                        <Typography as="h3" className={`${typographyTheme({ size: 'h5' })}`}>
+                            {title}
+                        </Typography>
+                        <div>
+                            <MFButton _type="button" style="smallbg" extraCSS="mt-4 z-20" onClick={handleOpenModal}>
+                                <>Vois plus<HiChevronDown/></>
+                            </MFButton>
+                        </div>
+                    </div>
+                    <div className="z-0 row-start-1 col-start-1 overflow-hidden">
+                        <img src={sanityImgUrl(image).height(200).fit("crop").crop("center").url()} alt="" className="ml-auto"/>
+                    </div>
+                </div>
+                <Modal open={isModalOpen} onClose={handleCloseModal} title={title} subtitle={subtitle} image={image} />
+            </>
+        );
+    }
+
     return(
         <div className={`${_type} flex flex-col h-[470px] w-[385px] rounded-xl border-black border-4 overflow-hidden transition-all hover:cursor-pointer hover:shadow-button hover:translate-x-1 hover:-translate-y-1`}>
             <div className="h-[45%]">

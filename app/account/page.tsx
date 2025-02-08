@@ -25,6 +25,15 @@ export default async function AccountPage({clerkNom, clerkNom_famille, clerkEmai
         return null
     }
 
+    if (clerkNom !== accountPage[0].nom || clerkNom_famille !== accountPage[0].nom_famille || clerkEmail !== accountPage[0].email) {
+        return (
+            <div>
+                <Typography as={"h1"} className={typographyTheme({ size: 'h1'})}>Erreur</Typography>
+                <p>Vous n'êtes pas autorisé à accéder à cette page.</p>
+            </div>
+        )
+    }
+
     return (
         <div>
             <SignedIn>

@@ -15,8 +15,7 @@ interface Homepage {
 
 export default async function Home() {
     const homepage: Homepage = await queryFetcher(homePageQuery)
-
-    console.log(homepage.sections.map((section) => section.items));
+    
 
     return (
         <div>

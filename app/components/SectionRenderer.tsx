@@ -6,8 +6,9 @@ import typographyTheme from './theme/Typography';
 
 // Define the type for the section prop
 export interface SectionProps {
-  _type: 'heroSection' | 'card' | 'carousel' | 'stackBlock' | 'textOnPicture' | 'hero' | 'button' | 'columnBlock' | 'largeTitle' | 'mediumTitle' | 'smallTitle';
+  _type: 'heroSection' | 'card' | 'carousel' | 'stackBlock' | 'textOnPicture' | 'hero' | 'button' | 'columnBlock' | 'largeTitle' | 'mediumTitle' | 'smallTitle' | 'textInput';
   title?: string;
+  text?: string;
 }
 
 // Dynamically import components based on section type
@@ -23,6 +24,7 @@ const components: { [key in SectionProps['_type']]: any } = {
   largeTitle: dynamic(() => import('./Typography/Typography')),
   mediumTitle: dynamic(() => import('./Typography/Typography')),
   smallTitle: dynamic(() => import('./Typography/Typography')),
+  textInput: dynamic(() => import('./Typography/Typography'))
 };
 
 interface SectionRendererProps {
@@ -46,6 +48,9 @@ export default function SectionRenderer({ section, ...props }: SectionRendererPr
   }
   if (section._type === 'smallTitle') {
     return <Typography as="h3" className={typographyTheme({ size: 'h5' })}>{section.title}</Typography>;
+  }
+  if (section._type === 'textInput') {
+    return <Typography as="p" className={typographyTheme({ size: 'paragraph' })}>{section.text}</Typography>;
   }
 
   return <Component {...section} {...props} />;

@@ -17,7 +17,7 @@ const Header: React.FC<Props> = ({ tabs }) => {
             <div className="flex flex-row w-fit justify-center">
                 {tabs ? tabs.map((tab) => {
                     return (
-                        <MFLink link={`/${tab.slug?.current == "accueil" ? "" : tab.slug?.current}`} styling="smallcolorless" key={tab._id} extraCSS="h-auto mx-10 md:mx-12 text-off-white text-2xl">
+                        <MFLink link={`/${tab.slug?.current == "accueil" ? "" : tab.slug?.current}`} style="smallcolorless" key={tab._id} extraCSS="h-auto mx-10 md:mx-12 text-off-white text-2xl" _type={"button"}>
                             {tab.title || "No Title"}
                         </MFLink>
                     );
@@ -42,6 +42,7 @@ const Header: React.FC<Props> = ({ tabs }) => {
                             }
                         }}
                     />
+                    <MFLink _type="button" link="/account" style="smallbg">Portail de membre</MFLink>
                 </SignedIn>
             </div>
         </div>

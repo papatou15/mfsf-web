@@ -4,6 +4,14 @@
     width: 85%;
 }
 
+.modal-content .stackBlock{
+    width: 100%;
+}
+
+.modal-content .stackBlock h1, h2, h3{
+    padding-top: 2rem;
+}
+
 @media screen and (max-width: 1024px) {
     .column .stackBlock {
         width: 100%;

@@ -13,7 +13,7 @@ const linkStyle = tv({
 const MFLink: React.FC<MFButtonProps & ButtonProps & MFLinkProps> = ({style, extraCSS, link, ...props}) => {
     return(
         <a href={link} className={`${props._type} ${linkStyle()} ${extraCSS}`}>
-            <MFButton {...props} className={style}/>
+            <MFButton {...props} style={style}/>
         </a>
     )
 }

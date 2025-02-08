@@ -7,7 +7,7 @@ export interface MFButtonProps extends SanityButton {
     extraCSS?: string;
 }
 
-const buttonStyle = tv({
+export const buttonStyle = tv({
     base: 'w-auto flex justify-center items-center font-text',
     variants: {
         styling: {

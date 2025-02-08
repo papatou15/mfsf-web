@@ -13,7 +13,7 @@ import Modal from "./Modal";
 
 export type MFCardProps = Card
 
-const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title, _type}) => {
+const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title, modalContent, _type}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleOpenModal = () => {
@@ -34,16 +34,16 @@ const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title, _type}) 
                             {title}
                         </Typography>
                         <div>
-                            <MFButton _type="button" style="smallbg" extraCSS="mt-4 z-20" onClick={handleOpenModal}>
+                            <MFButton _type="button" style="smallbg" extraCSS="my-4 mx-0 z-20" onClick={handleOpenModal}>
                                 <>Vois plus<HiChevronDown/></>
                             </MFButton>
                         </div>
                     </div>
-                    <div className="z-0 row-start-1 col-start-1 overflow-hidden">
-                        <img src={sanityImgUrl(image).height(200).fit("crop").crop("center").url()} alt="" className="ml-auto"/>
+                    <div className="z-0 row-start-1 col-start-1">
+                        <img src={sanityImgUrl(image).url()} alt="" className="w-full h-[200px] object-cover"/>
                     </div>
                 </div>
-                <Modal open={isModalOpen} onClose={handleCloseModal} title={title} subtitle={subtitle} image={image} />
+                <Modal _type="card" open={isModalOpen} onClose={handleCloseModal} title={title} modalContent={modalContent} image={image} />
             </>
         );
     }

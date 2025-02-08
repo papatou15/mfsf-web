@@ -10,7 +10,9 @@ interface ModalProps extends Card {
     onClose: () => void;
 }
 
-export default function Modal({ open, onClose, title, subtitle, image, sections }: ModalProps) {
+export default function Modal({ open, onClose, title, image, modalContent }: ModalProps) {
+    console.log("modal: ", modalContent);
+
     return (
         <div className={`modal w-full h-full fixed inset-0 z-50 ${open ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300 ease-in-out ${open ? 'pointer-events-auto' : 'pointer-events-none'}`}>
             <div className="modal-overlay fixed inset-0 bg-black opacity-50" onClick={onClose}></div>
@@ -18,14 +20,11 @@ export default function Modal({ open, onClose, title, subtitle, image, sections 
                 <div className="relative h-64 w-full overflow-hidden">
                     <img src={sanityImgUrl(image).height(400).url()} alt={title} className="w-full filter blur-sm brightness-90" />
                     <div className="absolute inset-0 flex items-center justify-center">
-                        <Typography as={"h2"} className={`${typographyTheme({size: "h4"})} text-white text-shadow-sm`}>{title}</Typography>
+                        <Typography as={"h2"} className={`${typographyTheme({size: "h2"})} text-white text-shadow-sm`}>{title}</Typography>
                     </div>
                 </div>
-                <div className="modal-content m-4 w-full">
-                    {subtitle && <p className="text-lg mb-4">{subtitle}</p>}
-                    {sections && sections.map((section, index) => (
-                        <SectionRenderer key={index} section={section} {...section}/>
-                    ))}
+                <div className="modal-content w-full *:!px-20 *:!items-start">
+                    {modalContent && <SectionRenderer section={modalContent}/>}
                 </div>
             </div>
         </div>

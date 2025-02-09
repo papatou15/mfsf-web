@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Send email using Resend
       await resend.emails.send({
         from: 'noreply@maisonfamillestfrancois.com',  // Verified sender address
-        to: 'info@maisonfamillestfrancois.com',      // Your client email
+        to: ['info@maisonfamillestfrancois.com', 'antoine.ridard@hotmail.com'],      // Your client email
         subject: 'New Document Created',
         text: `A new document has been created:\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
       });

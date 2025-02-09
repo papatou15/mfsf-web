@@ -10,8 +10,6 @@ interface ServicesPageProps {
 export default async function ServicesPage() {
     const servicesPage: ServicesPageProps = await queryFetcher(servicesPagesQuery);
 
-    console.log(servicesPage.sections.map((section) => section.items));
-
     return (
         <div>
             {servicesPage.sections.map((section) => (

@@ -238,9 +238,6 @@ export type ColumnBlock = {
       } & SmallTitle)
     | ({
         _key: string
-      } & StringText)
-    | ({
-        _key: string
       } & TextInput)
     | ({
         _key: string
@@ -282,9 +279,6 @@ export type ColumnBlock = {
       } & SmallTitle)
     | ({
         _key: string
-      } & StringText)
-    | ({
-        _key: string
       } & TextInput)
     | ({
         _key: string
@@ -324,9 +318,6 @@ export type ColumnBlock = {
     | ({
         _key: string
       } & SmallTitle)
-    | ({
-        _key: string
-      } & StringText)
     | ({
         _key: string
       } & TextInput)

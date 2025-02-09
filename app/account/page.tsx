@@ -6,24 +6,22 @@ import Typography from "../components/Typography/Typography";
 import typographyTheme from "../components/theme/Typography";
 import SignUpForm from "../components/SignUpForm";
 
-interface AccountPageProps extends Inscription{
+interface AccountPageProps extends Inscription {
     clerkEmail: string;
     clerkNom: string;
     clerkNom_famille: string;
 }
 
-export default async function AccountPage({clerkNom, clerkNom_famille, clerkEmail}: AccountPageProps) {
+export default async function AccountPage() {
     const user = await currentUser();
-    clerkNom = user?.firstName ?? '';
-    clerkNom_famille = user?.lastName ?? '';
-    clerkEmail = user?.emailAddresses[0].emailAddress ?? '';
+    const clerkNom = user?.firstName ?? '';
+    const clerkNom_famille = user?.lastName ?? '';
+    const clerkEmail = user?.emailAddresses[0].emailAddress ?? '';
 
     const accountPage: AccountPageProps[] = await memberQueryFetcher(accountPageQuery, { email: clerkEmail, nom: clerkNom, nom_famille: clerkNom_famille });
 
-    console.log("accountPage: ", accountPage);
-
     if (accountPage.length === 0) {
-        return null
+        return null;
     }
 
     if (clerkNom !== accountPage[0].nom || clerkNom_famille !== accountPage[0].nom_famille || clerkEmail !== accountPage[0].email) {

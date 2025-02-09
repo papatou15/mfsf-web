@@ -11,7 +11,6 @@ interface ModalProps extends Card {
 }
 
 export default function Modal({ open, onClose, title, image, modalContent }: ModalProps) {
-    console.log("modal: ", modalContent);
 
     return (
         <div className={`modal w-full h-full fixed inset-0 z-50 ${open ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300 ease-in-out ${open ? 'pointer-events-auto' : 'pointer-events-none'}`}>

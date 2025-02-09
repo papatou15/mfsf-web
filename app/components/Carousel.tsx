@@ -46,7 +46,7 @@ const Carousel = ({ images, title, _type }: CarouselProps) => {
                 <div className="carousel-images-wrapper overflow-hidden relative w-full">
                     <div className="carousel-images flex transition-transform duration-500 ease-in-out">
                         {displayedImages.map((image, index) => (
-                            <MFLink link={image?.link ?? '#'} key={image?._key} styling={"smallcolorless"} extraCSS="!h-40 !w-40 mx-2 overflow-hidden bg-white border-black rounded-2xl border-2">
+                            <MFLink link={image?.link ?? '#'} key={image?._key} style={"smallcolorless"} extraCSS="!h-40 !w-40 mx-2 overflow-hidden bg-white border-black rounded-2xl border-2" _type={"button"}>
                                 <img key={index} src={sanityImgUrl(image?.carouselImage).url()} alt={`Slide ${index}`} className="object-contain" />
                             </MFLink>
                         ))}

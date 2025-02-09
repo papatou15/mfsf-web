@@ -4,6 +4,7 @@ import { Inscription } from "@/sanity.types";
 import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 import Typography from "../components/Typography/Typography";
 import typographyTheme from "../components/theme/Typography";
+import SignUpForm from "../components/SignUpForm";
 
 interface AccountPageProps extends Inscription{
     clerkEmail: string;
@@ -41,7 +42,7 @@ export default async function AccountPage({clerkNom, clerkNom_famille, clerkEmai
                     {/* <Typography as={"h1"} className={typographyTheme({ size: 'h1'})}>Bonjour {sanityNom} {sanityNomFamille}!</Typography>
                     <p>Adresse courriel: {sanityEmail}</p>
                     <p>Activités inscrites:</p> */}
-                    
+                    <SignUpForm clerkEmail={clerkEmail} clerkNom={clerkNom} clerkNom_famille={clerkNom_famille} _type={"inscription"}  />
                 </div>
             </SignedIn>
             <SignedOut>

@@ -1,7 +1,7 @@
 "use client"
 
 import { Inscription } from "@/sanity.types";
-import { Label, Input, Field, Listbox, ListboxButton, ListboxOptions, ListboxOption, Checkbox, Fieldset, Legend, Textarea } from "@headlessui/react";
+import { Label, Input, Field, Listbox, ListboxButton, ListboxOptions, ListboxOption, Checkbox, Fieldset, Legend } from "@headlessui/react";
 import Typography from "./Typography/Typography";
 import typographyTheme from "./theme/Typography";
 import formLabelTheme from "./theme/FormLabel";

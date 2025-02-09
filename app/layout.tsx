@@ -7,7 +7,6 @@ import "./homepage.css";
 import "./services.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { currentUser } from "@clerk/nextjs/server";
 
 export const metadata: Metadata = {
   title: "Maison de la Famille de St-François",

@@ -30,7 +30,7 @@ export default async function AccountPage({clerkNom, clerkNom_famille, clerkEmai
         return (
             <div>
                 <Typography as={"h1"} className={typographyTheme({ size: 'h1'})}>Erreur</Typography>
-                <p>Vous n'êtes pas autorisé à accéder à cette page.</p>
+                <p>Vous n&apos;êtes pas autorisé à accéder à cette page.</p>
             </div>
         )
     }
@@ -42,7 +42,7 @@ export default async function AccountPage({clerkNom, clerkNom_famille, clerkEmai
                     {/* <Typography as={"h1"} className={typographyTheme({ size: 'h1'})}>Bonjour {sanityNom} {sanityNomFamille}!</Typography>
                     <p>Adresse courriel: {sanityEmail}</p>
                     <p>Activités inscrites:</p> */}
-                    <SignUpForm clerkEmail={clerkEmail} clerkNom={clerkNom} clerkNom_famille={clerkNom_famille} _type={"inscription"}  />
+                    <SignUpForm clerkEmail={clerkEmail} clerkNom={clerkNom} clerkNom_famille={clerkNom_famille} _type={"inscription"} _id={""} _createdAt={""} _updatedAt={""} _rev={""}  />
                 </div>
             </SignedIn>
             <SignedOut>

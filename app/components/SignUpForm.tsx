@@ -38,10 +38,10 @@ const occupationOptions = [
 
 const revenusOptions = [
     { id: 1, value: '<10k', name: 'Moins de 10 000$' },
-    { id: 2, value: '10-20k', name: '10 001$ à 20 000$' },
-    { id: 3, value: '20-30k', name: '20 001$ à 30 000$' },
-    { id: 4, value: '30-40k', name: '30 001$ à 40 000$' },
-    { id: 5, value: '40-50k', name: '40 001$ à 50 000$' },
+    { id: 2, value: '10k-20k', name: '10 001$ à 20 000$' },
+    { id: 3, value: '20k-30k', name: '20 001$ à 30 000$' },
+    { id: 4, value: '30k-40k', name: '30 001$ à 40 000$' },
+    { id: 5, value: '40k-50k', name: '40 001$ à 50 000$' },
     { id: 6, value: '>50k', name: '50 001$ et plus' },
     { id: 7, value: 'no_answer', name: 'Préfère ne pas répondre' }
 ]
@@ -99,7 +99,8 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
     const formattedTelephones = telephones.map(telephone => ({
         _type: 'phone_form',
         phone_type: telephone.type,
-        phone_no: telephone.number
+        phone_no: telephone.number,
+        _key: crypto.randomUUID
     }))
 
     // Statut familial
@@ -124,6 +125,10 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
         setLanguesSecondaires(values);
     }
 
+    const formattedLanguesSecondaires = languesSecondaires.map(langue => ({
+        langue: langue.langue
+    }))
+
     // Membres de la famille
     const [familyMembers, setFamilyMembers] = useState<Record<string, string>[]>([]);
 
@@ -138,7 +143,8 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
         genre_check: {
             genre: familyMember.genre
         },
-        familyLink: familyMember.familyLink
+        familyLink: familyMember.familyLink,
+        _key: crypto.randomUUID
     }))
 
     // Famille immédiate
@@ -189,11 +195,11 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
                 occupation: occupation.value,
                 date_naissance: dateNaissance,
                 langue_principale: languePrincipale,
-                langues_secondaires: languesSecondaires,
+                langues_secondaires: formattedLanguesSecondaires,
                 familial_status: statutFamilial.value,
                 family_members: formattedFamilyMembers,
                 immediate_family: immediateFamily,
-                revenus: revenus
+                revenus: revenus.value
             },
             benevole_check: benevolatCheckEnabled,
             benevole_form: {

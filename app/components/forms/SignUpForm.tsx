@@ -2,14 +2,16 @@
 
 import { Inscription } from "@/sanity.types";
 import { Label, Input, Field, Listbox, ListboxButton, ListboxOptions, ListboxOption, Checkbox, Fieldset, Legend } from "@headlessui/react";
-import Typography from "./Typography/Typography";
-import typographyTheme from "./theme/Typography";
-import formLabelTheme from "./theme/FormLabel";
-import DynamicInputList from "./forms/components/DynamicInputList";
+import Typography from "../Typography/Typography";
+import typographyTheme from "../theme/Typography";
+import formLabelTheme from "../theme/FormLabel";
+import DynamicInputList from "./components/DynamicInputList";
 import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
-import MFButton from "./MFButton";
-import { sanityClient } from "../sanityClient";
+import MFButton from "../MFButton";
+import { sanityClient } from "../../sanityClient";
+import inputTheme from "../theme/Input";
+import { tv } from "tailwind-variants";
 
 
 interface SignUpFormProps extends Inscription {
@@ -81,6 +83,26 @@ const raisonConnaissance = [
     { id: 6, name: 'Autre', value: 'other' },
     { id: 7, name: 'Préfère ne pas répondre', value: 'nePasRepondre' }
 ]
+
+const listBoxTheme = tv({
+    base: "p-4 bg-white rounded-xl border-black border-2",
+    variants: {
+        lowPadding: {
+            true: 'p-2 rounded-lg'
+        },
+        readOnly: {
+            true: 'bg-slate-200 border-none'
+        }
+    }
+})
+
+const listBoxOptionsTheme = tv({
+    base: "bg-white rounded-xl shadow-2xl border-black border-2 mt-3 cursor-pointer"
+})
+
+const listBoxOptionTheme = tv({
+    base: "py-2 px-5 data-[focus]:bg-slate-300 transition-all ease-in duration-200"
+})
 
 export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: SignUpFormProps) {
 
@@ -218,7 +240,7 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
             .catch(err => {
                 console.error("Error creating document: ", err);
                 if(err.statusCode === 403) {
-                    alert("You do no have permission to submit this form")
+                    alert("You do not have permission to submit this form")
                 } else {
                     alert("An error occurred while submitting the form. Please try again later.")
                 }
@@ -227,27 +249,27 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
     }
 
     return (
-        <div className="flex flex-col w-3/5 m-auto">
+        <div className="flex flex-col w-3/5 m-auto bg-custom-beige p-10 rounded-2xl border-black border-4 overflow-hidden">
             <Typography as={"h1"} className={typographyTheme({ size: 'h1' })}>Bienvenue parmis nous!</Typography>
-            <form className="flex flex-col" onSubmit={handleSubmit}>
-                <Field>
+            <form className={`flex flex-col`} onSubmit={handleSubmit}>
+                <Field className="flex flex-col">
                     <Label htmlFor="nom" className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Nom</Label>
-                    <Input type="text" id="nom" name="nom" value={clerkNom} readOnly />
+                    <Input type="text" id="nom" name="nom" value={clerkNom} className={`${inputTheme({ lowPadding: true, readOnly: true })}`} readOnly />
                 </Field>
 
-                <Field>
+                <Field className="flex flex-col">
                     <Label htmlFor="nom_famille" className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Nom de famille</Label>
-                    <Input type="text" id="nom_famille" name="nom_famille" value={clerkNom_famille} readOnly />
+                    <Input type="text" id="nom_famille" name="nom_famille" value={clerkNom_famille} className={`${inputTheme({ lowPadding: true, readOnly: true })}`} readOnly />
                 </Field>
 
-                <Field>
+                <Field className="flex flex-col">
                     <Label htmlFor="email" className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Adresse courriel</Label>
-                    <Input type="email" id="email" name="email" value={clerkEmail} readOnly />
+                    <Input type="email" id="email" name="email" value={clerkEmail} className={`${inputTheme({ lowPadding: true, readOnly: true })}`} readOnly />
                 </Field>
 
-                <Field>
-                    <Label>Code postal</Label>
-                    <Input type="text" name="code_postal" id="code_postal" onChange={(e) => setCodePostal(e.target.value)}/>
+                <Field className="flex flex-col">
+                    <Label className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Code postal</Label>
+                    <Input type="text" name="code_postal" id="code_postal" className={`${inputTheme({ lowPadding: true })}`} onChange={(e) => setCodePostal(e.target.value)}/>
                 </Field>
 
                 <div>
@@ -273,13 +295,13 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
 
                 <Typography as={"h3"} className={typographyTheme({ size: 'h3' })}>Information sur la famille</Typography>
 
-                <Field>
-                    <Label htmlFor="occupation" id="occupation">Occupation</Label>
+                <Field className="flex flex-col">
+                    <Label htmlFor="occupation" id="occupation" className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Occupation</Label>
                     <Listbox value={occupation} onChange={setOccupation}>
-                        <ListboxButton>{occupation.name}</ListboxButton>
-                        <ListboxOptions anchor="bottom">
+                        <ListboxButton className={listBoxTheme({ lowPadding: true })}>{occupation.name}</ListboxButton>
+                        <ListboxOptions className={listBoxOptionsTheme()} anchor="bottom">
                             {occupationOptions.map((option) => (
-                                <ListboxOption key={option.id} value={option} className="data-[focus]:bg-blue-100">
+                                <ListboxOption key={option.id} value={option} className={listBoxOptionTheme()}>
                                     {option.name}
                                 </ListboxOption>
                             ))}
@@ -287,13 +309,13 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
                     </Listbox>
                 </Field>
 
-                <Field>
-                    <Label htmlFor="revenus" id="revenue">Revenus familiaux</Label>
+                <Field className="flex flex-col">
+                    <Label htmlFor="revenus" id="revenue" className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Revenus familiaux</Label>
                     <Listbox value={revenus} onChange={setRevenus}>
-                        <ListboxButton>{revenus.name}</ListboxButton>
-                        <ListboxOptions anchor="bottom">
+                        <ListboxButton className={listBoxTheme({ lowPadding: true })}>{revenus.name}</ListboxButton>
+                        <ListboxOptions className={listBoxOptionsTheme()} anchor="bottom">
                             {revenusOptions.map((option) => (
-                                <ListboxOption key={option.id} value={option} className="data-[focus]:bg-blue-100">
+                                <ListboxOption key={option.id} value={option} className={listBoxOptionTheme()}>
                                     {option.name}
                                 </ListboxOption>
                             ))}
@@ -301,14 +323,14 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
                     </Listbox>
                 </Field>
 
-                <Field>
-                    <Label htmlFor="date_naissance" id="date_naissance">Date de naissance</Label>
-                    <Input type="date" name="date_naissance" id="date_naissance" onChange={(e) => setDateNaissance(e.target.value)}/>
+                <Field className="flex flex-col">
+                    <Label htmlFor="date_naissance" id="date_naissance" className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Date de naissance</Label>
+                    <Input type="date" name="date_naissance" id="date_naissance" className={`${inputTheme({ lowPadding: true })}`} onChange={(e) => setDateNaissance(e.target.value)}/>
                 </Field>
 
-                <Field>
-                    <Label htmlFor="langue_principale" id="langue_principale">Langue principale parlée à la maison</Label>
-                    <Input type="text" name="langue_principale" id="langue_principale" onChange={(e) => setLanguePrincipale(e.target.value)}/>
+                <Field className="flex flex-col">
+                    <Label htmlFor="langue_principale" id="langue_principale" className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Langue principale parlée à la maison</Label>
+                    <Input type="text" name="langue_principale" id="langue_principale" className={`${inputTheme({ lowPadding: true })}`} onChange={(e) => setLanguePrincipale(e.target.value)}/>
                 </Field>
 
                 <div>
@@ -316,19 +338,19 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
                         fields={[
                             { type: "text", name: "langue_secondaire", placeholder: "Langue seconde" }
                         ]}
-                        label="Langue seconde parlée à la maison"
+                        label="Langue(s) seconde(s) parlée à la maison"
                         name={"langues_secondaires"}
                         onChange={handleLanguesSecondairesChange}
                     />
                 </div>
 
-                <Field>
-                    <Label>Statut familial</Label>
+                <Field className="flex flex-col">
+                    <Label className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Statut familial</Label>
                     <Listbox value={statutFamilial} onChange={setStatutFamilial}>
-                        <ListboxButton>{statutFamilial.name}</ListboxButton>
-                        <ListboxOptions anchor="bottom">
+                        <ListboxButton className={listBoxTheme({ lowPadding: true })}>{statutFamilial.name}</ListboxButton>
+                        <ListboxOptions className={listBoxOptionsTheme()} anchor="bottom">
                             {statutFamilialOptions.map((option) => (
-                                <ListboxOption key={option.id} value={option} className="data-[focus]:bg-blue-100">
+                                <ListboxOption key={option.id} value={option} className={listBoxOptionTheme()}>
                                     {option.name}
                                 </ListboxOption>
                             ))}
@@ -336,10 +358,11 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
                     </Listbox>
                 </Field>
 
-                <Field>
+                <Field className="flex flex-col">
                     <DynamicInputList
                         label="Membres de la famille"
                         name="family_members"
+                        vertical={true}
                         fields={[
                             { type: "text", name: "nom", placeholder: "Prénom" },
                             { type: "text", name: "nom_famille", placeholder: "Nom de famille" },
@@ -374,9 +397,9 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
                     />
                 </Field>
 
-                <Field>
-                    <Label>Nombre de personnes composant la famille immédiate</Label>
-                    <Input type="number" name="immediate_family" id="immediate_family" onChange={(e) => setImmediateFamily(Number(e.target.value))}/>
+                <Field className="flex flex-col">
+                    <Label className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Nombre de personnes composant la famille immédiate</Label>
+                    <Input type="number" name="immediate_family" id="immediate_family" className={`${inputTheme({ lowPadding: true })}`} onChange={(e) => setImmediateFamily(Number(e.target.value))}/>
                 </Field>
 
                 <Typography as={"h3"} className={typographyTheme({ size: "h3" })}>Êtes-vous intéressé à faire du bénévolat?</Typography>
@@ -385,7 +408,7 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
                     <Checkbox
                         checked={benevolatCheckEnabled}
                         onChange={setBenevolatCheckEnabled}
-                        className="block place-items-center size-4 rounded border mx-4 p-4 bg-white data-[checked]:bg-blue-500"
+                        className="block place-items-center size-4 rounded border-2 border-black mx-4 p-4 bg-white data-[checked]:bg-blue-500"
                     >
                         {benevolatCheckEnabled && <FaCheck size={25} />}
                     </Checkbox>
@@ -395,45 +418,45 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
 
                 {benevolatCheckEnabled &&
                     <Fieldset>
-                        <Legend>Formulaire de bénévolat</Legend>
+                        <Legend className={`${formLabelTheme()} ${typographyTheme({ size: 'h3' })}`}>Formulaire de bénévolat</Legend>
                         <Field className="flex flex-col">
-                            <Label>Domaines à couvrir</Label>
+                            <Label className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Domaines à couvrir</Label>
                             {
                                 domainesACouvrir.map((domaine) => (
                                     <div key={domaine.id} className="flex flex-row items-center gap-2">
                                         <Label htmlFor={`choice${domaine.id}`}>{domaine.name}</Label>
-                                        <Input type="checkbox" id={`choice${domaine.id}`} name={domaine.name} value={domaine.value} onChange={(e) => handleDomainesACouvrirChange(e.target.value)} />
-                                    </div>
-                                ))
-                            }
-                        </Field>
-
-                        <Field>
-                            <Label>Disponibilités</Label>
-                            {
-                                benevolatDispo.map((dispo) => (
-                                    <div key={dispo.id} className="flex flex-row items-center gap-2">
-                                        <Label htmlFor={`dispo${dispo.id}`}>{dispo.name}</Label>
-                                        <Input type="checkbox" id={`dispo${dispo.id}`} name={dispo.name} value={dispo.value} onChange={(e) => handleDisponibiliteChange(e.target.value)} />
+                                        <Input type="checkbox" id={`choice${domaine.id}`} name={domaine.name} value={domaine.value} className={`${inputTheme({ lowPadding: true })}`} onChange={(e) => handleDomainesACouvrirChange(e.target.value)} />
                                     </div>
                                 ))
                             }
                         </Field>
 
                         <Field className="flex flex-col">
-                            <Label>Pourquoi je veux m&apos;impliquer comme bénévole</Label>
+                            <Label className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Disponibilités</Label>
+                            {
+                                benevolatDispo.map((dispo) => (
+                                    <div key={dispo.id} className="flex flex-row items-center gap-2">
+                                        <Label htmlFor={`dispo${dispo.id}`}>{dispo.name}</Label>
+                                        <Input type="checkbox" id={`dispo${dispo.id}`} name={dispo.name} value={dispo.value} className={`${inputTheme({ lowPadding: true })}`} onChange={(e) => handleDisponibiliteChange(e.target.value)} />
+                                    </div>
+                                ))
+                            }
+                        </Field>
+
+                        <Field className="flex flex-col">
+                            <Label className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Pourquoi je veux m&apos;impliquer comme bénévole</Label>
                             <textarea name="raison" onChange={(e) => setImplicationMessage(e.target.value)}/>
                         </Field>
                     </Fieldset>
                 }
 
-                <Field>
-                    <Label>Comment avez vous entendu parlé de la Maison de la Famille?</Label>
+                <Field className="flex flex-col">
+                    <Label className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Comment avez vous entendu parlé de la Maison de la Famille?</Label>
                     <Listbox value={connaissance} onChange={setConnaissance} >
-                        <ListboxButton>Choisir une option</ListboxButton>
-                        <ListboxOptions anchor="bottom">
+                        <ListboxButton className={listBoxTheme({ lowPadding: true })}>Choisir une option</ListboxButton>
+                        <ListboxOptions className={listBoxOptionsTheme()} anchor="bottom">
                             {raisonConnaissance.map((raison) => (
-                                <ListboxOption key={raison.id} value={raison.value}>{raison.name}</ListboxOption>
+                                <ListboxOption key={raison.id} value={raison.value} className={listBoxOptionTheme()}>{raison.name}</ListboxOption>
                             ))}
                         </ListboxOptions>
                     </Listbox>

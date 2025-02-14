@@ -19,7 +19,8 @@ const config: Config = {
         'yellow-1': "#E2B41B",
         'yellow-2': "#FFC300",
         'accent-1': "#20453E",
-        'off-white': "#e5e5e5"
+        'off-white': "#e5e5e5",
+        'custom-beige': "#f9efe3"
       },
       boxShadow: {
         button: '-4px 4px 0 0 rgba(0,0,0,1)',

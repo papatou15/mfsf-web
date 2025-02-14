@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         from: 'noreply@maisonfamillestfrancois.com',  // Verified sender address
         to: ['info@maisonfamillestfrancois.com', 'antoine.ridard@hotmail.com'],      // Your client email
         subject: 'New Document Created',
-        text: `A new document has been created:\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
+        text: `Une nouvelle question a été posée:\n\nNom: ${name}\nCourriel: ${email}\nMessage: ${message}`,
       });
 
       res.status(200).json({ success: true });

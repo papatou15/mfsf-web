@@ -4,7 +4,7 @@ import { Inscription } from "@/sanity.types";
 import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 import Typography from "../components/Typography/Typography";
 import typographyTheme from "../components/theme/Typography";
-import SignUpForm from "../components/SignUpForm";
+import SignUpForm from "../components/forms/SignUpForm";
 
 interface AccountPageProps extends Inscription {
     clerkEmail: string;
@@ -27,8 +27,7 @@ export default async function AccountPage() {
     if (clerkNom !== accountPage[0].nom || clerkNom_famille !== accountPage[0].nom_famille || clerkEmail !== accountPage[0].email) {
         return (
             <div>
-                <Typography as={"h1"} className={typographyTheme({ size: 'h1'})}>Erreur</Typography>
-                <p>Vous n&apos;êtes pas autorisé à accéder à cette page.</p>
+                <SignUpForm clerkEmail={clerkEmail} clerkNom={clerkNom} clerkNom_famille={clerkNom_famille} _type={"inscription"} _id={""} _createdAt={""} _updatedAt={""} _rev={""}  />
             </div>
         )
     }
@@ -37,9 +36,7 @@ export default async function AccountPage() {
         <div>
             <SignedIn>
                 <div>
-                    {/* <Typography as={"h1"} className={typographyTheme({ size: 'h1'})}>Bonjour {sanityNom} {sanityNomFamille}!</Typography>
-                    <p>Adresse courriel: {sanityEmail}</p>
-                    <p>Activités inscrites:</p> */}
+                    <Typography as={"h1"} className={typographyTheme({size: 'h1'})} >Bonjour les plottes</Typography>
                     <SignUpForm clerkEmail={clerkEmail} clerkNom={clerkNom} clerkNom_famille={clerkNom_famille} _type={"inscription"} _id={""} _createdAt={""} _updatedAt={""} _rev={""}  />
                 </div>
             </SignedIn>

@@ -1,8 +1,9 @@
 import { Resend } from 'resend';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-import { NextApiRequest, NextApiResponse } from 'next';
+console.log(process.env.RESEND_API_KEY)
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
@@ -14,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await resend.emails.send({
         from: 'noreply@maisonfamillestfrancois.com',  // Verified sender address
         to: ['info@maisonfamillestfrancois.com', 'antoine.ridard@hotmail.com'],      // Your client email
-        subject: 'New Document Created',
+        subject: 'Nouvelle question sur Sanity',
         text: `Une nouvelle question a été posée:\n\nNom: ${name}\nCourriel: ${email}\nMessage: ${message}`,
       });
 

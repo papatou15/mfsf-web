@@ -61,7 +61,20 @@ export const menuQuery = `
             }
         }
     }
+`
 
+export const bannerQuery = `
+    *[_type == 'banner']{
+        bannerList[]{
+            banner,
+            textContent,
+            isActive,
+            bannerBgImage,
+            bgColor,
+            link
+        },
+        _type
+    }
 `
 
 export async function queryFetcher(query: string) {

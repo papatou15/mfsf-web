@@ -785,6 +785,7 @@ export type Inscription = {
     paidTime?: string
     paidMethod?: 'monnaie' | 'credit' | 'debit' | 'free'
     renewTime?: string
+    transactionId?: string
     family_members?: Array<{
       nom?: string
       nom_famille?: string

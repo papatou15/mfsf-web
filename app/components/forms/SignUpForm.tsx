@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import { Inscription } from "@/sanity.types";
-import { Label, Input, Field, Listbox, ListboxButton, ListboxOptions, ListboxOption, Checkbox, Fieldset, Legend } from "@headlessui/react";
+import { Label, Input, Field, Listbox, ListboxButton, ListboxOptions, ListboxOption, Checkbox, Fieldset, Legend, Switch } from "@headlessui/react";
 import Typography from "../Typography/Typography";
 import typographyTheme from "../theme/Typography";
 import formLabelTheme from "../theme/FormLabel";
@@ -12,6 +13,7 @@ import MFButton from "../MFButton";
 import { sanityClient } from "../../sanityClient";
 import inputTheme from "../theme/Input";
 import { tv } from "tailwind-variants";
+import PaymentForm from "./PaymentForm";
 
 
 interface SignUpFormProps extends Inscription {
@@ -107,6 +109,12 @@ const listBoxOptionTheme = tv({
 export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: SignUpFormProps) {
 
     const [loading, setLoading] = useState(false)
+
+    // Stripe
+    const [paymentEnabled, setPaymentEnabled] = useState(false)
+    const [isPaid, setIsPaid] = useState(false)
+    const [formMessage, setFormMessage] = useState<string | null>(null)
+    const [transactionId, setTransactionId] = useState<string | null>(null)
 
     // Code postal
     const [codePostal, setCodePostal] = useState("");
@@ -205,7 +213,8 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
         e.preventDefault();
         setLoading(true);
 
-        const dataToSend = {
+        // eslint-disable-next-line prefer-const
+        let dataToSend: any = {
             _type: 'inscription',
             nom: clerkNom,
             nom_famille: clerkNom_famille,
@@ -232,14 +241,29 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
             connaissance: connaissance
         }
 
-        sanityClient.create(dataToSend)
+        if (isPaid && transactionId) {
+            const now = new Date()
+            dataToSend.member_form = {
+                ...dataToSend.member_form,
+                paidMethod: "credit",
+                paidTime: now.toISOString().split('T'),
+                adhesionTime: now.toISOString().split('T'),
+                renewTime: new Date(now.setFullYear(now.getFullYear() + 1)).toISOString().split('T'),
+                transactionId: transactionId
+            }
+        }
+
+        sanityClient
+            .create(dataToSend)
             .then(response => {
                 console.log(response);
-                setLoading(false)
+                setLoading(false);
+                setFormMessage("Inscription complétée avec succès!")
             })
             .catch(err => {
                 console.error("Error creating document: ", err);
-                if(err.statusCode === 403) {
+                setFormMessage("Une erreur est survenue lors de l'inscription.")
+                if (err.statusCode === 403) {
                     alert("You do not have permission to submit this form")
                 } else {
                     alert("An error occurred while submitting the form. Please try again later.")
@@ -249,7 +273,7 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
     }
 
     return (
-        <div className="flex flex-col w-3/5 m-auto bg-custom-beige p-10 rounded-2xl border-black border-4 overflow-hidden">
+        <div className="flex flex-col w-3/5 my-6 mx-auto bg-custom-beige p-10 rounded-2xl border-black border-4 overflow-hidden">
             <Typography as={"h1"} className={typographyTheme({ size: 'h1' })}>Bienvenue parmis nous!</Typography>
             <form className={`flex flex-col`} onSubmit={handleSubmit}>
                 <Field className="flex flex-col">
@@ -269,7 +293,7 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
 
                 <Field className="flex flex-col">
                     <Label className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Code postal</Label>
-                    <Input type="text" name="code_postal" id="code_postal" className={`${inputTheme({ lowPadding: true })}`} onChange={(e) => setCodePostal(e.target.value)}/>
+                    <Input type="text" name="code_postal" id="code_postal" className={`${inputTheme({ lowPadding: true })}`} onChange={(e) => setCodePostal(e.target.value)} />
                 </Field>
 
                 <div>
@@ -285,7 +309,7 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
                                     { value: "home", label: "Domicile" },
                                     { value: "cell", label: "Cellulaire" },
                                     { value: "work", label: "Travail" },
-                                    { value: "other", label: "Autre" } ]
+                                    { value: "other", label: "Autre" }]
                             },
                             { type: "text", name: "number", placeholder: "Numéro de téléphone" }
                         ]}
@@ -325,12 +349,12 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
 
                 <Field className="flex flex-col">
                     <Label htmlFor="date_naissance" id="date_naissance" className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Date de naissance</Label>
-                    <Input type="date" name="date_naissance" id="date_naissance" className={`${inputTheme({ lowPadding: true })}`} onChange={(e) => setDateNaissance(e.target.value)}/>
+                    <Input type="date" name="date_naissance" id="date_naissance" className={`${inputTheme({ lowPadding: true })}`} onChange={(e) => setDateNaissance(e.target.value)} />
                 </Field>
 
                 <Field className="flex flex-col">
                     <Label htmlFor="langue_principale" id="langue_principale" className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Langue principale parlée à la maison</Label>
-                    <Input type="text" name="langue_principale" id="langue_principale" className={`${inputTheme({ lowPadding: true })}`} onChange={(e) => setLanguePrincipale(e.target.value)}/>
+                    <Input type="text" name="langue_principale" id="langue_principale" className={`${inputTheme({ lowPadding: true })}`} onChange={(e) => setLanguePrincipale(e.target.value)} />
                 </Field>
 
                 <div>
@@ -399,7 +423,7 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
 
                 <Field className="flex flex-col">
                     <Label className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Nombre de personnes composant la famille immédiate</Label>
-                    <Input type="number" name="immediate_family" id="immediate_family" className={`${inputTheme({ lowPadding: true })}`} onChange={(e) => setImmediateFamily(Number(e.target.value))}/>
+                    <Input type="number" name="immediate_family" id="immediate_family" className={`${inputTheme({ lowPadding: true })}`} onChange={(e) => setImmediateFamily(Number(e.target.value))} />
                 </Field>
 
                 <Typography as={"h3"} className={typographyTheme({ size: "h3" })}>Êtes-vous intéressé à faire du bénévolat?</Typography>
@@ -414,7 +438,6 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
                     </Checkbox>
 
                 </div>
-                <Typography as={"p"} className={typographyTheme({ size: "footnote" })}>Laisser vide si non</Typography>
 
                 {benevolatCheckEnabled &&
                     <Fieldset>
@@ -445,7 +468,7 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
 
                         <Field className="flex flex-col">
                             <Label className={`${formLabelTheme()} ${typographyTheme({ size: 'h5' })}`}>Pourquoi je veux m&apos;impliquer comme bénévole</Label>
-                            <textarea name="raison" onChange={(e) => setImplicationMessage(e.target.value)}/>
+                            <textarea name="raison" onChange={(e) => setImplicationMessage(e.target.value)} />
                         </Field>
                     </Fieldset>
                 }
@@ -462,7 +485,24 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
                     </Listbox>
                 </Field>
 
-                <MFButton style="smallbg" type="submit" extraCSS="w-1/3 ml-auto rounded-xl" _type={"button"}>{loading ? "En cours d'envoi" : "Soumettre"}</MFButton>
+                <Field className={`${formLabelTheme()} flex flex-row items-center`}>
+                    <Label className={`${typographyTheme({ size: 'h5' })}`}>Aimeriez-vous payer la cotisation de membre de 10$ maintenant?</Label>
+                    <Switch checked={paymentEnabled} onChange={setPaymentEnabled} className="group inline-flex mx-2 h-6 w-11 items-center border-2 border-black rounded-full bg-gray-200 transition data-[checked]:bg-primary">
+                        <span className="size-4 translate-x-1 rounded-full bg-white transition group-data-[checked]:translate-x-5" />
+                    </Switch>
+                </Field>
+
+                {paymentEnabled &&
+                    <Fieldset>
+                        <PaymentForm setIsPaid={setIsPaid} setTransactionId={setTransactionId} />
+                    </Fieldset>
+                }
+
+                <MFButton style="smallbg" type="submit" extraCSS="w-1/3 ml-auto rounded-xl" _type={"button"} disabled={paymentEnabled && (!isPaid || !transactionId)}>
+                    {loading ? "En cours d'envoi" : "Soumettre"}
+                </MFButton>
+
+                {formMessage && <Typography as={"p"} className={typographyTheme({size: "paragraph"})}>{formMessage}</Typography>}
             </form>
         </div>
     );

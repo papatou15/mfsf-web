@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Field, Label, Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/react';
 import { useState } from 'react';
 import FormRenderer from '../../FormRenderer';
 
-export default function ConditionalField({ label, name, options, triggerValue, revealedFields }: any) {
+export default function ConditionalField({ label, options, triggerValue, revealedFields }: any) {
   const [selected, setSelected] = useState(options[0]);
   const [showFields, setShowFields] = useState(false);
 
@@ -15,14 +16,14 @@ export default function ConditionalField({ label, name, options, triggerValue, r
       }}>
         <ListboxButton className="border p-2 rounded-md w-full">{selected}</ListboxButton>
         <ListboxOptions className="border rounded-md bg-white shadow-lg mt-2">
-          {options.map((option) => (
+          {options.map((option: string) => (
             <ListboxOption key={option} value={option} className="p-2 hover:bg-gray-100 cursor-pointer">
               {option}
             </ListboxOption>
           ))}
         </ListboxOptions>
       </Listbox>
-      {showFields && <FormRenderer fields={revealedFields} onSubmit={() => {}} />}
+      {showFields && <FormRenderer sections={revealedFields} onSubmit={() => {}} />}
     </Field>
   );
 }

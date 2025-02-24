@@ -68,6 +68,80 @@ export type Geopoint = {
   alt?: number
 }
 
+export type ConditionalField = {
+  _type: 'conditionalField'
+  label?: string
+  triggerValue?: string
+  options?: Array<string>
+  revealedFields?: Array<
+    | ({
+        _key: string
+      } & LargeTitle)
+    | ({
+        _key: string
+      } & MediumTitle)
+    | ({
+        _key: string
+      } & SmallTitle)
+    | ({
+        _key: string
+      } & Button)
+    | ({
+        _key: string
+      } & TextField)
+    | ({
+        _key: string
+      } & CheckboxField)
+    | ({
+        _key: string
+      } & RadioField)
+    | ({
+        _key: string
+      } & DropdownField)
+    | ({
+        _key: string
+      } & DateField)
+    | ({
+        _key: string
+      } & ConditionalField)
+  >
+}
+
+export type DateField = {
+  _type: 'dateField'
+  label?: string
+  required?: boolean
+}
+
+export type RadioField = {
+  _type: 'radioField'
+  label?: string
+  options?: Array<string>
+  required?: boolean
+}
+
+export type DropdownField = {
+  _type: 'dropdownField'
+  label?: string
+  options?: Array<string>
+  required?: boolean
+}
+
+export type TextField = {
+  _type: 'textField'
+  label?: string
+  placeholder?: string
+  multiSelect?: boolean
+  required?: boolean
+}
+
+export type CheckboxField = {
+  _type: 'checkboxField'
+  label?: string
+  options?: Array<string>
+  required?: boolean
+}
+
 export type Contact = {
   _id: string
   _type: 'contact'
@@ -453,39 +527,60 @@ export type Formulaires = {
   _updatedAt: string
   _rev: string
   formTitle?: string
-  form?: Array<{
-    fields?:
-      | 'h1Title'
-      | 'h2Title'
-      | 'h3Title'
-      | 'h4Title'
-      | 'h5Title'
-      | 'h6Title'
-      | 'h7Title'
-      | 'stringInput'
-      | 'richTextInput'
-    titleStringField?: string
-    stringField?: string
-    richTextField?: Array<{
-      children?: Array<{
-        marks?: Array<string>
-        text?: string
-        _type: 'span'
+  formDesc?: string
+  sections?: Array<
+    | ({
         _key: string
-      }>
-      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
-      listItem?: 'bullet' | 'number'
-      markDefs?: Array<{
-        href?: string
-        _type: 'link'
+      } & LargeTitle)
+    | ({
         _key: string
-      }>
-      level?: number
-      _type: 'block'
+      } & MediumTitle)
+    | ({
+        _key: string
+      } & SmallTitle)
+    | ({
+        _key: string
+      } & Button)
+    | ({
+        _key: string
+      } & TextField)
+    | ({
+        _key: string
+      } & CheckboxField)
+    | ({
+        _key: string
+      } & RadioField)
+    | ({
+        _key: string
+      } & DropdownField)
+    | ({
+        _key: string
+      } & DateField)
+    | ({
+        _key: string
+      } & ConditionalField)
+  >
+  submissions?: Array<{
+    submittedAt?: string
+    user?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'inscription'
+    }
+    activity?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'activity'
+    }
+    answers?: Array<{
+      question?: string
+      response?: string
+      _type: 'answer'
       _key: string
     }>
-    fieldValue?: Array<string>
-    _type: 'fieldSelector'
+    _type: 'submission'
     _key: string
   }>
 }
@@ -780,13 +875,14 @@ export type Inscription = {
     date_naissance?: string
     langue_principale?: string
     langues_secondaires?: Array<string>
-    familial_status?: 'celibataire' | 'couple' | 'marie' | 'veuf' | 'no_answer'
+    familial_status?: 'celibataire' | 'couple' | 'marie' | 'veuf' | 'conjoint' | 'no_answer'
+    scolarity?: 'Primaire' | 'Secondaire' | 'C\xE9gep' | 'DEP' | 'Universit\xE9'
     adhesionTime?: string
     paidTime?: string
     paidMethod?: 'monnaie' | 'credit' | 'debit' | 'free'
     renewTime?: string
     transactionId?: string
-    family_members?: Array<{
+    family_members_old?: Array<{
       nom?: string
       nom_famille?: string
       age?: string
@@ -811,6 +907,76 @@ export type Inscription = {
       _type: 'family_member'
       _key: string
     }>
+    family_members?: {
+      conjoint?: {
+        nom?: string
+        nom_famille?: string
+        age?: string
+        phone?: Array<{
+          phone_type?: 'home' | 'cell' | 'work' | 'other'
+          phone_no?: string
+          _type: 'phone_form'
+          _key: string
+        }>
+        genre_check?: {
+          genre?: 'homme' | 'femme' | 'autre' | 'no_answer'
+          other_genre?: string
+        }
+        scolarity?: 'Primaire' | 'Secondaire' | 'C\xE9gep' | 'DEP' | 'Universit\xE9'
+        occupation?:
+          | 'full_time'
+          | 'half-time'
+          | 'at_home'
+          | 'autonome'
+          | 'etudiant'
+          | 'retraite'
+          | 'no_answer'
+      }
+      childrenUnder18?: Array<{
+        nom?: string
+        nom_famille?: string
+        age?: string
+        genre_check?: {
+          genre?: 'homme' | 'femme' | 'autre' | 'no_answer'
+          other_genre?: string
+        }
+        familyLink?: 'fils' | 'fille' | 'neveu' | 'niece' | 'no_answer'
+        _type: 'children'
+        _key: string
+      }>
+      childrenOver18?: Array<{
+        nom?: string
+        nom_famille?: string
+        age?: string
+        genre_check?: {
+          genre?: 'homme' | 'femme' | 'autre' | 'no_answer'
+          other_genre?: string
+        }
+        familyLink?: 'fils' | 'fille' | 'neveu' | 'niece' | 'no_answer'
+        school?: string
+        _type: 'child'
+        _key: string
+      }>
+      handicappedMemberCheck?: boolean
+      handicappedMemberSection?: {
+        functionnal?: boolean
+        handicappedMember?: {
+          nom?: string
+          nom_famille?: string
+          age?: string
+          genre_check?: {
+            genre?: 'homme' | 'femme' | 'autre' | 'no_answer'
+            other_genre?: string
+          }
+          diagnostic?: string
+        }
+        helperCheck?: boolean
+        helper?: {
+          nom?: string
+          nom_famille?: string
+        }
+      }
+    }
     immediate_family?: number
     revenus?: '<10k' | '10k-20k' | '20k-30k' | '30k-40k' | '40k-50k' | '>50k' | 'no_answer'
   }
@@ -831,8 +997,61 @@ export type Inscription = {
     | 'facebook'
     | 'membre'
     | 'famille'
+    | 'event'
+    | 'pastMember'
     | 'other'
     | 'nePasRepondre'
+  moreInfo?: {
+    livingPlace?: {
+      habitation?: boolean
+      otherPlace?: string
+      howLong?: string
+    }
+    immigration?: boolean
+    immigrationSection?: {
+      immigrationTime?: string
+      immigrationIssuesCheck?: boolean
+      immigrationIssues?: string
+      immigrationStatus?: string
+      demarche?: string
+    }
+    principalIncome?:
+      | 'Emplois'
+      | 'Assurance salaire (priv\xE9e)'
+      | 'R\xE9gime de retraite'
+      | 'Pr\xEAts et bourse'
+      | 'Ch\xF4mage'
+      | 'CNESST'
+      | 'SAAQ'
+      | 'Pension de retraite'
+      | 'Aide financi\xE8re de dernier recours (aide sociale)'
+      | 'Pension de veuve'
+      | 'Allocations familiales'
+      | 'Pension alimentaire'
+      | 'Allocation au logement'
+      | 'Autre'
+    otherPrincipalIncome?: string
+    otherIncomes?: Array<string>
+    otherSecondaryIncome?: string
+    transport?: Array<string>
+    otherTransport?: string
+    pastMemberCheck?: boolean
+    pastMemberTime?: string
+    interestedActivities?: Array<string>
+    activitiesComments?: string
+    familyDynamics?: string
+    demands?: string
+    foodHelpReasons?: Array<string>
+    foodHelpReasonOther?: string
+    SIPPECriterias?: Array<string>
+  }
+  formSubmissions?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'formulaires'
+  }>
   enrolledActivities?: string
   enrolledEvents?: string
   notes?: Array<{
@@ -909,6 +1128,12 @@ export type AllSanitySchemaTypes =
   | SanityImageDimensions
   | SanityFileAsset
   | Geopoint
+  | ConditionalField
+  | DateField
+  | RadioField
+  | DropdownField
+  | TextField
+  | CheckboxField
   | Contact
   | TextOnPicture
   | Carousel

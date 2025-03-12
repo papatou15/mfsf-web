@@ -4,16 +4,26 @@ import typographyTheme from "../components/theme/Typography";
 import Typography from "../components/Typography/Typography";
 import Map from "../components/GoogleMap";
 import FormContact from "../components/forms/FormContact";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { contactQuery, queryFetcher } from "../queries";
+import type { Contact } from "@/sanity.types";
+import { FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 
 export default function Contact() {
-    // const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""
     const markers = [
         { lat: 45.66297421713217, lng: -73.57978371107636 },
-    ]
+    ];
 
-    
+    const [contact, setContact] = useState<Contact | null>(null);
     const [success, setSuccess] = useState(false);
+
+    useEffect(() => {
+        async function fetchContactInfo() {
+            const contactData: Contact = await queryFetcher(contactQuery);
+            setContact(contactData);
+        }
+        fetchContactInfo();
+    }, []); 
 
     return (
         <div className="flex flex-col mx-24 my-12">
@@ -28,14 +38,17 @@ export default function Contact() {
                         Nous rejoindre
                     </Typography>
                     <div className="my-7">
-                        <div className="my-2">
-                            <Typography as="span" className={typographyTheme({ size: 'paragraph' })}>450-665-6510</Typography>
+                        <div className="my-2 flex items-center">
+                            <FaPhone className="mr-2" />
+                            <Typography as="span" className={typographyTheme({ size: 'paragraph' })}>{contact?.telephone}</Typography>
                         </div>
-                        <div className="my-2">
-                            <Typography as="span" className={typographyTheme({ size: 'paragraph' })}>info@maisonfamillestfrancois.com</Typography>
+                        <div className="my-2 flex items-center">
+                            <FaEnvelope className="mr-2" />
+                            <Typography as="span" className={typographyTheme({ size: 'paragraph' })}>{contact?.email}</Typography>
                         </div>
-                        <div className="my-2">
-                            <Typography as="span" className={typographyTheme({ size: 'paragraph' })}>8190 Boul. Lévesque Est, H7A 1V4</Typography>
+                        <div className="my-2 flex items-center">
+                            <FaMapMarkerAlt className="mr-2" />
+                            <Typography as="span" className={typographyTheme({ size: 'paragraph' })}>{contact?.adress}</Typography>
                         </div>
                     </div>
                     <Map apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} markers={markers} />

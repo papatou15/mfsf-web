@@ -1,0 +1,12 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /account
+
+# Host
+Host: https://www.maisonfamillestfrancois.com
+
+# Sitemaps
+Sitemap: https://www.maisonfamillestfrancois.com/sitemap.xml

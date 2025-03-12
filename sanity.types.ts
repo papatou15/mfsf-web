@@ -68,6 +68,48 @@ export type Geopoint = {
   alt?: number
 }
 
+export type TeamMember = {
+  _id: string
+  _type: 'teamMember'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  employees?: Array<{
+    name?: string
+    role?: string
+    description?: string
+    picture?: {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      _type: 'image'
+    }
+    contacts?: {
+      email?: string
+      phone?: string
+    }
+    _type: 'employee'
+    _key: string
+  }>
+}
+
+export type FormButton = {
+  _type: 'formButton'
+  title?: string
+  form?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'formulaires'
+  }
+  style?: 'coloredbg' | 'smallbg' | 'colorless' | 'smallcolorless'
+}
+
 export type ConditionalField = {
   _type: 'conditionalField'
   label?: string
@@ -282,6 +324,9 @@ export type StackBlock = {
       } & Button)
     | ({
         _key: string
+      } & FormButton)
+    | ({
+        _key: string
       } & Carousel)
     | ({
         _key: string
@@ -422,6 +467,9 @@ export type ColumnBlock = {
     | ({
         _key: string
       } & TextOnPicture)
+    | ({
+        _key: string
+      } & FormButton)
   >
   bgColor?: Color
 }
@@ -517,6 +565,9 @@ export type PageMaker = {
     | ({
         _key: string
       } & TextOnPicture)
+    | ({
+        _key: string
+      } & FormButton)
   >
 }
 
@@ -574,6 +625,7 @@ export type Formulaires = {
       _weak?: boolean
       [internalGroqTypeReferenceTo]?: 'activity'
     }
+    selectedDate?: string
     answers?: Array<{
       question?: string
       response?: string
@@ -815,26 +867,8 @@ export type Activity = {
   dates?: Array<{
     date?: string
     inscriptionOuverte?: boolean
-    members?: Array<{
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      _key: string
-      [internalGroqTypeReferenceTo]?: 'inscription'
-    }>
-    _key: string
-  }>
-}
-
-export type Event = {
-  _id: string
-  _type: 'event'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  nom?: string
-  dates?: Array<{
-    date?: string
+    openDate?: string
+    isVisible?: boolean
     members?: Array<{
       _ref: string
       _type: 'reference'
@@ -1128,6 +1162,8 @@ export type AllSanitySchemaTypes =
   | SanityImageDimensions
   | SanityFileAsset
   | Geopoint
+  | TeamMember
+  | FormButton
   | ConditionalField
   | DateField
   | RadioField
@@ -1160,7 +1196,6 @@ export type AllSanitySchemaTypes =
   | SanityAssetSourceData
   | SanityImageMetadata
   | Activity
-  | Event
   | Inscription
   | Color
   | RgbaColor

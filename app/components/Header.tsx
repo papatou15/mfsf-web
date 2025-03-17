@@ -18,8 +18,8 @@ const Header: React.FC<Props> = async ({ tabs }) => {
 
     return (
         <div className="header-wrapper w-full flex md:sticky top-0 z-50 items-center justify-center">
-            <div className="header m-4 w-full h-full bg-gradient-to-l from-primary-blue to-[#0D5E68] flex flex-row rounded-2xl">
-                <div className="pl-6 py-2 h-full">
+            <div className="header m-4 w-full h-full bg-gradient-to-l from-primary-blue to-[#0D5E68] flex flex-row rounded-2xl shadow-[0_55px_50px_-25px_rgba(0,0,0,0.25)]">
+                <div className="pl-6 py-2 min-w-20">
                     <img src={sanityImgUrl(logo.headerLogo).height(75).fit("clip").url()} alt="Maison de la Famille de St-François" />
                 </div>
                 <div className="flex flex-row w-fit justify-center">

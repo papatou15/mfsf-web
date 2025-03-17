@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs"
-import { queryFetcher, contactQuery, menuQuery, bannerQuery} from "./queries";
+import { queryFetcher, contactQuery, menuQuery, bannerQuery, footerLogoQuery} from "./queries";
 import {frFR} from "@clerk/localizations"
 import "./globals.css";
 import "./homepage.css";
@@ -22,6 +22,7 @@ export default async function RootLayout({
   const tabsQuery = await queryFetcher(menuQuery)
   const contacts = await queryFetcher(contactQuery)
   const banner = await queryFetcher(bannerQuery)
+  const footerLogo = await queryFetcher(footerLogoQuery)
 
   const tabs = tabsQuery.flatMap((tab: { pages: string[] }) => tab.pages)
 
@@ -32,7 +33,7 @@ export default async function RootLayout({
           <Header tabs={tabs} />
           <Banner banner={banner[0]?.bannerList ?? []} />
           {children}
-          <Footer tabs={tabs} contacts={contacts} />
+          <Footer tabs={tabs} contacts={contacts} logo={footerLogo} />
         </body>
       </html>
     </ClerkProvider>

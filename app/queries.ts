@@ -6,6 +6,12 @@ export const headerLogoQuery = `
     }
 `
 
+export const footerLogoQuery = `
+    *[_type == "contact"][0]{
+        footerLogo
+    }
+`
+
 export const contactQuery = `
     *[_type == "contact"][0]{
         adress,

@@ -1,5 +1,11 @@
 import { sanityClient } from "./sanityClient";
 
+export const headerLogoQuery = `
+    *[_type == "contact"][0]{
+        headerLogo
+    }
+`
+
 export const contactQuery = `
     *[_type == "contact"][0]{
         adress,

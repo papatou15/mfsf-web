@@ -20,16 +20,21 @@ const config: Config = {
         'yellow-2': "#FFC300",
         'accent-1': "#20453E",
         'off-white': "#e5e5e5",
-        'custom-beige': "#f9efe3"
+        'custom-beige': "#f9efe3",
+        'primary-blue': "#00AEC3",
+        'primary-green': "#BBD143",
+        'primary-red': "#EA5045",
+        'primary-orange': "#F3943E",
       },
       boxShadow: {
         button: '-4px 4px 0 0 rgba(0,0,0,1)',
         box: '-15px 15px 0 0 rgba(0,0,0,1)'
       },
       textShadow: {
-        sm: '0 1px 2px var(--tw-shadow-color)',
-        DEFAULT: '0 2px 4px var(--tw-shadow-color)',
-        lg: '0 8px 16px var(--tw-shadow-color)',
+        sm: '0 1px 2px black',
+        DEFAULT: '0 2px 4px black',
+        lg: '0 8px 16px black',
+        inherit: 'inherit'
       },
     },
   },

@@ -6,22 +6,27 @@ import sanityImgUrl from "../sanityImageBuilder";
 
 export type MFHeroProps = HeroSection
 
-const MFHero: React.FC<MFHeroProps> = ({title, subTitle, image, layout, _type, bgColor}) => {
+const MFHero: React.FC<MFHeroProps> = ({ title, subTitle, image, layout, _type, bgColor }) => {
 
-    return(
-        <div className={`${_type} ${bgColor?.hex ? bgColor.hex : 'bg-transparent'}  md:min-h-96 xl:min-h-[50rem] flex ${layout == 'default' ? 'md:flex-row' : 'md:flex-row-reverse'} justify-center items-center`}>
-            <div className="w-[50%] flex flex-col justify-center items-center">
-                <Typography as="h1" className={typographyTheme({size: 'h1'})}>
-                    {title}
-                </Typography>
-                <Typography as="h4" className={typographyTheme({size: 'h4'})}>
-                    {subTitle}
-                </Typography>
-            </div>
-            <div className="w-[50%] flex justify-center">
-                <img src={sanityImgUrl(image).width(900).url()} alt="" className="rounded-3xl border-black border-[3px]"/>
+    console.log(bgColor)
+
+    return (
+        <div className={`${_type} py-20 flex justify-center items-center`}>
+            <div style={{ backgroundColor: bgColor?.hex ? bgColor?.hex : ''}} className={`py-12 px-32 rounded-[1.5rem] shadow-[0_55px_100px_-25px_rgba(0,0,0,0.25)] flex ${layout == 'default' ? 'md:flex-row' : 'md:flex-row-reverse'} justify-center items-center`}>
+                <div className="w-[50%] flex flex-col justify-center items-start">
+                    <Typography as="h1" className={`${typographyTheme({ size: 'h1' })} py-4`}>
+                        {title}
+                    </Typography>
+                    <Typography as="p" className={typographyTheme({ size: 'h4' })}>
+                        {subTitle}
+                    </Typography>
+                </div>
+                <div className="w-[50%] flex justify-center">
+                    <img src={sanityImgUrl(image).width(900).url()} alt="" className="rounded-3xl border-black border-[3px]" />
+                </div>
             </div>
         </div>
+
     )
 }
 

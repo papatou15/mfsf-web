@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs"
-import { queryFetcher, contactQuery, menuQuery, bannerQuery, footerLogoQuery} from "./queries";
-import {frFR} from "@clerk/localizations"
+import { queryFetcher, contactQuery, menuQuery, bannerQuery, footerLogoQuery } from "./queries";
+import { frFR } from "@clerk/localizations"
 import "./globals.css";
 import "./homepage.css";
 import "./services.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Banner from "./components/Banners";
+import { Nunito } from 'next/font/google'
+
+const nunito = Nunito({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-nunito' })
+
 
 export const metadata: Metadata = {
   title: "Maison de la Famille de St-François",
@@ -28,7 +32,7 @@ export default async function RootLayout({
 
   return (
     <ClerkProvider localization={frFR}>
-      <html lang="en">
+      <html lang="en" className={nunito.variable}>
         <body>
           <Header tabs={tabs} />
           <Banner banner={banner[0]?.bannerList ?? []} />

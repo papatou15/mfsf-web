@@ -2,18 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  font-family: var(--font-nunito), sans-serif;
 }
 
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Nunito, Helvetica, sans-serif;
 }
 
 @layer utilities {

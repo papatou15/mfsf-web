@@ -8,7 +8,7 @@ export interface MFButtonProps extends SanityButton {
 }
 
 export const buttonStyle = tv({
-    base: 'w-auto flex justify-center items-center font-text',
+    base: 'w-auto flex justify-center items-center',
     variants: {
         styling: {
             coloredbg: 'h-14 md:h-16 bg-custom-beige hover:bg-off-white m-5 p-8 rounded-2xl text-black border-2 border-black text-2xl hover:shadow-button transition-all duration-100 hover:translate-x-1 hover:-translate-y-1 active:shadow-none active:translate-x-0 active:translate-y-0 active:bg-slate-500',
@@ -21,7 +21,7 @@ export const buttonStyle = tv({
 
 const MFButton: React.FC<ButtonProps & MFButtonProps> = ({ style, extraCSS, type, title, children, ...props }) => {
     return (
-        <HeadlessButton {...props} type={type} className={`${type}${buttonStyle({ styling: style })} ${extraCSS ? extraCSS : ''} text-shadow-inherit`}>
+        <HeadlessButton {...props} type={type} className={`${type} ${buttonStyle({ styling: style })} ${extraCSS ? extraCSS : ''} text-shadow-inherit`}>
             {title || children}
         </HeadlessButton>
     );

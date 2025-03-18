@@ -21,7 +21,7 @@ const Footer: React.FC<Props> = ({ tabs, contacts, logo }) => {
 
     return (
         <div className={`footer-wrapper lg:p-9 ${background}`}>
-            <div className="footer flex flex-col lg:flex-row items-center justify-center px-20  bg-gradient-to-br lg:bg-gradient-to-l from-primary-blue to-[#0D5E68] lg:h-[400px] lg:rounded-2xl font-text text-lg text-off-white ">
+            <div className="footer flex flex-col lg:flex-row items-center justify-center px-20  bg-gradient-to-br lg:bg-gradient-to-l from-primary-blue to-[#0D5E68] lg:h-[400px] lg:rounded-2xl text-lg text-off-white ">
                 <div className="lg:h-[70%] text-xl flex flex-col justify-center items-center">
                     <Typography as="h2" className={`${typographyTheme({size: "h5"})} text-shadow`}>Navigation</Typography>
                     {tabs ? tabs.map((tab) =>

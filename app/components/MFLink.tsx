@@ -7,7 +7,7 @@ export interface MFLinkProps extends MFButtonProps {
 } 
 
 const linkStyle = tv({
-    base: 'w-auto flex justify-center items-center font-text'
+    base: 'w-auto flex justify-center items-center'
 })
 
 const MFLink: React.FC<MFButtonProps & ButtonProps & MFLinkProps> = ({style, extraCSS, link, ...props}) => {

@@ -14,8 +14,6 @@ const Header: React.FC<Props> = async ({ tabs }) => {
 
     const logo: Contact = await queryFetcher(headerLogoQuery)
 
-    console.log(logo)
-
     return (
         <div className="header-wrapper w-full flex md:sticky top-0 z-50 items-center justify-center">
             <div className="header m-4 w-full h-full bg-gradient-to-l from-primary-blue to-[#0D5E68] flex flex-row rounded-2xl shadow-[0_55px_50px_-25px_rgba(0,0,0,0.25)]">

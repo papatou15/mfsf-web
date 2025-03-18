@@ -21,7 +21,7 @@ const Banner = ({ banner = [] }: BannerProps) => {
                     {shownBanner.bannerBgImage ? (
                         <div className="absolute inset-0">
                             <img src={sanityImgUrl(shownBanner.bannerBgImage).url()} alt="banner image" className="w-full h-full object-cover" />
-                            <div className="absolute inset-0" style={{ background: `linear-gradient(to left, ${shownBanner.bgColor?.hex}, transparent)` }}></div>
+                            <div className="absolute inset-0" style={{ background: `linear-gradient(to left, ${shownBanner.bgColor?.hex}, 70%, transparent)` }}></div>
                         </div>
                     ) : (
                         <div className="absolute inset-0" style={{ backgroundColor: shownBanner.bgColor?.hex }}></div>

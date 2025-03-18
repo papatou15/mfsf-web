@@ -5,7 +5,7 @@ import typographyTheme from './theme/Typography';
 import { Formulaires } from '@/sanity.types';
 import MFButton from './MFButton';
 
-export type FormSectionType = NonNullable<Formulaires["sections"]>[number]["_type"];
+export type FormSectionType = NonNullable<Formulaires["sections"]>[number]["_type"] | 'formButton';
 
 export interface FormSection {
     _type: FormSectionType;
@@ -17,7 +17,7 @@ export interface FormSection {
     _key?: string;
 }
 
-const components: { [key in FormSection['_type']]: any } = {
+const components: { [key in FormSection['_type'] | 'formButton']: any } = {
     textField: dynamic(() => import('./forms/components/TextInput')),
     checkboxField: dynamic(() => import('./forms/components/CheckboxFields')),
     radioField: dynamic(() => import('./forms/components/RadioField')),

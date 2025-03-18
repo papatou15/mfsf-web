@@ -19,7 +19,7 @@ const config: Config = {
         'yellow-1': "#E2B41B",
         'yellow-2': "#FFC300",
         'accent-1': "#20453E",
-        'off-white': "#e5e5e5",
+        'off-white': "#f5f5f5",
         'custom-beige': "#f9efe3",
         'primary-blue': "#00AEC3",
         'primary-green': "#BBD143",

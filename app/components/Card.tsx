@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @next/next/no-img-element */
 "use client"
 
@@ -13,8 +12,9 @@ import Modal from "./Modal";
 
 export type MFCardProps = Card
 
-const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title, modalContent, _type}) => {
+const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title, modalContent, _type, color}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -27,15 +27,15 @@ const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title, modalCon
     if (layout === 'smallCard') {
         return (
             <>
-                <div className={`${_type} ${layout} w-full m-auto grid grid-cols-1 relative rounded-3xl border-black border-4 overflow-hidden`} >
-                    <div className="w-full h-full bg-gradient-to-r from-primary via-[#A6298B] via-[40%] absolute z-10"></div>
+                <div style={{ borderColor: color?.hex ? color?.hex : ''}} className={`${_type} ${layout} w-full m-auto grid grid-cols-1 border-4 relative rounded-3xl overflow-hidden`} >
+                    <div style={{ background: `linear-gradient(to right, ${color?.hex}, 80%, transparent)`}} className="w-full h-full absolute z-10"></div>
                     <div className="row-start-1 col-start-1 flex flex-col justify-center pl-8 w-3/5 z-20 text-off-white">
-                        <Typography as="h3" className={`${typographyTheme({ size: 'h5' })}`}>
+                        <Typography as="h3" className={`${typographyTheme({ size: 'h4' })} text-shadow`}>
                             {title}
                         </Typography>
                         <div>
                             <MFButton _type="button" style="smallbg" extraCSS="my-4 mx-0 z-20" onClick={handleOpenModal}>
-                                <>Vois plus<HiChevronDown/></>
+                                <Typography as="p" className="flex flex-row justify-center items-center">Voir plus<HiChevronDown/></Typography>
                             </MFButton>
                         </div>
                     </div>
@@ -49,11 +49,16 @@ const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title, modalCon
     }
 
     return(
-        <div className={`${_type} flex flex-col h-[470px] w-[385px] rounded-xl border-black border-4 overflow-hidden transition-all hover:cursor-pointer hover:shadow-button hover:translate-x-1 hover:-translate-y-1`}>
-            <div className="h-[45%]">
-                <img src={sanityImgUrl(image).fit("fillmax").url()} alt=""/>
+        <div 
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            style={{ borderColor: color?.hex ? color?.hex : '', boxShadow: !isHovered ? `${color?.hex} 0 15px, 0 0 100px rgba(0,0,0,0.25)` : `${color?.hex} -10px 19px` }} 
+            className={`${_type} flex flex-col h-[470px] w-[385px] rounded-xl border-4 overflow-hidden transition-all hover:cursor-pointer hover:translate-x-2 hover:-translate-y-2`}
+        >
+            <div className=" pt-7 px-7 z-10 bg-custom-beige">
+                <img src={sanityImgUrl(image).fit("fillmax").url()} alt="" className="rounded-xl border-black border-4"/>
             </div>
-            <div className="h-[55%] pt-8 px-6 bg-yellow-2 flex flex-col text-center items-center border-t-4 border-black">
+            <div className="h-full pt-8 px-6 bg-custom-beige flex flex-col text-center items-center">
                 <Typography as="h3" className={typographyTheme({size: 'h3'})}>
                     {title}
                 </Typography>

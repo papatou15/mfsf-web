@@ -281,6 +281,7 @@ export type Card = {
     _type: 'image'
   }
   layout?: 'bigCard' | 'smallCard'
+  color?: Color
 }
 
 export type StringText = {

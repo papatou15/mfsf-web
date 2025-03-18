@@ -31,9 +31,9 @@ const config: Config = {
         box: '-15px 15px 0 0 rgba(0,0,0,1)'
       },
       textShadow: {
-        sm: '0 1px 2px black',
-        DEFAULT: '0 2px 4px black',
-        lg: '0 8px 16px black',
+        sm: '-2px 2px rgba(0,0,0,0.4)',
+        DEFAULT: '-4px 4px rgba(0,0,0,0.4)',
+        lg: '-6px 6px rgba(0,0,0,0.4)',
         inherit: 'inherit'
       },
     },

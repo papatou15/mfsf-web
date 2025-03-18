@@ -52,8 +52,8 @@ const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title, modalCon
         <div 
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            style={{ borderColor: color?.hex ? color?.hex : '', boxShadow: !isHovered ? `${color?.hex} 0 15px, 0 0 100px rgba(0,0,0,0.25)` : `${color?.hex} -10px 19px` }} 
-            className={`${_type} flex flex-col h-[470px] w-[385px] rounded-xl border-4 overflow-hidden transition-all hover:cursor-pointer hover:translate-x-2 hover:-translate-y-2`}
+            style={{ borderColor: color?.hex ? color?.hex : '', boxShadow: !isHovered ? `${color?.hex} 0 15px, 0 0 100px rgba(0,0,0,0.25)` : `${color?.hex} -15px 22px` }} 
+            className={`${_type} flex flex-col h-[470px] w-[385px] my-5 2xl:my-0 rounded-xl border-4 overflow-hidden transition-all hover:cursor-pointer hover:translate-x-2 hover:-translate-y-2`}
         >
             <div className=" pt-7 px-7 z-10 bg-custom-beige">
                 <img src={sanityImgUrl(image).fit("fillmax").url()} alt="" className="rounded-xl border-black border-4"/>

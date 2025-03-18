@@ -11,7 +11,7 @@ interface FormModalButtonProps extends MFButtonProps {
     formSections: NonNullable<Formulaires["sections"]>;
 }
 
-const FormModalButton: React.FC<FormModalButtonProps> = ({ form, formSections, title }) => {
+const FormModalButton: React.FC<FormModalButtonProps> = ({ form, title }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleOpenModal = () => {

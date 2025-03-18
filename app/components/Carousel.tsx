@@ -35,7 +35,7 @@ const Carousel = ({ images, title, _type }: CarouselProps) => {
                 </Typography>
             )}
 
-            <div className="relative flex items-center">
+            <div className="relative flex items-center ">
                 {/* Navigation Buttons */}
                 <MFButton
                     _type="button"
@@ -61,11 +61,11 @@ const Carousel = ({ images, title, _type }: CarouselProps) => {
                     className="carousel"
                 >
                     {images?.map((image) => (
-                        <SwiperSlide key={image?._key}>
+                        <SwiperSlide key={image?._key} >
                             <MFLink
                                 link={image?.link ?? "#"}
                                 style="smallcolorless"
-                                extraCSS="h-40 w-40 mx-2 overflow-hidden bg-white rounded-2xl flex items-center justify-center"
+                                extraCSS="h-40 w-40 overflow-hidden bg-white rounded-2xl flex items-center justify-center"
                                 _type="button"
                             >
                                 <img

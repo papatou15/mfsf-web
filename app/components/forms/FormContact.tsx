@@ -49,16 +49,16 @@ export default function FormContact({ success, setSuccess }: FormContactProps) {
   return (
     <>
       {success == false && <form onSubmit={handleSubmit} className="flex flex-col">
-        <label htmlFor="name" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })}`}>Ton courriel</label>
+        <label htmlFor="name" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })} text-off-white`}>Ton courriel</label>
         <input type="email" id="Courriel" name="email" required onChange={(e) => setEmail(e.target.value)} className={inputTheme()} />
 
-        <label htmlFor="email" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })}`}>Sujet</label>
+        <label htmlFor="email" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })} text-off-white`}>Sujet</label>
         <input type="text" id="Sujet" name="subject" required onChange={(e) => setSubject(e.target.value)} className={inputTheme()} />
 
-        <label htmlFor="question" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })}`}>Question</label>
+        <label htmlFor="question" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })} text-off-white`}>Question</label>
         <textarea id="Question" name="question" rows={10} required onChange={(e) => setQuestion(e.target.value)} className={inputTheme()} />
 
-        <MFButton style="smallbg" type="submit" extraCSS="w-1/3 ml-auto rounded-xl" _type={"button"}>{loading ? "En cours d'envoi" : "Soumettre"}</MFButton>
+        <MFButton style="smallbg" type="submit" extraCSS="w-1/3 ml-auto rounded-xl text-shadow-none" _type={"button"}>{loading ? "En cours d'envoi" : "Soumettre"}</MFButton>
       </form>}
     </>
   )

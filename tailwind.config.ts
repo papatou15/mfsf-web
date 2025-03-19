@@ -28,13 +28,16 @@ const config: Config = {
       },
       boxShadow: {
         button: '-4px 4px 0 0 rgba(0,0,0,1)',
-        box: '-15px 15px 0 0 rgba(0,0,0,1)'
+        box: '-15px 15px 0 0 rgba(0,0,0,1)',
+        'big-box-bg': '0 55px 100px -25px rgba(0,0,0,0.25)',
       },
       textShadow: {
-        sm: '-2px 2px rgba(0,0,0,0.4)',
-        DEFAULT: '-4px 4px rgba(0,0,0,0.4)',
-        lg: '-6px 6px rgba(0,0,0,0.4)',
-        inherit: 'inherit'
+        xs: '-1px 1px rgba(0,0,0,0.25)',
+        sm: '-2px 2px rgba(0,0,0,0.25)',
+        DEFAULT: '-4px 4px rgba(0,0,0,0.25)',
+        lg: '-6px 6px rgba(0,0,0,0.25)',
+        inherit: 'inherit',
+        none: 'none',
       },
     },
   },

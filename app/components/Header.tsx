@@ -20,7 +20,7 @@ const Header: React.FC<Props> = async ({ tabs }) => {
                 <div className="pl-6 py-2 min-w-20">
                     <img src={sanityImgUrl(logo.headerLogo).height(75).fit("clip").url()} alt="Maison de la Famille de St-François" />
                 </div>
-                <div className="flex flex-row w-fit justify-center">
+                <div className="flex flex-row flex-wrap w-fit justify-center">
                     {tabs ? tabs.map((tab) => {
                         return (
                             <MFLink link={`/${tab.slug?.current == "accueil" ? "" : tab.slug?.current}`} style="smallcolorless" key={tab._id} extraCSS="h-auto mx-10 md:mx-12 text-off-white text-xl text-shadow-sm" _type={"button"}>

@@ -16,7 +16,7 @@ const Banner = ({ banner = [] }: BannerProps) => {
             {shownBanner.isActive && (
                 <div
                     style={{ backgroundColor: shownBanner.bgColor?.hex }}
-                    className={`w-full h-20 border-y-2 border-black flex items-center overflow-hidden relative`}
+                    className={`h-20 mx-7 rounded-xl flex items-center overflow-hidden relative`}
                 >
                     {shownBanner.bannerBgImage ? (
                         <div className="absolute inset-0">

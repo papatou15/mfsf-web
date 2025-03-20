@@ -12,10 +12,10 @@ const MFTextOnPicture: React.FC<TextOnPicture> = ({ image, layout, text, title, 
             <div className={`w-[85vw] m-auto my-24 grid grid-cols-1 grid-rows-1 ${layout === "default" ? "lg:text-left" : "lg:text-right"} relative rounded-3xl shadow-[0_55px_100px_rgba(0,0,0,0.25)] overflow-hidden`} >
                 <div className={`w-full h-full ${layout === "default" ? "lg:bg-gradient-to-r" : "lg:bg-gradient-to-l"} lg:from-primary-orange lg:via-[#EA893D] lg:via-[40%] absolute z-10`}></div>
                 <div className={`w-full col-[1_/_2] row-[1_/_2] lg:flex lg:flex-col lg:flex-1 text-off-white bg-gradient-to-t from-primary-orange via-[#EA893D] via-[40%] lg:bg-transparent lg:bg-none px-20 pt-36 pb-20 z-20`}>
-                    <Typography as="h2" className={`py-20 ${typographyTheme({ size: 'h2' })} !text-shadow`}>
+                    <Typography as="h2" className={`py-20 ${typographyTheme({ size: 'h2' })} !shadow-text`}>
                         {title}
                     </Typography>
-                    <Typography as="p" className={`${typographyTheme({ size: "paragraph" })} text-shadow-sm`}>
+                    <Typography as="p" className={`${typographyTheme({ size: "paragraph" })} shadow-text-sm`}>
                         {text}
                     </Typography>
                 </div>

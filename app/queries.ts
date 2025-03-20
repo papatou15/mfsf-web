@@ -89,6 +89,39 @@ export const bannerQuery = `
     }
 `
 
+export const aboutPageQuery = `
+    *[_type in ["teamMember", "adminTeamMember", "missionImage", "temoignages"]]{
+        _type,
+        _id,
+        _type == "teamMember" => {
+            employees[]{
+                ...
+            }
+        },
+        _type == "adminTeamMember" => {
+            members[]{
+                _type,
+                _key,
+                name,
+                role,
+            }
+        },
+        _type == "missionImage" => {
+            image{
+                ...,
+                asset->{
+                    ...,
+                    altText
+                }
+            },
+            missionText
+        },
+        _type == "temoignages" => {
+            temoignages
+        }
+    }
+`
+
 export async function queryFetcher(query: string) {
     const data = await sanityClient.fetch(query)
 

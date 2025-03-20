@@ -23,7 +23,7 @@ const Header: React.FC<Props> = async ({ tabs }) => {
                 <div className="flex flex-row flex-wrap w-fit justify-center">
                     {tabs ? tabs.map((tab) => {
                         return (
-                            <MFLink link={`/${tab.slug?.current == "accueil" ? "" : tab.slug?.current}`} style="smallcolorless" key={tab._id} extraCSS="h-auto mx-10 md:mx-12 text-off-white text-xl text-shadow-sm" _type={"button"}>
+                            <MFLink link={`/${tab.slug?.current == "accueil" ? "" : tab.slug?.current}`} style="smallcolorless" key={tab._id} extraCSS="h-auto mx-10 md:mx-12 text-off-white text-xl shadow-text-sm" _type={"button"}>
                                 {tab.title || "No Title"}
                             </MFLink>
                         );

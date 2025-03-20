@@ -24,7 +24,7 @@ export default function Modal({ open, onClose, title, image, modalContent, formC
                 <div className="relative h-64 w-full overflow-hidden">
                     {image && <img src={sanityImgUrl(image).height(400).url()} alt={title} className="w-full filter blur-sm brightness-90" />}
                     <div className="absolute inset-0 flex items-center justify-center">
-                        <Typography as={"h2"} className={`${typographyTheme({ size: "h2" })} text-white text-shadow-sm`}>{title}</Typography>
+                        <Typography as={"h2"} className={`${typographyTheme({ size: "h2" })} text-white shadow-text-sm`}>{title}</Typography>
                     </div>
                 </div>
                 <div className="modal-content w-full *:!px-20 *:!items-start">

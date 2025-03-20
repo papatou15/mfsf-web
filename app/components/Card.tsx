@@ -30,7 +30,7 @@ const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title, modalCon
                 <div style={{ borderColor: color?.hex ? color?.hex : ''}} className={`${_type} ${layout} w-full m-auto grid grid-cols-1 border-4 relative rounded-3xl overflow-hidden`} >
                     <div style={{ background: `linear-gradient(to right, ${color?.hex}, 80%, transparent)`}} className="w-full h-full absolute z-10"></div>
                     <div className="row-start-1 col-start-1 flex flex-col justify-center pl-8 w-3/5 z-20 text-off-white">
-                        <Typography as="h3" className={`${typographyTheme({ size: 'h4' })} text-shadow-sm`}>
+                        <Typography as="h3" className={`${typographyTheme({ size: 'h4' })} shadow-text-sm`}>
                             {title}
                         </Typography>
                         <div>

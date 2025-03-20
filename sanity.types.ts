@@ -68,6 +68,54 @@ export type Geopoint = {
   alt?: number
 }
 
+export type Temoignages = {
+  _id: string
+  _type: 'temoignages'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  temoignages?: Array<{
+    name?: string
+    text?: string
+    _type: 'temoignage'
+    _key: string
+  }>
+}
+
+export type MissionImage = {
+  _id: string
+  _type: 'missionImage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  missionText?: string
+}
+
+export type AdminTeamMember = {
+  _id: string
+  _type: 'adminTeamMember'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  members?: Array<{
+    name?: string
+    role?: string
+    _type: 'member'
+    _key: string
+  }>
+}
+
 export type MeetingNotes = {
   _id: string
   _type: 'meetingNotes'
@@ -1227,6 +1275,9 @@ export type AllSanitySchemaTypes =
   | SanityImageDimensions
   | SanityFileAsset
   | Geopoint
+  | Temoignages
+  | MissionImage
+  | AdminTeamMember
   | MeetingNotes
   | TeamMember
   | FormButton

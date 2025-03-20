@@ -34,7 +34,7 @@ export default function Contact() {
             </div>
             <div className="flex flex-col justify-center items-start xl:flex-row">
                 <div className="w-full xl:w-1/2 flex flex-col items-center justify-center px-10">
-                    <div className="w-full max-w-[700px] flex flex-col bg-primary-green px-7 my-7 mx-auto rounded-3xl text-shadow-sm text-off-white shadow-big-box-bg">
+                    <div className="w-full max-w-[700px] flex flex-col bg-primary-green px-7 my-7 mx-auto rounded-3xl shadow-text-sm text-off-white shadow-big-box-bg">
                         <Typography as="h3" className={`${typographyTheme({ size: 'h5' })}`}>
                             Nous rejoindre
                         </Typography>
@@ -58,7 +58,7 @@ export default function Contact() {
                     </div>
                 </div>
                 <div className="form-section-wrapper w-full xl:w-1/2 xl:ml-auto px-10">
-                    <div className="w-full flex flex-col bg-primary-orange px-7 my-7 rounded-3xl text-shadow-sm shadow-big-box-bg">
+                    <div className="w-full flex flex-col bg-primary-orange px-7 my-7 rounded-3xl shadow-text-sm shadow-big-box-bg">
                         <div className="m-auto">
                             <Typography as="h3" className={`text-off-white ${typographyTheme({ size: 'h5' })}`}>{success ? "Merci de votre question!" : "Vous avez une question?"}</Typography>
                         </div>

@@ -45,7 +45,7 @@ const config: Config = {
     plugin(function ({ matchUtilities, theme }) {
       matchUtilities(
         {
-          'text-shadow': (value) => ({
+          'shadow-text': (value) => ({
             textShadow: value,
           }),
         },

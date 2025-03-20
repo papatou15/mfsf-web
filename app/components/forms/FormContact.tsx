@@ -58,7 +58,7 @@ export default function FormContact({ success, setSuccess }: FormContactProps) {
         <label htmlFor="question" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })} text-off-white`}>Question</label>
         <textarea id="Question" name="question" rows={10} required onChange={(e) => setQuestion(e.target.value)} className={inputTheme()} />
 
-        <MFButton style="smallbg" type="submit" extraCSS="w-1/3 ml-auto rounded-xl text-shadow-none" _type={"button"}>{loading ? "En cours d'envoi" : "Soumettre"}</MFButton>
+        <MFButton style="smallbg" type="submit" extraCSS="w-1/3 ml-auto rounded-xl shadow-text-none" _type={"button"}>{loading ? "En cours d'envoi" : "Soumettre"}</MFButton>
       </form>}
     </>
   )

@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
+
+
 "use client"
 
 import Typography from "./Typography/Typography";
@@ -55,7 +58,8 @@ export const EmployeeCard = ({ employee }: EmployeeCardProps) => {
                             </Typography>
                         </div>
                     </div>
-                    <img src={sanityImgUrl(employee.picture).crop("focalpoint").fit("crop").size(200, 225).auto("format").url()} alt={employee.picture?.asset?.altText || "Alt text"} className="sm:w-2/5 sm:ml-auto h-full shadow-big-box-bg" />
+                    {/* // @ts-expect-error Ignore missing alt field */}
+                    <img src={sanityImgUrl(employee.picture).crop("focalpoint").fit("crop").size(200, 225).auto("format").url()} alt={(employee.picture as any)?.asset?.altText || "Alt text"} className="sm:w-2/5 sm:ml-auto h-full shadow-big-box-bg" />
                 </>
             ) : (
                 <Typography as="p" className={`text-center px-12 ${typographyTheme({ size: 'paragraph' })}`}>

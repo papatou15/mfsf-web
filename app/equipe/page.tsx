@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 import Typography from "../components/Typography/Typography";
 import typographyTheme from "../components/theme/Typography";
@@ -21,7 +22,7 @@ export default async function Equipe() {
                 <Typography as="h1" className={`flex justify-center font-semibold text-center ${typographyTheme({ size: 'h1' })}`}>
                     NOTRE MISSION
                 </Typography>
-                <img src={sanityImgUrl(fetchedImage.image).crop("focalpoint").fit("crop").size(1200, 600).auto("format").url()} alt={fetchedImage.image?.asset?.altText} className="w-full md:w-[80vw] md:max-w-[1500px] h-56 md:h-80 md:rounded-2xl my-6 md:my-12 border-y-4 border-black md:border-4" />
+                <img src={sanityImgUrl(fetchedImage.image).crop("focalpoint").fit("crop").size(1200, 600).auto("format").url()} alt={(fetchedImage.image as any)?.asset?.altText} className="w-full md:w-[80vw] md:max-w-[1500px] h-56 md:h-80 md:rounded-2xl my-6 md:my-12 border-y-4 border-black md:border-4" />
                 <div className="flex flex-col items-center w-5/6 md:max-w-7xl bg-primary-orange py-10 px-12 md:px-24 lg:px-36 text-off-white shadow-text-sm rounded-2xl shadow-big-box-bg text-center">
                     <Typography as="p" className={`flex justify-center ${typographyTheme({ size: 'paragraph' })}`}>
                         {fetchedImage.missionText}

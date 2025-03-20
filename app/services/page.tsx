@@ -9,7 +9,7 @@ interface ServicesPageProps {
 
 export default async function ServicesPage() {
     const servicesPage: ServicesPageProps = await queryFetcher(servicesPagesQuery);
-
+    
     return (
         <div>
             {servicesPage.sections.map((section) => (

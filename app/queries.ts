@@ -43,11 +43,12 @@ export const servicesPagesQuery = `
     *[_type == 'pageMaker' && title == "Services"][0]{
         title,
         sections[]{
-        ...,
-        items[]{
             ...,
-        },
-        "imageUrl": image.asset->url
+            items[]{
+                ...,
+            },
+            "imageUrl": image.asset->url,
+            "form": form->
         }
     }
 
@@ -118,7 +119,7 @@ export const aboutPageQuery = `
         },
         _type == "temoignages" => {
             temoignages
-        }
+        }[0...2]
     }
 `
 
@@ -133,3 +134,13 @@ export async function memberQueryFetcher(query: string, params: { email: string,
 
     return data
 }
+
+export async function formFetcher(query: string, params: Record<string, any> = {}) {
+    try {
+      const result = await sanityClient.fetch(query, params);
+      return result;
+    } catch (error) {
+      console.error('Error fetching data from Sanity:', error);
+      throw error;
+    }
+  }

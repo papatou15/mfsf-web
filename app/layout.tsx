@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Banner from "./components/Banners";
 import { Nunito } from 'next/font/google'
+import { AuthProvider } from "./AuthContext";
 
 const nunito = Nunito({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-nunito' })
 
@@ -32,14 +33,16 @@ export default async function RootLayout({
 
   return (
     <ClerkProvider localization={frFR}>
-      <html lang="en" className={nunito.variable}>
-        <body>
-          <Header tabs={tabs} />
-          <Banner banner={banner[0]?.bannerList ?? []} />
-          {children}
-          <Footer tabs={tabs} contacts={contacts} logo={footerLogo} />
-        </body>
-      </html>
+      <AuthProvider>
+        <html lang="en" className={nunito.variable}>
+          <body>
+            <Header tabs={tabs} />
+            <Banner banner={banner[0]?.bannerList ?? []} />
+            {children}
+            <Footer tabs={tabs} contacts={contacts} logo={footerLogo} />
+          </body>
+        </html>
+      </AuthProvider>
     </ClerkProvider>
   );
 }

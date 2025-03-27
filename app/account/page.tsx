@@ -1,49 +1,56 @@
-import { currentUser } from "@clerk/nextjs/server";
-import { memberQueryFetcher, accountPageQuery } from "../queries";
-import { Inscription } from "@/sanity.types";
+"use client"; // Required in Next.js for client components
+
+import { useAuth } from "../AuthContext";
 import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 import Typography from "../components/Typography/Typography";
 import typographyTheme from "../components/theme/Typography";
 import SignUpForm from "../components/forms/SignUpForm";
 
-interface AccountPageProps extends Inscription {
-    clerkEmail: string;
-    clerkNom: string;
-    clerkNom_famille: string;
-}
+export default function AccountPage() {
+    const { clerkUser, sanityMember, loading } = useAuth();
 
-export default async function AccountPage() {
-    const user = await currentUser();
-    const clerkNom = user?.firstName ?? '';
-    const clerkNom_famille = user?.lastName ?? '';
-    const clerkEmail = user?.emailAddresses[0].emailAddress ?? '';
+    if (loading) return <p>Chargement...</p>;
 
-    const accountPage: AccountPageProps[] = await memberQueryFetcher(accountPageQuery, { email: clerkEmail, nom: clerkNom, nom_famille: clerkNom_famille });
-
-    if (accountPage.length === 0) {
-        return null;
-    }
-
-    if (clerkNom !== accountPage[0].nom || clerkNom_famille !== accountPage[0].nom_famille || clerkEmail !== accountPage[0].email) {
+    // If the user is not found in Sanity, show the SignUpForm
+    if (!sanityMember && clerkUser) {
         return (
             <div>
-                <SignUpForm clerkEmail={clerkEmail} clerkNom={clerkNom} clerkNom_famille={clerkNom_famille} _type={"inscription"} _id={""} _createdAt={""} _updatedAt={""} _rev={""}  />
+                <SignUpForm
+                    clerkEmail={clerkUser.email}
+                    clerkNom={clerkUser.firstName}
+                    clerkNom_famille={clerkUser.lastName}
+                    _type={"inscription"}
+                    _id={""}
+                    _createdAt={""}
+                    _updatedAt={""}
+                    _rev={""}
+                />
             </div>
-        )
+        );
     }
 
     return (
         <div>
             <SignedIn>
                 <div>
-                    <Typography as={"h1"} className={typographyTheme({size: 'h1'})} >Bonjour les plottes</Typography>
-                    <SignUpForm clerkEmail={clerkEmail} clerkNom={clerkNom} clerkNom_famille={clerkNom_famille} _type={"inscription"} _id={""} _createdAt={""} _updatedAt={""} _rev={""}  />
+                    <Typography as={"h1"} className={typographyTheme({ size: 'h1' })}>
+                        Bonjour, {clerkUser?.firstName}
+                    </Typography>
+                    <SignUpForm
+                        clerkEmail={clerkUser?.email ?? ""}
+                        clerkNom={clerkUser?.firstName ?? ""}
+                        clerkNom_famille={clerkUser?.lastName ?? ""}
+                        _type={"inscription"}
+                        _id={sanityMember?._id ?? ""}
+                        _createdAt={sanityMember?._createdAt ?? ""}
+                        _updatedAt={sanityMember?._updatedAt ?? ""}
+                        _rev={sanityMember?._rev ?? ""}
+                    />
                 </div>
             </SignedIn>
             <SignedOut>
                 <RedirectToSignIn />
             </SignedOut>
         </div>
-
-    )
+    );
 }

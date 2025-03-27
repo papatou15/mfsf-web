@@ -90,7 +90,7 @@ export default function FormRenderer({ formTitle, formDesc, sections, formRef }:
             _type: "submission",
             _key: crypto.randomUUID(),
             submittedAt: new Date().toISOString(),
-            user: { _ref: sanityMember?._id, _type: "reference" },
+            ...(sanityMember?._id ? { user: { _ref: sanityMember._id, _type: "reference" } } : {}),
             // activity: { _ref: "activity-id", _type: "reference" },
             selectedDate: groupedData["selectedDate"] || null,
             answers: Object.entries(groupedData).map(([question, response]) => ({
@@ -100,6 +100,8 @@ export default function FormRenderer({ formTitle, formDesc, sections, formRef }:
                 response: Array.isArray(response) ? response.join(', ') : response, // Handle checkboxes
             })),
         };
+
+        console.log("New submission: ", newSubmission);
 
         await updateSubmissions(formRef, newSubmission)
     };

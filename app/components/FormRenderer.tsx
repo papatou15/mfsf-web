@@ -5,6 +5,7 @@ import typographyTheme from './theme/Typography';
 import { Formulaires } from '@/sanity.types';
 import MFButton from './MFButton';
 import { sanityClient } from '../sanityClient';
+import { useAuth } from '../AuthContext';
 
 export type FormSectionType = NonNullable<Formulaires["sections"]>[number]["_type"] | 'formButton';
 export type FormSubmissions = NonNullable<Formulaires["submissions"]>[number];
@@ -61,6 +62,8 @@ const updateSubmissions = async (ref: string | undefined, newSubmission: any) =>
 };
 
 export default function FormRenderer({ formTitle, formDesc, sections, formRef }: FormRendererProps) {
+    const { sanityMember } = useAuth();
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -87,7 +90,7 @@ export default function FormRenderer({ formTitle, formDesc, sections, formRef }:
             _type: "submission",
             _key: crypto.randomUUID(),
             submittedAt: new Date().toISOString(),
-            // user: { _ref: "r48w", _type: "reference" },
+            user: { _ref: sanityMember?._id, _type: "reference" },
             // activity: { _ref: "activity-id", _type: "reference" },
             selectedDate: groupedData["selectedDate"] || null,
             answers: Object.entries(groupedData).map(([question, response]) => ({
@@ -97,8 +100,6 @@ export default function FormRenderer({ formTitle, formDesc, sections, formRef }:
                 response: Array.isArray(response) ? response.join(', ') : response, // Handle checkboxes
             })),
         };
-
-        console.log("New submission: ", newSubmission);
 
         await updateSubmissions(formRef, newSubmission)
     };

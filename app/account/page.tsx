@@ -36,16 +36,17 @@ export default function AccountPage() {
                     <Typography as={"h1"} className={typographyTheme({ size: 'h1' })}>
                         Bonjour, {clerkUser?.firstName}
                     </Typography>
-                    <SignUpForm
-                        clerkEmail={clerkUser?.email ?? ""}
-                        clerkNom={clerkUser?.firstName ?? ""}
-                        clerkNom_famille={clerkUser?.lastName ?? ""}
-                        _type={"inscription"}
-                        _id={sanityMember?._id ?? ""}
-                        _createdAt={sanityMember?._createdAt ?? ""}
-                        _updatedAt={sanityMember?._updatedAt ?? ""}
-                        _rev={sanityMember?._rev ?? ""}
-                    />
+                    <div>
+                        <Typography as={"h2"} className={typographyTheme({ size: 'h2' })}>
+                            Vos informations
+                        </Typography>
+                        <div>
+                            <p>Email: {clerkUser?.email}</p>
+                            <p>Nom: {sanityMember?.nom}</p>
+                            <p>Nom de famille: {sanityMember?.nom_famille}</p>
+                            {/* Add more fields as necessary */}
+                        </div>
+                    </div>
                 </div>
             </SignedIn>
             <SignedOut>

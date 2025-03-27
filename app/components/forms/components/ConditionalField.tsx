@@ -23,7 +23,7 @@ export default function ConditionalField({ label, options, triggerValue, reveale
           ))}
         </ListboxOptions>
       </Listbox>
-      {showFields && <FormRenderer sections={revealedFields} onSubmit={() => {}} />}
+      {showFields && <FormRenderer sections={revealedFields} />}
     </Field>
   );
 }

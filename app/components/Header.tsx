@@ -31,7 +31,7 @@ const Header: React.FC<Props> = async ({ tabs }) => {
                 </div>
                 <div className="flex items-center flex-row ml-auto">
                     <SignedOut>
-                        <SignInButton>
+                        <SignInButton mode="modal">
                             <MFButton style="smallbg" _type="button">
                                 Connexion
                             </MFButton>

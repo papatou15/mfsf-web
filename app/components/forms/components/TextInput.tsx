@@ -1,10 +1,30 @@
-import { Field, Label, Input } from '@headlessui/react';
+"use client"
 
-export default function TextField({ label, name }: { label: string; name: string }) {
+import { Field, Label, Input } from '@headlessui/react';
+import inputTheme from '../../theme/Input';
+import { TextField as TextFieldSanity } from '@/sanity.types';
+import formLabelTheme from '../../theme/FormLabel';
+import { useState } from 'react';
+
+interface TextFieldProps extends TextFieldSanity {
+  _key: string;
+}
+
+export default function TextField({ _type, label, placeholder, _key}: TextFieldProps) {
+  const [value, setValue] = useState<string>('');
+
   return (
-    <Field>
-      <Label htmlFor={name}>{label}</Label>
-      <Input id={name} name={name} type="text" className="border p-2 rounded-md w-full" />
+    <Field className={`${_type} flex flex-col`}>
+      <Label className={formLabelTheme()}>{label}</Label>
+      <Input
+        id={_key}
+        type="text"
+        value={value}
+        name={label}
+        onChange={(e) => setValue(e.target.value)}
+        className={inputTheme({ lowPadding: true })}
+        placeholder={placeholder}
+      />
     </Field>
   );
 }

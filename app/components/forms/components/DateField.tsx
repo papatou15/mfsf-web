@@ -1,10 +1,15 @@
 import { Field, Label } from '@headlessui/react';
+import { DateField as DateFieldSanity } from '@/sanity.types';
 
-export default function DateField({ label, name }: { label: string; name: string }) {
+interface DateFieldProps extends DateFieldSanity {
+  _key: string;
+}
+
+export default function DateField({ label, _key, _type, required }: DateFieldProps) {
   return (
-    <Field>
-      <Label htmlFor={name}>{label}</Label>
-      <input id={name} name={name} type="date" className="border p-2 rounded-md w-full" />
+    <Field className={`${_type}`}>
+      <Label htmlFor={label}>{label}</Label>
+      <input id={_key} name={label} type="date" required={required} className="border p-2 rounded-md w-full" />
     </Field>
   );
 }

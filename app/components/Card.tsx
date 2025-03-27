@@ -43,7 +43,7 @@ const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title, modalCon
                         <img src={sanityImgUrl(image).url()} alt="" className="w-full h-[200px] object-cover"/>
                     </div>
                 </div>
-                <Modal _type="card" open={isModalOpen} onClose={handleCloseModal} title={title} modalContent={modalContent} image={image} type={"regular"} formContent={[]} />
+                <Modal _type="card" open={isModalOpen} onClose={handleCloseModal} title={title} modalContent={modalContent} image={image} type={"regular"} />
             </>
         );
     }

@@ -25,6 +25,7 @@ const FormModalButton: React.FC<FormModalButtonProps> = ({ form, title }) => {
                     setLoading(true);
 
                     const query = `*[_type == "formulaires" && _id == $formRef][0]{
+                        _id,
                         formTitle,
                         sections[] {
                             ...
@@ -71,6 +72,7 @@ const FormModalButton: React.FC<FormModalButtonProps> = ({ form, title }) => {
                 type="form"
                 formContent={fullForm?.sections || []}
                 _type={"card"}
+                formRef={fullForm?._id || ""}
             />
         </>
     );

@@ -6,6 +6,9 @@ import { Formulaires } from '@/sanity.types';
 import MFButton from './MFButton';
 import { sanityClient } from '../sanityClient';
 import { useAuth } from '../AuthContext';
+import { SignInButton } from '@clerk/nextjs';
+import { SignedIn, SignedOut } from '@clerk/clerk-react';
+import MFLink from './MFLink';
 
 export type FormSectionType = NonNullable<Formulaires["sections"]>[number]["_type"] | 'formButton';
 export type FormSubmissions = NonNullable<Formulaires["submissions"]>[number];
@@ -105,6 +108,23 @@ export default function FormRenderer({ formTitle, formDesc, sections, formRef }:
 
         await updateSubmissions(formRef, newSubmission)
     };
+
+    if (sanityMember === null) {
+        return (
+            <div className="flex flex-col items-center justify-center text-center">
+                <Typography as="h3" className={typographyTheme({ size: 'h3' })}>
+                    Connecte-toi ou inscris-toi comme membre pour accéder à ce formulaire.
+                </Typography>
+                <SignedIn>
+                    <MFLink _type='button' link='/account' style={"coloredbg"} extraCSS="m-auto">Accéder au compte pour devenir membre</MFLink>
+                </SignedIn>
+                <SignedOut>
+                    <SignInButton />
+                </SignedOut>
+                
+            </div>
+        );
+    }
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">

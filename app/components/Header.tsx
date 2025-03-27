@@ -42,7 +42,7 @@ const Header: React.FC<Props> = async ({ tabs }) => {
                             showName={true}
                             appearance={{
                                 elements: {
-                                    userButtonTrigger: 'h-6 bg-yellow-1 hover:bg-yellow-2 m-5 p-4 md:p-6 rounded-2xl text-black border-2 border-black hover:shadow-button transition-all duration-100 hover:translate-x-1 hover:-transltate-y-1 active:shadow-none active:translate-x-0 active:translate-y-0 active:bg-accent-1',
+                                    userButtonBox: 'h-6 bg-off-white hover:bg-primary-blue m-5 p-4 md:p-6 rounded-2xl text-black border-2 border-black hover:shadow-button transition-all duration-100 hover:translate-x-1 hover:-transltate-y-1 active:shadow-none active:translate-x-0 active:translate-y-0 active:bg-accent-1',
                                     userButtonPopoverMain: 'border-2 border-black rounded-2xl text-black',
                                     userButtonPopoverActionButton: 'text-black',
                                 }

@@ -5,9 +5,28 @@ import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 import Typography from "../components/Typography/Typography";
 import typographyTheme from "../components/theme/Typography";
 import SignUpForm from "../components/forms/SignUpForm";
+import { useEffect, useState } from "react";
+import { accountActivitiesFetcher, memberActivitiesQuery } from "../queries";
 
 export default function AccountPage() {
     const { clerkUser, sanityMember, loading } = useAuth();
+    const [activities, setActivities] = useState<[]>([]);
+
+    useEffect(() => {
+        const fetchActivities = async () => {
+            if (sanityMember) {
+                try {
+                    const result = await accountActivitiesFetcher(memberActivitiesQuery, { memberId: sanityMember._id });
+                    setActivities(result);
+                }
+                catch (error) {
+                    console.error("Error fetching activities:", error);
+                }
+            }
+        }
+
+        fetchActivities();
+    }, [sanityMember]);
 
     if (loading) return <p>Chargement...</p>;
 
@@ -38,13 +57,25 @@ export default function AccountPage() {
                     </Typography>
                     <div>
                         <Typography as={"h2"} className={typographyTheme({ size: 'h2' })}>
-                            Vos informations
+                            Mes inscriptions
                         </Typography>
                         <div>
-                            <p>Email: {clerkUser?.email}</p>
-                            <p>Nom: {sanityMember?.nom}</p>
-                            <p>Nom de famille: {sanityMember?.nom_famille}</p>
-                            {/* Add more fields as necessary */}
+                            {activities.length > 0 ? (
+                                activities.map((activity: any) => (
+                                    <div key={activity._id}>
+                                        <Typography as={"h3"} className={typographyTheme({ size: 'h3' })}>
+                                            {activity.title}
+                                        </Typography>
+                                        <Typography as={"p"} className={typographyTheme({ size: 'paragraph' })}>
+                                            {activity.description}
+                                        </Typography>
+                                    </div>
+                                ))
+                            ) : (
+                                <Typography as={"p"} className={typographyTheme({ size: 'paragraph' })}>
+                                    Aucune activité trouvée.
+                                </Typography>
+                            )}
                         </div>
                     </div>
                 </div>

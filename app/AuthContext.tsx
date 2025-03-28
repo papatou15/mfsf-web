@@ -38,8 +38,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     }, [user, isLoaded]);
 
-    console.log("Sanity Member:", sanityMember);
-
     return (
         <AuthContext.Provider
             value={{

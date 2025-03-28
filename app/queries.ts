@@ -124,8 +124,18 @@ export const aboutPageQuery = `
     }
 `
 
+export const memberActivitiesQuery = `
+    *[_type == "activity" && dates[].members[]._ref == $memberId]
+`
+
 export async function queryFetcher(query: string) {
     const data = await sanityClient.fetch(query)
+
+    return data
+}
+
+export async function accountActivitiesFetcher(query: string, params: { memberId: string }) {
+    const data = await sanityClient.fetch(query, params)
 
     return data
 }

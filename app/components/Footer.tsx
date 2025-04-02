@@ -25,7 +25,7 @@ const Footer: React.FC<Props> = ({ tabs, contacts, logo }) => {
                 <div className="lg:h-[70%] text-xl flex flex-col justify-center items-center">
                     <Typography as="h2" className={`${typographyTheme({size: "h5"})} shadow-text`}>Navigation</Typography>
                     {tabs ? tabs.map((tab) =>
-                        <div key={tab._id} className={`${typographyTheme({ size: 'footnote' })} py-1 shadow-text-sm`}>
+                        <div key={tab._id} className={`${typographyTheme({ size: 'paragraph' })} py-1 shadow-text-sm`}>
                             {tab.title}
                         </div>
                     ) : "no tabs"}
@@ -37,7 +37,7 @@ const Footer: React.FC<Props> = ({ tabs, contacts, logo }) => {
                 <div className=" lg:h-[70%] flex flex-col justify-center items-center shadow-text-sm">
                     <div className="flex flex-col p-3 items-center">
                         <Typography as="h3" className={`${typographyTheme({size: 'h5'})} shadow-text py-3`}>Pour nous joindre</Typography>
-                        <ul className={typographyTheme({ size: 'footnote' })}>
+                        <ul className={typographyTheme({ size: 'paragraph' })}>
                             <li className="flex flex-row"><FaPhone className="mr-2" />Téléphone: {contacts.telephone}</li>
                             <li className="flex flex-row"><FaEnvelope className="mr-2" />{contacts.email}</li>
                             <li className="flex flex-row"><FaMapMarkerAlt className="mr-2" />{contacts.adress}</li>

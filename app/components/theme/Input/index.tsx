@@ -1,7 +1,7 @@
 import { tv } from "tailwind-variants";
 
 const inputTheme = tv({
-    base: "p-4 rounded-xl border-black border-2 focus-visible:border-none !text-black",
+    base: "p-4 rounded-xl border-black bg-off-white border-2 !text-black",
     variants: {
         lowPadding: {
             true: 'p-2 rounded-lg'

@@ -1,6 +1,7 @@
-import { Fieldset, Label } from '@headlessui/react';
+import { Fieldset, Input, Label } from '@headlessui/react';
 import { useState } from 'react';
 import { CheckboxField as CheckboxFieldSanity } from '@/sanity.types';
+import formLabelTheme from '../../theme/FormLabel';
 
 interface CheckboxFieldProps extends CheckboxFieldSanity {
     _key: string;
@@ -23,18 +24,18 @@ export default function CheckboxField({ label, options, _key, _type, onChange }:
 
     return (
         <Fieldset key={_key} className={`${_type}`}>
-            <Label>{label}</Label>
+            <Label className={formLabelTheme({ size: "small", margin: "small"})}>{label}</Label>
             <div className="space-y-2">
                 {options?.map((option, index) => (
                     <div key={option} className="flex items-center gap-2">
-                        <input
+                        <Input
                             type="checkbox"
-                            id={`${option}-${_key}`}
+                            id={`${label}-${option}`}
                             name={`${label}-${index}`}
                             value={option}
                             checked={selectedOptions.includes(option)}
                             onChange={() => handleCheckboxChange(option)}
-                            className="w-5 h-5 rounded border"
+                            className="w-7 h-7 rounded border-2 border-black border-solid"
                         />
                         <Label htmlFor={`${option}-${_key}`}>{option}</Label>
                     </div>

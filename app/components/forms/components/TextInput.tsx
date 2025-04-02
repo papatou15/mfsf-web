@@ -15,14 +15,14 @@ export default function TextField({ _type, label, placeholder, _key}: TextFieldP
 
   return (
     <Field className={`${_type} flex flex-col`}>
-      <Label className={formLabelTheme()}>{label}</Label>
+      <Label className={formLabelTheme({ size: 'small', margin: 'small'})}>{label}</Label>
       <Input
         id={_key}
         type="text"
         value={value}
         name={label}
         onChange={(e) => setValue(e.target.value)}
-        className={inputTheme({ lowPadding: true })}
+        className={`${inputTheme({ lowPadding: true })} bg-off-white`}
         placeholder={placeholder}
       />
     </Field>

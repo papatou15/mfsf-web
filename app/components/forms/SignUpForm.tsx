@@ -24,10 +24,11 @@ interface SignUpFormProps extends Inscription {
 
 const statutFamilialOptions = [
     { id: 1, value: 'celibataire', name: 'Célibataire' },
-    { id: 2, value: 'couple', name: 'En couple' },
-    { id: 3, value: 'marie', name: 'Marié(e)' },
-    { id: 4, value: 'veuf', name: 'Veuf(ve)' },
-    { id: 5, value: 'no_answer', name: 'Préfère ne pas répondre' }
+    { id: 2, value: 'celibataire_enfant', name: 'Célibataire avec enfant(s)' },
+    { id: 3, value: 'couple', name: 'En couple' },
+    { id: 4, value: 'marie', name: 'Marié(e)' },
+    { id: 5, value: 'veuf', name: 'Veuf(ve)' },
+    { id: 6, value: 'no_answer', name: 'Préfère ne pas répondre' }
 ]
 
 const occupationOptions = [
@@ -82,8 +83,10 @@ const raisonConnaissance = [
     { id: 3, name: 'Facebook', value: 'facebook' },
     { id: 4, name: 'Autre membre', value: 'membre' },
     { id: 5, name: 'Famille', value: 'famille' },
-    { id: 6, name: 'Autre', value: 'other' },
-    { id: 7, name: 'Préfère ne pas répondre', value: 'nePasRepondre' }
+    { id: 6, name: 'Autre organisme', value: 'otherOrg' },
+    { id: 7, name: 'Passé devant', value: 'passant' },
+    { id: 8, name: 'Autre', value: 'other' },
+    { id: 9, name: 'Préfère ne pas répondre', value: 'nePasRepondre' }
 ]
 
 const listBoxTheme = tv({
@@ -218,13 +221,13 @@ export default function SignUpForm({ clerkNom, clerkEmail, clerkNom_famille }: S
             _type: 'inscription',
             nom: clerkNom,
             nom_famille: clerkNom_famille,
+            date_naissance: dateNaissance,
             zip_code: codePostal,
             phone: formattedTelephones,
             email: clerkEmail,
             member_check: true,
             member_form: {
                 occupation: occupation.value,
-                date_naissance: dateNaissance,
                 langue_principale: languePrincipale,
                 langues_secondaires: formattedLanguesSecondaires,
                 familial_status: statutFamilial.value,

@@ -1001,6 +1001,7 @@ export type Inscription = {
   _rev: string
   nom?: string
   nom_famille?: string
+  date_naissance?: string
   zip_code?: string
   phone?: Array<{
     phone_type?: 'home' | 'cell' | 'work' | 'other'
@@ -1011,6 +1012,13 @@ export type Inscription = {
   email?: string
   member_check?: boolean
   member_form?: {
+    adhesionTime?: string
+    paidTime?: string
+    paidMethod?: 'monnaie' | 'credit' | 'debit' | 'free'
+    renewTime?: string
+    transactionId?: string
+    langue_principale?: string
+    langues_secondaires?: Array<string>
     occupation?:
       | 'full_time'
       | 'half-time'
@@ -1019,16 +1027,19 @@ export type Inscription = {
       | 'etudiant'
       | 'retraite'
       | 'no_answer'
-    date_naissance?: string
-    langue_principale?: string
-    langues_secondaires?: Array<string>
-    familial_status?: 'celibataire' | 'couple' | 'marie' | 'veuf' | 'conjoint' | 'no_answer'
-    scolarity?: 'Primaire' | 'Secondaire' | 'C\xE9gep' | 'DEP' | 'Universit\xE9'
-    adhesionTime?: string
-    paidTime?: string
-    paidMethod?: 'monnaie' | 'credit' | 'debit' | 'free'
-    renewTime?: string
-    transactionId?: string
+    scolarity?:
+      | 'Primaire'
+      | 'Secondaire'
+      | "C\xE9gep - Attestation d'\xE9tudes coll\xE9giales"
+      | 'C\xE9gep - Technique'
+      | 'C\xE9gep - Pr\xE9-universitaire'
+      | "Dipl\xF4me d'\xE9tudes professionnelles"
+      | 'Universit\xE9'
+    diplomaCheck?: {
+      diplomaRecognizedCheck?: boolean
+      diplomaRecognizedNotes?: string
+    }
+    revenus?: '<10k' | '10k-20k' | '20k-30k' | '30k-40k' | '40k-50k' | '>50k' | 'no_answer'
     family_members_old?: Array<{
       nom?: string
       nom_famille?: string
@@ -1054,6 +1065,14 @@ export type Inscription = {
       _type: 'family_member'
       _key: string
     }>
+    familial_status?:
+      | 'celibataire'
+      | 'celibataire_enfant'
+      | 'couple'
+      | 'marie'
+      | 'veuf'
+      | 'conjoint'
+      | 'no_answer'
     family_members?: {
       conjoint?: {
         nom?: string
@@ -1088,6 +1107,8 @@ export type Inscription = {
           other_genre?: string
         }
         familyLink?: 'fils' | 'fille' | 'neveu' | 'niece' | 'no_answer'
+        guardianship?: 'full_time' | 'shared' | 'weekend' | 'no_guardianship' | 'other'
+        guardianshipNotes?: string
         _type: 'children'
         _key: string
       }>
@@ -1125,7 +1146,6 @@ export type Inscription = {
       }
     }
     immediate_family?: number
-    revenus?: '<10k' | '10k-20k' | '20k-30k' | '30k-40k' | '40k-50k' | '>50k' | 'no_answer'
   }
   benevole_check?: boolean
   benevole_form?: {
@@ -1146,8 +1166,11 @@ export type Inscription = {
     | 'famille'
     | 'event'
     | 'pastMember'
+    | 'otherOrg'
+    | 'passant'
     | 'other'
     | 'nePasRepondre'
+  connaissanceOther?: string
   moreInfo?: {
     livingPlace?: {
       habitation?: boolean
@@ -1172,7 +1195,7 @@ export type Inscription = {
       | 'SAAQ'
       | 'Pension de retraite'
       | 'Aide financi\xE8re de dernier recours (aide sociale)'
-      | 'Pension de veuve'
+      | 'Pension de veuf(ve)'
       | 'Allocations familiales'
       | 'Pension alimentaire'
       | 'Allocation au logement'
@@ -1186,8 +1209,6 @@ export type Inscription = {
     pastMemberTime?: string
     interestedActivities?: Array<string>
     activitiesComments?: string
-    familyDynamics?: string
-    demands?: string
     foodHelpReasons?: Array<string>
     foodHelpReasonOther?: string
     SIPPECriterias?: Array<string>
@@ -1200,7 +1221,6 @@ export type Inscription = {
     [internalGroqTypeReferenceTo]?: 'formulaires'
   }>
   enrolledActivities?: string
-  enrolledEvents?: string
   notes?: Array<{
     children?: Array<{
       marks?: Array<string>

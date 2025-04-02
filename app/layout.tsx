@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs"
-import { queryFetcher, contactQuery, menuQuery, bannerQuery, footerLogoQuery } from "./queries";
+import { queryFetcher, contactQuery, menuQuery, bannerQuery, footerLogoQuery, headerLogoQuery } from "./queries";
 import { frFR } from "@clerk/localizations"
 import "./globals.css";
 import "./homepage.css";
@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Banner from "./components/Banners";
 import { Nunito } from 'next/font/google'
 import { AuthProvider } from "./AuthContext";
+import { Contact } from "@/sanity.types";
 
 const nunito = Nunito({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-nunito' })
 
@@ -28,6 +29,7 @@ export default async function RootLayout({
   const contacts = await queryFetcher(contactQuery)
   const banner = await queryFetcher(bannerQuery)
   const footerLogo = await queryFetcher(footerLogoQuery)
+  const logo: Contact = await queryFetcher(headerLogoQuery)
 
   const tabs = tabsQuery.flatMap((tab: { pages: string[] }) => tab.pages)
 
@@ -36,7 +38,7 @@ export default async function RootLayout({
       <AuthProvider>
         <html lang="en" className={nunito.variable}>
           <body>
-            <Header tabs={tabs} />
+            <Header tabs={tabs} logo={logo} />
             <Banner banner={banner[0]?.bannerList ?? []} />
             {children}
             <Footer tabs={tabs} contacts={contacts} logo={footerLogo} />

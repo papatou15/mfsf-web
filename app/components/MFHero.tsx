@@ -12,10 +12,10 @@ const MFHero: React.FC<MFHeroProps> = ({ title, subTitle, image, layout, _type, 
         <div className={`${_type} py-20 flex justify-center items-center`}>
             <div style={{ backgroundColor: bgColor?.hex ? bgColor?.hex : ''}} className={`py-12 px-32 rounded-[1.5rem] shadow-big-box-bg flex ${layout == 'default' ? 'md:flex-row' : 'md:flex-row-reverse'} justify-center items-center`}>
                 <div className="w-[50%] flex flex-col justify-center items-start">
-                    <Typography as="h1" className={`${typographyTheme({ size: 'h1' })} py-4`}>
+                    <Typography as="h1" className={`${typographyTheme({ size: 'h1' })} !shadow-text py-4`}>
                         {title}
                     </Typography>
-                    <Typography as="p" className={typographyTheme({ size: 'h4' })}>
+                    <Typography as="p" className={`${typographyTheme({ size: 'h4' })} !shadow-text-sm`}>
                         {subTitle}
                     </Typography>
                 </div>

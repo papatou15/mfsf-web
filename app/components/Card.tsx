@@ -58,7 +58,7 @@ const MFCard: React.FC<MFCardProps> = ({image, layout, subtitle, title, modalCon
             <div className=" pt-7 px-7 z-10 bg-custom-beige">
                 <img src={sanityImgUrl(image).fit("fillmax").url()} alt="" className="rounded-xl border-black border-4"/>
             </div>
-            <div className="h-full pt-8 px-6 bg-custom-beige flex flex-col text-center items-center">
+            <div className="h-full pt-8 px-6 bg-custom-beige flex flex-col text-center items-center shadow-text-sm">
                 <Typography as="h3" className={typographyTheme({size: 'h3'})}>
                     {title}
                 </Typography>

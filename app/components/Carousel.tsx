@@ -50,9 +50,10 @@ const Carousel = ({ images, title, _type }: CarouselProps) => {
                 <Swiper
                     modules={[Navigation, Autoplay]}
                     spaceBetween={20}
-                    slidesPerView={3} // Default
+                    slidesPerView={1} // Default
                     autoplay={{ delay: 10000, disableOnInteraction: false }}
                     breakpoints={{
+                        640: { slidesPerView: 2 }, // Extra small screens
                         860: { slidesPerView: 3 }, // Small screens
                         1300: { slidesPerView: 5 }, // Medium screens
                         1600: { slidesPerView: 7 }, // Large screens

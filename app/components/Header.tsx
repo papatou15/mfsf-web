@@ -8,7 +8,6 @@ import { PageMaker, Contact } from "@/sanity.types";
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import MFLink from "./MFLink";
 import sanityImgUrl from "../sanityImageBuilder";
-import { FaBars, FaTimes } from "react-icons/fa";
 
 interface Props {
     tabs: PageMaker[];

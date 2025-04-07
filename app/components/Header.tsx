@@ -20,7 +20,7 @@ const Header: React.FC<Props> = ({ tabs, logo }) => {
 
     return (
         <div className="header-wrapper lg:w-full sticky top-4 z-50 items-center justify-center">
-            <div className="header my-4 lg:m-4 w-full h-full bg-gradient-to-l from-primary-blue to-[#0D5E68] flex flex-row items-center rounded-2xl shadow-[0_55px_50px_-25px_rgba(0,0,0,0.25)]">
+            <div className="header m-4 h-full bg-gradient-to-l from-primary-blue to-[#0D5E68] flex flex-row items-center rounded-2xl shadow-[0_55px_50px_-25px_rgba(0,0,0,0.25)]">
                 <div className="pl-6 py-2 min-w-20">
                     <img 
                         src={sanityImgUrl(logo?.headerLogo).height(75).fit("clip").url()} 

@@ -371,6 +371,16 @@ export type Card = {
     _type: 'image'
   }
   layout?: 'bigCard' | 'smallCard'
+  link?: {
+    isPage?: boolean
+    url?: string
+    page?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'pageMaker'
+    }
+  }
   color?: Color
 }
 

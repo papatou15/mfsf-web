@@ -128,6 +128,13 @@ export const memberActivitiesQuery = `
     *[_type == "activity" && dates[].members[]._ref == $memberId]
 `
 
+export const cardLinkQuery = `
+    *[_type == "pageMaker" && _id == $pageId]{
+        slug,
+        title
+    }
+`
+
 export async function queryFetcher(query: string) {
     const data = await sanityClient.fetch(query)
 
@@ -146,6 +153,12 @@ export async function memberQueryFetcher(query: string, params: { email: string,
     return data
 }
 
+export async function cardLinkQueryFetcher(query: string, params: { pageId: string }) {
+    const data = await sanityClient.fetch(query, params)
+
+    return data
+}
+
 export async function formFetcher(query: string, params: Record<string, any> = {}) {
     try {
       const result = await sanityClient.fetch(query, params);
@@ -154,4 +167,12 @@ export async function formFetcher(query: string, params: Record<string, any> = {
       console.error('Error fetching data from Sanity:', error);
       throw error;
     }
-  }
+}
+
+export async function resolveButtonLink(card: { isPage?: boolean; link?: string; page?: { _ref: string } }) {
+    if (card.isPage && card.page?._ref) {
+        const result = await cardLinkQueryFetcher(cardLinkQuery, { pageId: card.page._ref });
+        return result?.[0]?.slug?.current || null;
+    }
+    return card.link || null;
+}

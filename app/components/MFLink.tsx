@@ -8,7 +8,9 @@ import { tv } from 'tailwind-variants'
 import { MouseEvent } from 'react'
 
 export interface MFLinkProps extends MFButtonProps {
-    link: string | '#'
+    link: string | '#',
+    target?: string,
+    rel?: string,
 }
 
 const linkStyle = tv({

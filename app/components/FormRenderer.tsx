@@ -87,8 +87,6 @@ export default function FormRenderer({ formTitle, formDesc, sections, formRef }:
             }
         });
 
-        console.log("Grouped data: ", groupedData);
-
         const newSubmission = {
             _type: "submission",
             _key: crypto.randomUUID(),
@@ -104,8 +102,6 @@ export default function FormRenderer({ formTitle, formDesc, sections, formRef }:
             })),
         };
 
-        console.log("New submission: ", newSubmission);
-
         await updateSubmissions(formRef, newSubmission)
     };
 
@@ -115,14 +111,17 @@ export default function FormRenderer({ formTitle, formDesc, sections, formRef }:
                 <Typography as="h3" className={typographyTheme({ size: 'h3' })}>
                     Connecte-toi ou inscris-toi comme membre pour accéder à ce formulaire.
                 </Typography>
-                <SignedIn>
-                    <MFLink _type='button' link='/account' style={"coloredbg"} extraCSS="m-auto">Accéder au compte pour devenir membre</MFLink>
-                </SignedIn>
-                <SignedOut>
-                    <SignInButton />
-                </SignedOut>
-                
-            </div>
+                <div className='flex flex-col justify-center items-center m-auto my-6'>
+                    <SignedIn>
+                        <MFLink _type='button' link='/account' style={"coloredbg"} extraCSS="m-auto">Accède à ton compte pour devenir membre</MFLink>
+                    </SignedIn>
+                    <SignedOut>
+                        <SignInButton >
+                            <MFButton _type='button' style={"coloredbg"} extraCSS="m-auto">Inscris-toi</MFButton>
+                        </SignInButton>
+                    </SignedOut>
+                </div>
+            </div >
         );
     }
 

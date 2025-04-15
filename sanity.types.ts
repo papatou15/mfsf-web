@@ -980,29 +980,6 @@ export type SanityImageMetadata = {
   isOpaque?: boolean
 }
 
-export type Activity = {
-  _id: string
-  _type: 'activity'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  nom?: string
-  dates?: Array<{
-    date?: string
-    inscriptionOuverte?: boolean
-    openDate?: string
-    isVisible?: boolean
-    members?: Array<{
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      _key: string
-      [internalGroqTypeReferenceTo]?: 'inscription'
-    }>
-    _key: string
-  }>
-}
-
 export type Inscription = {
   _id: string
   _type: 'inscription'
@@ -1231,6 +1208,16 @@ export type Inscription = {
     [internalGroqTypeReferenceTo]?: 'formulaires'
   }>
   enrolledActivities?: string
+  linkedActivities?: Array<{
+    activityId?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'activity'
+    }
+    date?: string
+    _key: string
+  }>
   notes?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -1247,6 +1234,29 @@ export type Inscription = {
     }>
     level?: number
     _type: 'block'
+    _key: string
+  }>
+}
+
+export type Activity = {
+  _id: string
+  _type: 'activity'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  nom?: string
+  dates?: Array<{
+    date?: string
+    inscriptionOuverte?: boolean
+    openDate?: string
+    isVisible?: boolean
+    members?: Array<{
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      _key: string
+      [internalGroqTypeReferenceTo]?: 'inscription'
+    }>
     _key: string
   }>
 }
@@ -1342,8 +1352,8 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | SanityAssetSourceData
   | SanityImageMetadata
-  | Activity
   | Inscription
+  | Activity
   | Color
   | RgbaColor
   | HsvaColor

@@ -61,7 +61,12 @@ export const accountPageQuery = `
     nom,
     nom_famille,
     email,
-    enrolledActivities,
+    linkedActivities[]{
+      date,
+      activityId->{
+        nom
+      }
+    },
     member_check
 }
 `

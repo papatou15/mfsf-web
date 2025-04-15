@@ -6,29 +6,10 @@ import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 import Typography from "../components/Typography/Typography";
 import typographyTheme from "../components/theme/Typography";
 import SignUpForm from "../components/forms/SignUpForm";
-import { useEffect, useState } from "react";
-import { accountActivitiesFetcher, memberActivitiesQuery } from "../queries";
-import { Activity } from "@/sanity.types";
+import { Inscription, Activity } from "@/sanity.types";
 
 export default function AccountPage() {
     const { clerkUser, sanityMember, loading } = useAuth();
-    const [activities, setActivities] = useState<[]>([]);
-
-    useEffect(() => {
-        const fetchActivities = async () => {
-            if (sanityMember) {
-                try {
-                    const result = await accountActivitiesFetcher(memberActivitiesQuery, { memberId: sanityMember._id });
-                    setActivities(result);
-                }
-                catch (error) {
-                    console.error("Error fetching activities:", error);
-                }
-            }
-        }
-
-        fetchActivities();
-    }, [sanityMember]);
 
     if (loading) return <p>Chargement...</p>;
 
@@ -62,23 +43,18 @@ export default function AccountPage() {
                             Mes inscriptions
                         </Typography>
                         <div>
-                            {activities.length > 0 ? (
-                                activities.map((activity: Activity) => (
-                                    <div key={activity._id}>
+                            {sanityMember?.linkedActivities && sanityMember.linkedActivities.length > 0 ? (
+                                sanityMember.linkedActivities.map((activity, index) => (
+                                    <div key={index}>
                                         <Typography as={"h3"} className={typographyTheme({ size: 'h3' })}>
-                                            {activity.nom}
+                                            {activity?.activityId?.nom}
                                         </Typography>
-                                        {
-                                            activity.dates && Array.isArray(activity.dates) && activity.dates.map((singleAct, index: number) => (
-                                                singleAct && (
-                                                    <div key={index}>
-                                                        <Typography as={"p"} className={typographyTheme({ size: 'paragraph' })}>
-                                                            {singleAct.date ?? "Date inconnue"}
-                                                        </Typography>
-                                                    </div>
-                                                )
-                                            ))
-                                        }
+                                        <div key={index}>
+                                            <Typography as={"p"} className={typographyTheme({ size: 'paragraph' })}>
+                                                {activity.date ?? "Date inconnue"}
+                                            </Typography>
+                                        </div>
+                                        
                                     </div>
                                 ))
                             ) : (

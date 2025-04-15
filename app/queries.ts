@@ -124,8 +124,8 @@ export const aboutPageQuery = `
             missionText
         },
         _type == "temoignages" => {
-            temoignages
-        }[0...2]
+            temoignages[0...3]
+        }
     }
 `
 

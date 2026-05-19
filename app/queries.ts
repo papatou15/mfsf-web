@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
 import { sanityClient } from "./sanityClient";
 
 export const headerLogoQuery = `
@@ -152,8 +152,8 @@ export async function accountActivitiesFetcher(query: string, params: { memberId
     return data
 }
 
-export async function memberQueryFetcher(query: string, params: { email: string, nom: string, nom_famille: string }) {
-    const data = await sanityClient.fetch(query, params)
+export async function memberQueryFetcher<T>(query: string, params: { email: string, nom: string, nom_famille: string }) {
+    const data = await sanityClient.fetch<T>(query, params)
 
     return data
 }
@@ -181,3 +181,5 @@ export async function resolveButtonLink(card: { isPage?: boolean; link?: string;
     }
     return card.link || null;
 }
+
+

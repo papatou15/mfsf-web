@@ -6,7 +6,6 @@ import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 import Typography from "../components/Typography/Typography";
 import typographyTheme from "../components/theme/Typography";
 import SignUpForm from "../components/forms/SignUpForm";
-import { Inscription, Activity } from "@/sanity.types";
 
 export default function AccountPage() {
     const { clerkUser, sanityMember, loading } = useAuth();

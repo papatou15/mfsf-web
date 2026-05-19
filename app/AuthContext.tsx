@@ -1,13 +1,23 @@
-"use client"; // Needed for React Context in Next.js
+﻿"use client"
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { useUser } from "@clerk/nextjs";
 import { memberQueryFetcher, accountPageQuery } from "./queries";
-import { Inscription } from "@/sanity.types";
+import { Activity, Inscription } from "@/sanity.types";
+
+type AccountLinkedActivity = {
+    _key?: string;
+    date?: string;
+    activityId?: Pick<Activity, "nom"> | null;
+};
+
+export type AccountSanityMember = Omit<Inscription, "linkedActivities"> & {
+    linkedActivities?: AccountLinkedActivity[];
+};
 
 interface AuthContextType {
     clerkUser: { id: string; email: string; firstName: string; lastName: string } | null;
-    sanityMember: Inscription | null;
+    sanityMember: AccountSanityMember | null;
     loading: boolean;
 }
 
@@ -15,7 +25,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const { user, isLoaded } = useUser(); // Clerk user
-    const [sanityMember, setSanityMember] = useState<Inscription | null>(null);
+    const [sanityMember, setSanityMember] = useState<AccountSanityMember | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -27,8 +37,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const clerkNom = user.firstName ?? "";
             const clerkNom_famille = user.lastName ?? "";
 
-            // Fetch member from Sanity
-            memberQueryFetcher(accountPageQuery, { email: clerkEmail, nom: clerkNom, nom_famille: clerkNom_famille })
+            // Fetch member from Sanity using the account page query shape.
+            memberQueryFetcher<AccountSanityMember[]>(accountPageQuery, { email: clerkEmail, nom: clerkNom, nom_famille: clerkNom_famille })
                 .then((members) => setSanityMember(members.length > 0 ? members[0] : null))
                 .catch(console.error)
                 .finally(() => setLoading(false));

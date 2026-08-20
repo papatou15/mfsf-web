@@ -27,18 +27,18 @@ const MFCard: React.FC<MFCardProps> = ({ image, layout, subtitle, title, modalCo
         setIsModalOpen(false);
     };
 
-    const handleResolveLink = async () => {
-        if (link) {
-            const resolved = await resolveButtonLink(link);
-            setResolvedLink(resolved);
-        }
-    };
-
     useEffect(() => {
-        if (link) {
-            handleResolveLink();
-        }
-    })
+        if (!link) return;
+
+        let active = true;
+        resolveButtonLink(link).then((resolved) => {
+            if (active) setResolvedLink(resolved);
+        });
+
+        return () => {
+            active = false;
+        };
+    }, [link]);
 
     if (layout === 'smallCard') {
         return (
@@ -70,7 +70,7 @@ const MFCard: React.FC<MFCardProps> = ({ image, layout, subtitle, title, modalCo
                         </div>
                     </div>
                     <div className="z-0 row-start-1 col-start-1">
-                        <img src={sanityImgUrl(image).url()} alt="" className="w-full h-[200px] object-cover" />
+                        <img src={sanityImgUrl(image).width(900).height(450).fit("crop").crop("focalpoint").auto("format").url()} alt="" className="w-full h-[200px] object-cover" />
                     </div>
                 </div>
                 <Modal
@@ -99,11 +99,11 @@ const MFCard: React.FC<MFCardProps> = ({ image, layout, subtitle, title, modalCo
                 }}
                 className={`${_type} flex flex-col h-[470px] w-[385px] my-5 2xl:my-0 rounded-xl border-4 overflow-hidden transition-all hover:cursor-pointer hover:translate-x-2 hover:-translate-y-2`}
             >
-                <div className="pt-7 px-7 z-10 bg-custom-beige">
+                <div className="pt-7 px-7 z-10 bg-custom-beige shrink-0">
                     <img
-                        src={sanityImgUrl(image).fit("fillmax").url()}
+                        src={sanityImgUrl(image).width(720).height(405).fit("crop").crop("focalpoint").auto("format").url()}
                         alt=""
-                        className="rounded-xl border-black border-4"
+                        className="w-full aspect-video object-cover rounded-xl border-black border-4"
                     />
                 </div>
                 <div className="h-full pt-8 px-6 bg-custom-beige flex flex-col text-center items-center shadow-text-sm">

@@ -1,78 +1,96 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Modal from "./Modal";
+import { useEffect, useState } from "react";
 import { Formulaires } from "@/sanity.types";
-import MFButton from "./MFButton";
-import { MFButtonProps } from "./MFButton";
-import { formFetcher } from "../queries"; // Adjust the import based on where you handle the query
+
+import type { ActivityPaymentContext } from "@/app/types/payments";
+import { formFetcher } from "../queries";
+import MFButton, { MFButtonProps } from "./MFButton";
+import Modal from "./Modal";
 
 interface FormModalButtonProps extends MFButtonProps {
-    form: Formulaires | { _ref: string }; // Form can be either the full object or a reference
-    formSections: NonNullable<Formulaires["sections"]>;
+    form: Formulaires | { _ref: string };
+    formSections?: NonNullable<Formulaires["sections"]>;
+    activite?: ActivityPaymentContext | { _ref: string };
 }
 
-const FormModalButton: React.FC<FormModalButtonProps> = ({ form, title }) => {
+const FormModalButton: React.FC<FormModalButtonProps> = ({ form, title, activite }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [fullForm, setFullForm] = useState<Formulaires | null>(null); // Store the full form content
-    const [loading, setLoading] = useState(false);
+    const [fetchedForm, setFetchedForm] = useState<Formulaires | null>(null);
+    const [fetchedActivity, setFetchedActivity] = useState<ActivityPaymentContext | null>(null);
 
-    // Fetch the form content if it's a reference
+    const formIsReference = "_ref" in form;
+    const activityIsReference = Boolean(activite && "_ref" in activite);
+    const fullForm = formIsReference ? fetchedForm : form;
+    const activity = activityIsReference ? fetchedActivity ?? undefined : activite as ActivityPaymentContext | undefined;
+
     useEffect(() => {
-        const fetchFormContent = async () => {
-            if ("_ref" in form) {
-                try {
-                    setLoading(true);
+        if (!formIsReference) return;
 
-                    const query = `*[_type == "formulaires" && _id == $formRef][0]{
-                        _id,
-                        formTitle,
-                        sections[] {
-                            ...
-                        }
-                    }`;
-                    const result = await formFetcher(query, { formRef: form._ref });
+        let active = true;
+        const query = `*[_type == "formulaires" && _id == $formRef][0]{
+            _id,
+            formTitle,
+            formDesc,
+            sections[]{...}
+        }`;
 
-                    setFullForm(result); // Set the fetched form content
-                } catch (error) {
-                    console.error("Error fetching form content:", error);
-                } finally {
-                    setLoading(false);
-                }
-            } else {
-                setFullForm(form); // Use the passed form directly if it's already expanded
-            }
+        formFetcher(query, { formRef: form._ref })
+            .then((result: Formulaires | null) => {
+                if (active) setFetchedForm(result);
+            })
+            .catch((error) => console.error("Impossible de charger le formulaire:", error));
+
+        return () => {
+            active = false;
         };
+    }, [form, formIsReference]);
 
-        fetchFormContent();
-    }, [form]);
+    useEffect(() => {
+        if (!activite || !("_ref" in activite)) return;
 
-    const handleOpenModal = () => {
-        setIsModalOpen(true);
-    };
+        let active = true;
+        const query = `*[_type == "activity" && _id == $activityRef][0]{
+            _id,
+            nom,
+            produitStripe->{
+                _id,
+                nom,
+                description,
+                actif
+            }
+        }`;
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    };
+        formFetcher(query, { activityRef: activite._ref })
+            .then((result: ActivityPaymentContext | null) => {
+                if (active) setFetchedActivity(result);
+            })
+            .catch((error) => console.error("Impossible de charger l’activité:", error));
 
-    if (loading) {
-        return <div>Loading form...</div>; // Show loading indicator while the form is being fetched
+        return () => {
+            active = false;
+        };
+    }, [activite]);
+
+    if ((formIsReference && !fullForm) || (activityIsReference && !activity)) {
+        return <div>Chargement du formulaire...</div>;
     }
 
     return (
         <>
-            <MFButton _type="button" style="smallbg" onClick={handleOpenModal}>
+            <MFButton _type="button" style="smallbg" onClick={() => setIsModalOpen(true)}>
                 {title}
             </MFButton>
             <Modal
                 open={isModalOpen}
-                onClose={handleCloseModal}
+                onClose={() => setIsModalOpen(false)}
                 title={fullForm?.formTitle || ""}
                 image={undefined}
                 type="form"
                 formContent={fullForm?.sections || []}
-                _type={"card"}
+                _type="card"
                 formRef={fullForm?._id || ""}
+                activite={activity}
             />
         </>
     );

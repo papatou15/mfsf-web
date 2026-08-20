@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { useUser } from "@clerk/nextjs";
@@ -21,37 +21,51 @@ interface AuthContextType {
     loading: boolean;
 }
 
+type MemberResult = {
+    email: string;
+    member: AccountSanityMember | null;
+};
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const { user, isLoaded } = useUser(); // Clerk user
-    const [sanityMember, setSanityMember] = useState<AccountSanityMember | null>(null);
-    const [loading, setLoading] = useState(true);
+    const { user, isLoaded } = useUser();
+    const [memberResult, setMemberResult] = useState<MemberResult | null>(null);
+    const email = user?.primaryEmailAddress?.emailAddress ?? "";
 
     useEffect(() => {
-        if (!isLoaded) return;
+        if (!isLoaded || !user || !email) return;
 
-        if (user) {
-            setLoading(true);
-            const clerkEmail = user.emailAddresses[0]?.emailAddress ?? "";
-            const clerkNom = user.firstName ?? "";
-            const clerkNom_famille = user.lastName ?? "";
+        let active = true;
+        const firstName = user.firstName ?? "";
+        const lastName = user.lastName ?? "";
 
-            // Fetch member from Sanity using the account page query shape.
-            memberQueryFetcher<AccountSanityMember[]>(accountPageQuery, { email: clerkEmail, nom: clerkNom, nom_famille: clerkNom_famille })
-                .then((members) => setSanityMember(members.length > 0 ? members[0] : null))
-                .catch(console.error)
-                .finally(() => setLoading(false));
-        } else {
-            setSanityMember(null);
-            setLoading(false);
-        }
-    }, [user, isLoaded]);
+        memberQueryFetcher<AccountSanityMember[]>(accountPageQuery, {
+            email,
+            nom: firstName,
+            nom_famille: lastName,
+        })
+            .then((members) => {
+                if (active) setMemberResult({ email, member: members[0] ?? null });
+            })
+            .catch((error) => {
+                console.error(error);
+                if (active) setMemberResult({ email, member: null });
+            });
+
+        return () => {
+            active = false;
+        };
+    }, [email, isLoaded, user]);
+
+    const resultMatchesUser = memberResult?.email === email;
+    const sanityMember = user && resultMatchesUser ? memberResult.member : null;
+    const loading = !isLoaded || Boolean(user && !resultMatchesUser);
 
     return (
         <AuthContext.Provider
             value={{
-                clerkUser: user ? { id: user.id, email: user.primaryEmailAddress?.emailAddress ?? "", firstName: user.firstName ?? "", lastName: user.lastName ?? "" } : null,
+                clerkUser: user ? { id: user.id, email, firstName: user.firstName ?? "", lastName: user.lastName ?? "" } : null,
                 sanityMember,
                 loading,
             }}
@@ -61,7 +75,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
 };
 
-// Custom hook for easy access
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) throw new Error("useAuth must be used within an AuthProvider");

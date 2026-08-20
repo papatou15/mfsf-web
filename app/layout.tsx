@@ -39,7 +39,7 @@ export default async function RootLayout({
   return (
     <ClerkProvider localization={frFR}>
       <AuthProvider>
-        <html lang="en" className={nunito.variable}>
+        <html lang="fr" className={nunito.variable}>
           <body>
             <PageTransitionProvider logo={footerLogo}>
               <Header tabs={tabs} logo={logo} />

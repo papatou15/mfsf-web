@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"; // Required in Next.js for client components
 
 import { useAuth } from "../AuthContext";
@@ -16,16 +15,7 @@ export default function AccountPage() {
     if (!sanityMember && clerkUser) {
         return (
             <div>
-                <SignUpForm
-                    clerkEmail={clerkUser.email}
-                    clerkNom={clerkUser.firstName}
-                    clerkNom_famille={clerkUser.lastName}
-                    _type={"inscription"}
-                    _id={""}
-                    _createdAt={""}
-                    _updatedAt={""}
-                    _rev={""}
-                />
+                <SignUpForm />
             </div>
         );
     }

@@ -1,25 +1,74 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import { isValidSignature, SIGNATURE_HEADER_NAME } from "@sanity/webhook";
+import { NextResponse } from "next/server";
+import { Resend } from "resend";
+import { z } from "zod";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+export const runtime = "nodejs";
 
-export async function POST(req: NextRequest) {
+const contactFormSchema = z.object({
+  _type: z.literal("contactForm"),
+  email: z.string().trim().email().max(320),
+  subject: z.string().trim().min(1).max(200),
+  message: z.string().trim().min(1).max(10_000),
+});
+
+export async function POST(request: Request) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error("RESEND_API_KEY is not configured");
+    return NextResponse.json({ success: false }, { status: 503 });
+  }
+
+  const rawBody = await request.text();
+  const webhookSecret = process.env.SANITY_WEBHOOK_SECRET;
+  if (!webhookSecret) {
+    console.error("SANITY_WEBHOOK_SECRET is not configured");
+    return NextResponse.json({ success: false }, { status: 503 });
+  }
+
+  const signature = request.headers.get(SIGNATURE_HEADER_NAME) ?? "";
+  if (!(await isValidSignature(rawBody, signature, webhookSecret))) {
+    return NextResponse.json({ success: false }, { status: 401 });
+  }
+
+  let json: unknown;
   try {
-    const { name, email, message } = await req.json();
+    json = JSON.parse(rawBody);
+  } catch {
+    return NextResponse.json({ success: false }, { status: 400 });
+  }
 
-    await resend.emails.send({
-      from: 'noreply@maisonfamillestfrancois.com',  // Verified sender address
-      to: ['info@maisonfamillestfrancois.com', 'antoine.ridard@hotmail.com'], // Recipients
-      subject: 'Nouvelle question sur Sanity',
-      text: `Une nouvelle question a été posée:\n\nNom: ${name}\nCourriel: ${email}\nMessage: ${message}`,
+  const parsed = contactFormSchema.safeParse(json);
+  if (!parsed.success) {
+    return NextResponse.json({ success: false }, { status: 400 });
+  }
+
+  const { email, subject, message } = parsed.data;
+  const from = process.env.CONTACT_NOTIFICATION_FROM;
+  const recipients = (process.env.CONTACT_NOTIFICATION_TO ?? "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  if (!from || recipients.length === 0) {
+    console.error("Contact notification addresses are not configured");
+    return NextResponse.json({ success: false }, { status: 503 });
+  }
+
+  try {
+    const resend = new Resend(apiKey);
+    const { error } = await resend.emails.send({
+      from,
+      to: recipients,
+      replyTo: email,
+      subject: `Nouvelle question : ${subject}`,
+      text: `Une nouvelle question a ete envoyee depuis le formulaire de contact.\n\nSujet : ${subject}\nCourriel : ${email}\n\nMessage :\n${message}`,
     });
 
-    return NextResponse.json({ success: true }, { status: 200 });
+    if (error) throw new Error(error.message);
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error sending email:', error);
-    return NextResponse.json(
-      { success: false, error: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
-    );
+    console.error("Error sending contact notification:", error);
+    return NextResponse.json({ success: false }, { status: 502 });
   }
 }

@@ -19,8 +19,12 @@ const MFHero: React.FC<MFHeroProps> = ({ title, subTitle, image, layout, _type, 
                         {subTitle}
                     </Typography>
                 </div>
-                <div className="md:w-[50%] flex justify-center">
-                    <img src={sanityImgUrl(image).width(900).url()} alt="" className="my-4 md:my-0 border-y-[3px] md:rounded-3xl md:border-black md:border-[3px]" />
+                <div className="w-full md:w-[50%] flex justify-center px-4 md:px-0">
+                    <img
+                        src={sanityImgUrl(image).width(900).height(900).fit("crop").crop("focalpoint").auto("format").url()}
+                        alt=""
+                        className="my-4 md:my-0 w-full aspect-square object-cover border-y-[3px] md:rounded-3xl md:border-black md:border-[3px]"
+                    />
                 </div>
             </div>
         </div>

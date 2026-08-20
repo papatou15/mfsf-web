@@ -1,4 +1,4 @@
-﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { sanityClient } from "./sanityClient";
 
 export const headerLogoQuery = `
@@ -35,7 +35,16 @@ export const homePageQuery = `
           items[]{
             ...,
           },
-          "imageUrl": image.asset->url
+          "imageUrl": image.asset->url,
+          _type == "formButton" => {
+            "form": form->,
+            "activite": activite->{
+              _id,
+              nom,
+              dates[]{date, inscriptionOuverte, isVisible, openDate},
+              produitStripe->{_id, nom, description, actif}
+            }
+          }
         }
     }
 `
@@ -49,6 +58,15 @@ export const servicesPagesQuery = `
                 ...,
             },
             "imageUrl": image.asset->url,
+          _type == "formButton" => {
+            "form": form->,
+            "activite": activite->{
+              _id,
+              nom,
+              dates[]{date, inscriptionOuverte, isVisible, openDate},
+              produitStripe->{_id, nom, description, actif}
+            }
+          },
             "form": form->
         }
     }

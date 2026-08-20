@@ -39,3 +39,7 @@ next-env.d.ts
 .env*.local
 
 /IMAGES POUR LIVE
+
+# local diagnostics
+.next-dev*.log
+.codex-screenshots/

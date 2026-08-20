@@ -7,15 +7,21 @@ import formLabelTheme from '../../theme/FormLabel';
 
 interface RadioFieldProps extends RadioFieldSanity {
   _key: string;
+  onChange?: (value: string) => void;
 }
 
-export default function RadioField({ label, options, _key, _type }: RadioFieldProps) {
+export default function RadioField({ label, options, _key, _type, onChange }: RadioFieldProps) {
   const [selected, setSelected] = useState(options?.[0]);
+
+  const handleChange = (value: string) => {
+    setSelected(value);
+    onChange?.(value);
+  };
 
   return (
     <Fieldset key={_key} className={`${_type}`}>
       <Legend className={formLabelTheme({ size: 'small', margin: 'small'})}>{label}</Legend>
-      <RadioGroup name={label} value={selected} onChange={setSelected} className="space-y-2">
+      <RadioGroup name={label} value={selected} onChange={handleChange} className="space-y-2">
         {options?.map((option) => (
           <Field key={option} className="flex items-center gap-2">
             <Radio id={`${option} ${_key}`} value={option} className="w-5 h-5 rounded-full border bg-off-white data-[checked]:bg-primary-blue transition-all duration-150 " />

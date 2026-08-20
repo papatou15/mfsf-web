@@ -1,49 +1,51 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import Stripe from "stripe";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import "server-only"; 
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: "2025-01-27.acacia",
+import { getMembershipPrice, getStripeClient } from "@/app/lib/stripeServer";
+
+export const runtime = "nodejs";
+
+const paymentSchema = z.object({
+  idempotencyKey: z.string().uuid(),
 });
 
+export async function POST(request: Request) {
+  const { userId } = await auth();
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-const PaymentSchema = z.object({
-  amount: z.number().positive(),
-  currency: z.string().min(3).max(3),
-  paymentMethodId: z.string(),
-});
-
-export async function POST(req: Request) {
+  let json: unknown;
   try {
-    const body = await req.json();
-    const parsedBody = PaymentSchema.safeParse(body);
+    json = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+  }
 
-    if (!parsedBody.success) {
-      return NextResponse.json({ error: "Invalid input" }, { status: 400 });
-    }
+  const parsed = paymentSchema.safeParse(json);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+  }
 
-    const { amount, currency, paymentMethodId } = parsedBody.data;
+  try {
+    const stripe = getStripeClient();
+    const price = await getMembershipPrice();
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency: currency.toLowerCase(),
-      payment_method: paymentMethodId,
-      confirm: true,
-      automatic_payment_methods: {
-        enabled: true,
-        allow_redirects: "never"
-      }
+      amount: price.unit_amount!,
+      currency: price.currency,
+      automatic_payment_methods: { enabled: true },
+      metadata: {
+        clerkUserId: userId,
+        purpose: "membership",
+        stripePriceId: price.id,
+      },
+    }, {
+      idempotencyKey: `membership:${userId}:${parsed.data.idempotencyKey}`,
     });
 
-    return NextResponse.json({
-      success: true,
-      clientSecret: paymentIntent.client_secret,
-      transactionId: paymentIntent.id
-    });
-  } catch (error: any) {
-    console.error("Payment Error:", error.message);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ clientSecret: paymentIntent.client_secret });
+  } catch (error) {
+    console.error("PaymentIntent creation failed:", error);
+    return NextResponse.json({ error: "The payment could not be initialized." }, { status: 502 });
   }
 }

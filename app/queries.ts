@@ -145,7 +145,14 @@ export const accountPageQuery = `
     nom,
     nom_famille,
     email,
+    zip_code,
+    phone[]{_key, phone_type, phone_no, phone_notes},
+    member_form{
+      adhesionTime,
+      renewTime
+    },
     linkedActivities[]{
+      _key,
       date,
       activityId->{
         nom

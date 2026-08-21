@@ -44,6 +44,19 @@ export const homePageQuery = `
               dates[]{date, inscriptionOuverte, isVisible, openDate},
               produitStripe->{_id, nom, description, actif}
             }
+          },
+          _type == "activityBlock" => {
+            "activite": activite->{
+              _id,
+              nom,
+              publicCible,
+              description,
+              horaire,
+              cout,
+              informationsComplementaires,
+              image,
+              dates[]{date, inscriptionOuverte, isVisible, openDate}
+            }
           }
         }
     }
@@ -65,6 +78,19 @@ export const servicesPagesQuery = `
               nom,
               dates[]{date, inscriptionOuverte, isVisible, openDate},
               produitStripe->{_id, nom, description, actif}
+            }
+          },
+          _type == "activityBlock" => {
+            "activite": activite->{
+              _id,
+              nom,
+              publicCible,
+              description,
+              horaire,
+              cout,
+              informationsComplementaires,
+              image,
+              dates[]{date, inscriptionOuverte, isVisible, openDate}
             }
           },
             "form": form->

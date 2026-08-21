@@ -27,7 +27,7 @@ function formatDate(value?: string) {
 }
 
 export default function AccountPage() {
-    const { clerkUser, sanityMember, loading } = useAuth();
+    const { clerkUser, sanityMember, loading, memberLookupError } = useAuth();
 
     if (loading) {
         return (
@@ -38,6 +38,26 @@ export default function AccountPage() {
                     <div className="h-80 animate-pulse rounded-3xl bg-gray-200" />
                 </div>
                 <span className="sr-only">Chargement de votre espace membre…</span>
+            </main>
+        );
+    }
+
+    if (memberLookupError) {
+        return (
+            <main className="mx-auto min-h-[60vh] max-w-3xl px-6 py-16 text-center">
+                <div className="rounded-3xl border-2 border-black bg-custom-beige p-8 shadow-big-box-bg">
+                    <h1 className="text-3xl font-bold">Impossible de charger votre espace membre</h1>
+                    <p className="mt-4 text-lg text-gray-700">
+                        Vos renseignements n’ont pas pu être vérifiés pour le moment. Aucun nouveau formulaire n’a été créé.
+                    </p>
+                    <button
+                        type="button"
+                        onClick={() => window.location.reload()}
+                        className="mt-6 rounded-xl border-2 border-black bg-primary-blue px-5 py-3 font-bold text-white shadow-button"
+                    >
+                        Réessayer
+                    </button>
+                </div>
             </main>
         );
     }

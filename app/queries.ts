@@ -139,29 +139,6 @@ export const activitiesPageQuery = `
     }
 `
 
-export const accountPageQuery = `
-    *[_type == 'inscription' && !(_id in path("drafts.**")) && email == $email && (nom match $nom || nom_famille match $nom_famille)]{
-    _id,
-    nom,
-    nom_famille,
-    email,
-    zip_code,
-    phone[]{_key, phone_type, phone_no, phone_notes},
-    member_form{
-      adhesionTime,
-      renewTime
-    },
-    linkedActivities[]{
-      _key,
-      date,
-      activityId->{
-        nom
-      }
-    },
-    member_check
-}
-`
-
 export const menuQuery = `
     *[_type == "menu"]{
         pages[]->{
@@ -242,12 +219,6 @@ export async function queryFetcher(query: string) {
 
 export async function accountActivitiesFetcher(query: string, params: { memberId: string }) {
     const data = await sanityClient.fetch(query, params)
-
-    return data
-}
-
-export async function memberQueryFetcher<T>(query: string, params: { email: string, nom: string, nom_famille: string }) {
-    const data = await sanityClient.fetch<T>(query, params)
 
     return data
 }

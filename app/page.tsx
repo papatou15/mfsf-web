@@ -4,9 +4,8 @@ import Image from "next/image";
 import newsletterImage from './medias/homepage_newsletter_bg.jpg'
 import Typography from "./components/Typography/Typography";
 import typographyTheme from "./components/theme/Typography";
-import MFLink from "./components/MFLink";
-import inputTheme from "./components/theme/Input";
 import { SectionProps } from "./components/SectionRenderer";
+import NewsletterSignup from "./components/NewsletterSignup";
 
 
 interface Homepage {
@@ -32,8 +31,7 @@ export default async function Home() {
                 </div>
                 <div className="xl:row-start-1 xl:col-start-1 flex flex-col justify-start items-center xl:items-end xl:absolute xl:top-0 xl:right-0 xl:pt-32 xl:pr-20">
                     <Typography as={"h3"} className={typographyTheme({ size: 'h5'})}>{"Restez à l'affut de notre programmation!"}</Typography>
-                    <input type="email" placeholder="Votre adresse email" className={`${inputTheme()} bg-off-white w-[75%] xl:w-full my-16 xl:my-20`} />
-                    <MFLink _type="button" link="#" style={"coloredbg"}>{"S'inscrire"}</MFLink>
+                    <NewsletterSignup />
                 </div>
             </div>
         </div>

@@ -242,6 +242,11 @@ export default function FormRenderer({
 
             {beforeSubmit}
 
+            <p className="text-sm">
+                Les renseignements fournis servent à traiter votre adhésion ou votre inscription. Consultez
+                notre <a href="/confidentialite" className="underline">politique de confidentialité</a>.
+            </p>
+
             <MFButton
                 type="submit"
                 style="coloredbg"

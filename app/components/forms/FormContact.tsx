@@ -5,6 +5,7 @@ import inputTheme from "../theme/Input";
 import formLabelTheme from "../theme/FormLabel";
 import typographyTheme from "../theme/Typography";
 import MFButton from "../MFButton";
+import Link from "next/link";
 
 interface FormContactProps {
   success: boolean,
@@ -64,6 +65,11 @@ export default function FormContact({ success, setSuccess }: FormContactProps) {
 
         <label htmlFor="contact-question" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })} text-off-white`}>Question</label>
         <textarea id="contact-question" name="question" rows={10} required onChange={(e) => setQuestion(e.target.value)} className={inputTheme()} />
+
+        <p className="mt-4 text-sm text-off-white">
+          Les renseignements fournis servent uniquement à répondre à votre demande. Consultez notre{" "}
+          <Link href="/confidentialite" className="underline">politique de confidentialité</Link>.
+        </p>
 
         <MFButton style="smallbg" type="submit" disabled={loading} extraCSS="w-1/3 ml-auto rounded-xl shadow-text-none" _type={"button"}>{loading ? "En cours d'envoi" : "Soumettre"}</MFButton>
       </form>}

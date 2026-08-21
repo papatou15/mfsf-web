@@ -45,7 +45,15 @@ function TextSection({title, children}: {title: string; children?: string}) {
 export default function ActivityBlock({activite}: ActivityBlockProps) {
   if (!activite) return null
 
-  const visibleDates = activite.dates?.filter((entry) => entry.isVisible && entry.date) ?? []
+  const today = new Date()
+  today.setUTCHours(0, 0, 0, 0)
+  const visibleDates =
+    activite.dates?.filter(
+      (entry) =>
+        entry.isVisible &&
+        entry.date &&
+        new Date(`${entry.date}T00:00:00Z`).getTime() >= today.getTime(),
+    ) ?? []
   const imageUrl = activite.image?.asset
     ? sanityImgUrl(activite.image)
         .width(1000)

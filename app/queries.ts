@@ -99,6 +99,37 @@ export const servicesPagesQuery = `
 
 `
 
+export const activitiesPageQuery = `
+    *[_type == 'pageMaker' && title == "Activités"][0]{
+        title,
+        sections[]{
+            ...,
+            _type == "activityBlock" => {
+                "activite": activite->{
+                    _id,
+                    nom,
+                    publicCible,
+                    description,
+                    horaire,
+                    cout,
+                    informationsComplementaires,
+                    image,
+                    dates[]{date, inscriptionOuverte, isVisible, openDate}
+                }
+            },
+            _type == "formButton" => {
+                "form": form->,
+                "activite": activite->{
+                    _id,
+                    nom,
+                    dates[]{date, inscriptionOuverte, isVisible, openDate},
+                    produitStripe->{_id, nom, description, actif}
+                }
+            }
+        }
+    }
+`
+
 export const accountPageQuery = `
     *[_type == 'inscription' && !(_id in path("drafts.**")) && email == $email && (nom match $nom || nom_famille match $nom_famille)]{
     _id,
@@ -118,6 +149,7 @@ export const accountPageQuery = `
 export const menuQuery = `
     *[_type == "menu"]{
         pages[]->{
+            _id,
             title,
             slug{
                 current

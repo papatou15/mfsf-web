@@ -5,9 +5,10 @@ import Typography from "../components/Typography/Typography";
 import Map from "../components/GoogleMap";
 import FormContact from "../components/forms/FormContact";
 import { useState, useEffect } from "react";
-import { contactQuery, queryFetcher } from "../queries";
+import { contactPageQuery, contactQuery, queryFetcher } from "../queries";
 import type { Contact } from "@/sanity.types";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import SectionRenderer, { SectionProps } from "../components/SectionRenderer";
 
 export default function Contact() {
     const markers = [
@@ -15,12 +16,17 @@ export default function Contact() {
     ];
 
     const [contact, setContact] = useState<Contact | null>(null);
+    const [sections, setSections] = useState<SectionProps[]>([]);
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         async function fetchContactInfo() {
-            const contactData: Contact = await queryFetcher(contactQuery);
+            const [contactData, pageData]: [Contact, { sections?: SectionProps[] } | null] = await Promise.all([
+                queryFetcher(contactQuery),
+                queryFetcher(contactPageQuery),
+            ]);
             setContact(contactData);
+            setSections(pageData?.sections ?? []);
         }
         fetchContactInfo();
     }, []);
@@ -66,6 +72,11 @@ export default function Contact() {
                     </div>
                 </div>
 
+            </div>
+            <div className="mx-10 xl:mx-14 mt-12">
+                {sections.map((section) => (
+                    <SectionRenderer key={section._key} section={section} {...section} />
+                ))}
             </div>
         </div>
     )

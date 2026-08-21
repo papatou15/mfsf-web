@@ -39,7 +39,7 @@ export default function FormContact({ success, setSuccess }: FormContactProps) {
       setSuccess(true);
     } catch (error) {
       console.error("Error submitting contact form:", error);
-      alert("Une erreur est survenue. R‚essaie un peu plus tard.");
+      alert("Une erreur est survenue. Réessaie un peu plus tard.");
     } finally {
       setLoading(false);
     }
@@ -56,14 +56,14 @@ export default function FormContact({ success, setSuccess }: FormContactProps) {
           className="hidden"
           aria-hidden="true"
         />
-        <label htmlFor="name" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })} text-off-white`}>Ton courriel</label>
-        <input type="email" id="Courriel" name="email" required onChange={(e) => setEmail(e.target.value)} className={inputTheme()} />
+        <label htmlFor="contact-email" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })} text-off-white`}>Ton courriel</label>
+        <input type="email" id="contact-email" name="email" required onChange={(e) => setEmail(e.target.value)} className={inputTheme()} />
 
-        <label htmlFor="email" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })} text-off-white`}>Sujet</label>
-        <input type="text" id="Sujet" name="subject" required onChange={(e) => setSubject(e.target.value)} className={inputTheme()} />
+        <label htmlFor="contact-subject" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })} text-off-white`}>Sujet</label>
+        <input type="text" id="contact-subject" name="subject" required onChange={(e) => setSubject(e.target.value)} className={inputTheme()} />
 
-        <label htmlFor="question" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })} text-off-white`}>Question</label>
-        <textarea id="Question" name="question" rows={10} required onChange={(e) => setQuestion(e.target.value)} className={inputTheme()} />
+        <label htmlFor="contact-question" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })} text-off-white`}>Question</label>
+        <textarea id="contact-question" name="question" rows={10} required onChange={(e) => setQuestion(e.target.value)} className={inputTheme()} />
 
         <MFButton style="smallbg" type="submit" disabled={loading} extraCSS="w-1/3 ml-auto rounded-xl shadow-text-none" _type={"button"}>{loading ? "En cours d'envoi" : "Soumettre"}</MFButton>
       </form>}

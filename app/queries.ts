@@ -20,6 +20,15 @@ export const contactQuery = `
         email
     }`
 
+export const contactPageQuery = `
+    *[_type == "pageMaker" && title == "Contact"][0]{
+        sections[]{
+            ...,
+            items[]{...}
+        }
+    }
+`
+
 export const tabsQuery = `
     *[_type == "pageMaker"]{
         _id,
@@ -197,7 +206,9 @@ export const aboutPageQuery = `
                     altText
                 }
             },
-            missionText
+            missionText,
+            aboutText,
+            memberBenefits
         },
         _type == "temoignages" => {
             temoignages[0...3]

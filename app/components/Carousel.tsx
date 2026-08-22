@@ -55,7 +55,6 @@ const Carousel = ({ images, title, _type }: CarouselProps) => {
                         640: { slidesPerView: 2 }, // Extra small screens
                         860: { slidesPerView: 3 }, // Small screens
                         1100: { slidesPerView: 4 }, // Medium screens
-                        1400: { slidesPerView: 5 }, // Large screens
                     }}
                     onSwiper={setSwiperInstance} // Store Swiper instance
                     className="carousel"
@@ -63,11 +62,11 @@ const Carousel = ({ images, title, _type }: CarouselProps) => {
                     {images?.map((image) => {
                         const imageWithAlt = image as typeof image & {alt?: string};
                         const logo = (
-                            <div className="flex aspect-video w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-gray-200 bg-white p-4">
+                            <div className="flex aspect-[3/2] w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-gray-200 bg-white p-1 sm:p-2">
                                 <img
                                     src={sanityImgUrl(image?.carouselImage).auto("format").url()}
                                     alt={imageWithAlt.alt || "Logo d’un partenaire"}
-                                    className="h-auto w-auto max-h-full max-w-full object-contain"
+                                    className="h-full w-full object-contain"
                                 />
                             </div>
                         );

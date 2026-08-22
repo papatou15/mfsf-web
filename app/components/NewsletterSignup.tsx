@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import {AnimatePresence, motion, useReducedMotion} from "motion/react";
+import {FaCheckCircle} from "react-icons/fa";
 
 import MFButton from "./MFButton";
 import inputTheme from "./theme/Input";
@@ -10,6 +12,7 @@ type Status = "idle" | "submitting" | "success" | "error";
 
 export default function NewsletterSignup() {
   const [status, setStatus] = useState<Status>("idle");
+  const reduceMotion = useReducedMotion();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -38,43 +41,83 @@ export default function NewsletterSignup() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-xl flex-col items-center gap-5" noValidate>
-      <input
-        type="text"
-        name="website"
-        tabIndex={-1}
-        autoComplete="off"
-        className="hidden"
-        aria-hidden="true"
-      />
-      <label htmlFor="newsletter-email" className="sr-only">Votre adresse courriel</label>
-      <input
-        id="newsletter-email"
-        name="email"
-        type="email"
-        required
-        autoComplete="email"
-        placeholder="Votre adresse courriel"
-        className={`${inputTheme()} bg-off-white w-[75%] xl:w-full mt-10`}
-      />
-      <label className="flex max-w-lg items-start gap-3 text-sm">
-        <input name="consent" type="checkbox" required className="mt-1 h-5 w-5 shrink-0" />
-        <span>
-          J’accepte de recevoir l’infolettre de la Maison de la Famille de St-François. Je peux retirer
-          mon consentement en tout temps. Consultez notre{" "}
-          <Link href="/confidentialite" className="underline">politique de confidentialité</Link>.
-        </span>
-      </label>
-      <MFButton
-        _type="button"
-        type="submit"
-        style="coloredbg"
-        disabled={status === "submitting"}
-      >
-        {status === "submitting" ? "Inscription en cours…" : "S’inscrire"}
-      </MFButton>
-      {status === "success" ? <p role="status">Votre inscription à l’infolettre est confirmée.</p> : null}
-      {status === "error" ? <p role="alert">L’inscription a échoué. Réessayez un peu plus tard.</p> : null}
+    <form onSubmit={handleSubmit} className="w-full max-w-xl overflow-visible [perspective:1000px]" noValidate>
+      <AnimatePresence mode="wait" initial={false}>
+        {status === "success" ? (
+          <motion.div
+            key="newsletter-success"
+            role="status"
+            aria-live="polite"
+            initial={reduceMotion
+              ? {opacity: 0}
+              : {opacity: 0, rotate: -360, scale: 0, skewX: 24, filter: "blur(14px)"}}
+            animate={{opacity: 1, rotate: 0, scale: 1, skewX: 0, filter: "blur(0px)"}}
+            transition={reduceMotion
+              ? {duration: 0.2}
+              : {duration: 0.9, ease: [0.16, 1, 0.3, 1]}}
+            className="mx-auto flex min-h-72 w-[90%] flex-col items-center justify-center rounded-3xl border-2 border-black bg-white/90 p-8 text-center shadow-big-box-bg"
+          >
+            <FaCheckCircle aria-hidden="true" className="mb-5 text-6xl text-primary-green" />
+            <h4 className="text-4xl font-bold">Merci!</h4>
+            <p className="mt-3 text-lg">Votre inscription à l’infolettre est confirmée.</p>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="newsletter-form"
+            initial={{opacity: 1, rotate: 0, scale: 1, skewX: 0, filter: "blur(0px)"}}
+            animate={{opacity: 1, rotate: 0, scale: 1, skewX: 0, filter: "blur(0px)"}}
+            exit={reduceMotion
+              ? {opacity: 0}
+              : {
+                  opacity: [1, 1, 0],
+                  rotate: [0, 160, 540],
+                  scale: [1, 0.55, 0],
+                  skewX: [0, 10, -28],
+                  filter: ["blur(0px)", "blur(3px)", "blur(14px)"],
+                }}
+            transition={reduceMotion
+              ? {duration: 0.2}
+              : {duration: 0.8, times: [0, 0.55, 1], ease: "easeInOut"}}
+            className="flex w-full origin-center flex-col items-center gap-5"
+          >
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              className="hidden"
+              aria-hidden="true"
+            />
+            <label htmlFor="newsletter-email" className="sr-only">Votre adresse courriel</label>
+            <input
+              id="newsletter-email"
+              name="email"
+              type="email"
+              required
+              autoComplete="email"
+              placeholder="Votre adresse courriel"
+              className={`${inputTheme()} bg-off-white w-[75%] xl:w-full mt-10`}
+            />
+            <label className="flex max-w-lg items-start gap-3 text-sm">
+              <input name="consent" type="checkbox" required className="mt-1 h-5 w-5 shrink-0" />
+              <span>
+                J’accepte de recevoir l’infolettre de la Maison de la Famille de St-François. Je peux retirer
+                mon consentement en tout temps. Consultez notre{" "}
+                <Link href="/confidentialite" className="underline">politique de confidentialité</Link>.
+              </span>
+            </label>
+            <MFButton
+              _type="button"
+              type="submit"
+              style="coloredbg"
+              disabled={status === "submitting"}
+            >
+              {status === "submitting" ? "Inscription en cours…" : "S’inscrire"}
+            </MFButton>
+            {status === "error" ? <p role="alert">L’inscription a échoué. Réessayez un peu plus tard.</p> : null}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </form>
   );
 }

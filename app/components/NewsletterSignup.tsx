@@ -52,32 +52,28 @@ export default function NewsletterSignup() {
               ? {opacity: 0}
               : {
                   opacity: 0,
-                  rotate: -720,
-                  rotateX: 120,
-                  rotateY: -140,
-                  scaleX: 0.05,
-                  scaleY: 1.8,
-                  skewX: -65,
-                  skewY: 40,
-                  filter: "blur(18px)",
+                  x: -220,
+                  y: 40,
+                  rotate: -8,
+                  scaleX: 1.25,
+                  scaleY: 0.92,
+                  filter: "blur(6px)",
                 }}
             animate={reduceMotion
               ? {opacity: 1}
               : {
-                  opacity: [0, 0.85, 1, 1],
-                  rotate: [-720, -150, 20, 0],
-                  rotateX: [120, -40, 14, 0],
-                  rotateY: [-140, 50, -12, 0],
-                  scaleX: [0.05, 1.45, 0.84, 1],
-                  scaleY: [1.8, 0.52, 1.18, 1],
-                  skewX: [-65, 38, -10, 0],
-                  skewY: [40, -24, 7, 0],
-                  filter: ["blur(18px)", "blur(5px)", "blur(1px)", "blur(0px)"],
+                  opacity: [0, 1, 1, 1],
+                  x: [-220, 18, -8, 0],
+                  y: [40, -6, 2, 0],
+                  rotate: [-8, 2, -1, 0],
+                  scaleX: [1.25, 0.96, 1.02, 1],
+                  scaleY: [0.92, 1.03, 0.99, 1],
+                  filter: ["blur(6px)", "blur(0px)", "blur(0px)", "blur(0px)"],
                 }}
             transition={reduceMotion
               ? {duration: 0.2}
-              : {duration: 1.25, times: [0, 0.55, 0.82, 1], ease: [0.16, 1, 0.3, 1]}}
-            className="mx-auto flex min-h-72 w-[90%] origin-center flex-col items-center justify-center rounded-3xl border-2 border-black bg-white/90 p-8 text-center shadow-big-box-bg [backface-visibility:hidden] [transform-style:preserve-3d]"
+              : {duration: 0.9, times: [0, 0.68, 0.86, 1], ease: [0.16, 1, 0.3, 1]}}
+            className="mx-auto flex min-h-72 w-[90%] origin-center flex-col items-center justify-center rounded-3xl border-2 border-black bg-white/90 p-8 text-center shadow-big-box-bg"
           >
             <FaCheckCircle aria-hidden="true" className="mb-5 text-6xl text-primary-green" />
             <h4 className="text-4xl font-bold">Merci!</h4>
@@ -91,22 +87,18 @@ export default function NewsletterSignup() {
             exit={reduceMotion
               ? {opacity: 0}
               : {
-                  opacity: [1, 1, 0.75, 0],
-                  rotate: [0, 170, 480, 900],
-                  rotateX: [0, 42, -85, 130],
-                  rotateY: [0, -68, 105, -155],
-                  scaleX: [1, 1.42, 0.2, 0],
-                  scaleY: [1, 0.5, 1.55, 0],
-                  skewX: [0, 30, -48, 72],
-                  skewY: [0, -18, 34, -52],
-                  x: [0, 20, -28, 0],
-                  y: [0, -14, 24, 0],
-                  filter: ["blur(0px)", "blur(3px)", "blur(9px)", "blur(20px)"],
+                  opacity: [1, 1, 0.9, 0.45, 0],
+                  x: [0, 105, 165, 70, -170],
+                  y: [0, -8, 60, 155, 95],
+                  rotate: [0, 2, 12, 28, 42],
+                  scaleX: [1, 1.28, 1.14, 0.96, 0.86],
+                  scaleY: [1, 0.92, 0.98, 1.02, 0.94],
+                  filter: ["blur(0px)", "blur(0px)", "blur(1px)", "blur(3px)", "blur(7px)"],
                 }}
             transition={reduceMotion
               ? {duration: 0.2}
-              : {duration: 1.05, times: [0, 0.38, 0.72, 1], ease: "easeInOut"}}
-            className="flex w-full origin-center flex-col items-center gap-5 [backface-visibility:hidden] [transform-style:preserve-3d]"
+              : {duration: 1.2, times: [0, 0.24, 0.48, 0.76, 1], ease: [0.45, 0, 0.25, 1]}}
+            className="flex w-full origin-center flex-col items-center gap-5"
           >
             <input
               type="text"

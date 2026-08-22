@@ -2,6 +2,7 @@ import {NextResponse} from "next/server";
 import {z} from "zod";
 
 import {getSanityServerClient} from "@/app/lib/sanityServerClient";
+import {findMemberForNewsletter, upsertNewsletterSubscriber} from "@/app/lib/newsletterSubscriber";
 
 export const runtime = "nodejs";
 
@@ -113,8 +114,21 @@ export async function POST(request: Request) {
 
   try {
     const resendContactId = await subscribeInResend(parsed.data.email, apiKey, topicId);
+    const memberId = await findMemberForNewsletter(sanity, parsed.data.email);
+    const {subscriberId} = await upsertNewsletterSubscriber(sanity, {
+      email: parsed.data.email,
+      status: "subscribed",
+      syncedAt: consentAt,
+      memberId,
+      resendContactId,
+      consentAt,
+      consentSource: "Formulaire de la page d’accueil",
+      privacyPolicyVersion: POLICY_VERSION,
+    });
     await sanity.patch(record._id).set({
       status: "subscribed",
+      subscriber: {_type: "reference", _ref: subscriberId},
+      ...(memberId ? {member: {_type: "reference", _ref: memberId}} : {}),
       ...(resendContactId ? {resendContactId} : {}),
     }).commit();
     return NextResponse.json({success: true});

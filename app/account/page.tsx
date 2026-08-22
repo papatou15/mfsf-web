@@ -4,7 +4,7 @@ import { useAuth } from "../AuthContext";
 import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 import SignUpForm from "../components/forms/SignUpForm";
 import Link from "next/link";
-import { FaCalendarAlt, FaEnvelope, FaMapMarkerAlt, FaPhone, FaRegUser } from "react-icons/fa";
+import { FaCalendarAlt, FaEnvelope, FaMapMarkerAlt, FaNewspaper, FaPhone, FaRegUser } from "react-icons/fa";
 
 const phoneTypeLabels = {
     home: "Maison",
@@ -157,6 +157,31 @@ export default function AccountPage() {
                                         </div>
                                     ) : null}
                                 </dl>
+                            </section>
+
+                            <section className="rounded-3xl border-2 border-black bg-white p-6 shadow-big-box-bg">
+                                <div className="flex items-start gap-4">
+                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary-blue/10 text-primary-blue">
+                                        <FaNewspaper aria-hidden="true" />
+                                    </div>
+                                    <div>
+                                        <h2 className="text-xl font-bold">Mon infolettre</h2>
+                                        <p className="mt-1 text-gray-700">
+                                            {sanityMember?.newsletter?.status === "subscribed"
+                                                ? "Vous êtes abonné à notre infolettre."
+                                                : sanityMember?.newsletter
+                                                    ? "Vous n’êtes pas abonné à notre infolettre."
+                                                    : "Aucun consentement à l’infolettre n’est enregistré."}
+                                        </p>
+                                        <span className={`mt-3 inline-flex rounded-full px-3 py-1 text-sm font-bold ${
+                                            sanityMember?.newsletter?.status === "subscribed"
+                                                ? "bg-primary-green/15 text-primary-green"
+                                                : "bg-gray-100 text-gray-700"
+                                        }`}>
+                                            {sanityMember?.newsletter?.status === "subscribed" ? "Abonné" : "Non abonné"}
+                                        </span>
+                                    </div>
+                                </div>
                             </section>
                         </aside>
 

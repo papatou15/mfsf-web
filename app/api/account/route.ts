@@ -27,6 +27,10 @@ const accountMemberQuery = `
       date,
       activityId->{nom}
     },
+    "newsletter": *[
+      _type == "newsletterSubscriber" &&
+      (member._ref == ^._id || lower(email) == lower(^.email))
+    ] | order(lastSyncedAt desc)[0]{status, consentAt, unsubscribedAt},
     member_check,
     "matchedByEmail": lower(email) in $emails
   }

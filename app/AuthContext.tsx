@@ -10,8 +10,15 @@ type AccountLinkedActivity = {
     activityId?: Pick<Activity, "nom"> | null;
 };
 
+type AccountNewsletter = {
+    status?: "subscribed" | "unsubscribed" | "deleted" | "error";
+    consentAt?: string;
+    unsubscribedAt?: string;
+};
+
 export type AccountSanityMember = Omit<Inscription, "linkedActivities"> & {
     linkedActivities?: AccountLinkedActivity[];
+    newsletter?: AccountNewsletter | null;
 };
 
 interface AuthContextType {

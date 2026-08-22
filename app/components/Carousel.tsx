@@ -11,7 +11,6 @@ import "swiper/css/navigation";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Carousel as CarouselType } from "@/sanity.types";
 import sanityImgUrl from "../sanityImageBuilder";
-import MFLink from "./MFLink";
 import Typography from "./Typography/Typography";
 import typographyTheme from "./theme/Typography";
 import MFButton from "./MFButton";
@@ -25,7 +24,7 @@ const Carousel = ({ images, title, _type }: CarouselProps) => {
     const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
 
     return (
-        <div className={`${_type} w-full mx-24 relative`}>
+        <div className={`${_type} relative mx-auto w-full max-w-7xl px-14 sm:px-16`}>
             {title && (
                 <Typography
                     as="h2"
@@ -49,34 +48,40 @@ const Carousel = ({ images, title, _type }: CarouselProps) => {
                 {/* Swiper Carousel */}
                 <Swiper
                     modules={[Navigation, Autoplay]}
-                    spaceBetween={20}
+                    spaceBetween={24}
                     slidesPerView={1} // Default
                     autoplay={{ delay: 10000, disableOnInteraction: false }}
                     breakpoints={{
                         640: { slidesPerView: 2 }, // Extra small screens
                         860: { slidesPerView: 3 }, // Small screens
-                        1300: { slidesPerView: 5 }, // Medium screens
-                        1600: { slidesPerView: 7 }, // Large screens
+                        1100: { slidesPerView: 4 }, // Medium screens
+                        1400: { slidesPerView: 5 }, // Large screens
                     }}
                     onSwiper={setSwiperInstance} // Store Swiper instance
                     className="carousel"
                 >
-                    {images?.map((image) => (
-                        <SwiperSlide key={image?._key} >
-                            <MFLink
-                                link={image?.link ?? "#"}
-                                style="smallcolorless"
-                                extraCSS="h-40 w-40 overflow-hidden bg-white rounded-2xl flex items-center justify-center"
-                                _type="button"
-                            >
+                    {images?.map((image) => {
+                        const imageWithAlt = image as typeof image & {alt?: string};
+                        const logo = (
+                            <div className="flex aspect-video w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-gray-200 bg-white p-4">
                                 <img
-                                    src={sanityImgUrl(image?.carouselImage).url()}
-                                    alt="Carousel Image"
-                                    className="object-fill w-full h-full rounded-2xl"
+                                    src={sanityImgUrl(image?.carouselImage).auto("format").url()}
+                                    alt={imageWithAlt.alt || "Logo d’un partenaire"}
+                                    className="h-auto w-auto max-h-full max-w-full object-contain"
                                 />
-                            </MFLink>
-                        </SwiperSlide>
-                    ))}
+                            </div>
+                        );
+
+                        return (
+                            <SwiperSlide key={image?._key}>
+                                {image?.link ? (
+                                    <a href={image.link} target="_blank" rel="noreferrer" aria-label={imageWithAlt.alt || "Visiter le site du partenaire"}>
+                                        {logo}
+                                    </a>
+                                ) : logo}
+                            </SwiperSlide>
+                        );
+                    })}
                 </Swiper>
 
                 <MFButton

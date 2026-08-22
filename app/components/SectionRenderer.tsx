@@ -6,7 +6,7 @@ import typographyTheme from './theme/Typography';
 
 // Define the type for the section prop
 export interface SectionProps {
-  _type: 'heroSection' | 'card' | 'carousel' | 'stackBlock' | 'textOnPicture' | 'hero' | 'button' | 'formButton' | 'activityBlock' | 'columnBlock' | 'largeTitle' | 'mediumTitle' | 'smallTitle' | 'textInput' | 'image' | 'stringText';
+  _type: 'heroSection' | 'card' | 'carousel' | 'stackBlock' | 'textOnPicture' | 'hero' | 'button' | 'formButton' | 'activityBlock' | 'contactBlock' | 'columnBlock' | 'largeTitle' | 'mediumTitle' | 'smallTitle' | 'textInput' | 'image' | 'stringText';
   title?: string;
   text?: string;
   _key?: string
@@ -29,6 +29,7 @@ const components: { [key in SectionProps['_type']]: any } = {
   image: null,
   formButton: dynamic(() => import('./FormModalButton')),
   activityBlock: dynamic(() => import('./ActivityBlock')),
+  contactBlock: dynamic(() => import('./HomeContactBlock')),
   stringText: dynamic(() => import('./Typography/Typography'))
 };
 

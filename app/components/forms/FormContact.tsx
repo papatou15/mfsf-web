@@ -9,14 +9,18 @@ import Link from "next/link";
 
 interface FormContactProps {
   success: boolean,
-  setSuccess: (loading: boolean) => void
+  setSuccess: (loading: boolean) => void,
+  mode?: "default" | "collaboration"
 }
 
-export default function FormContact({ success, setSuccess }: FormContactProps) {
+const COLLABORATION_SUBJECT = "Demande de collaboration";
+
+export default function FormContact({ success, setSuccess, mode = "default" }: FormContactProps) {
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [question, setQuestion] = useState("")
   const [loading, setLoading] = useState(false);
+  const submittedSubject = mode === "collaboration" ? COLLABORATION_SUBJECT : subject;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,7 +34,7 @@ export default function FormContact({ success, setSuccess }: FormContactProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
-          subject,
+          subject: submittedSubject,
           message: question,
           website: String(formData.get("website") ?? ""),
         }),
@@ -61,9 +65,20 @@ export default function FormContact({ success, setSuccess }: FormContactProps) {
         <input type="email" id="contact-email" name="email" required onChange={(e) => setEmail(e.target.value)} className={inputTheme()} />
 
         <label htmlFor="contact-subject" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })} text-off-white`}>Sujet</label>
-        <input type="text" id="contact-subject" name="subject" required onChange={(e) => setSubject(e.target.value)} className={inputTheme()} />
+        <input
+          type="text"
+          id="contact-subject"
+          name="subject"
+          required
+          value={submittedSubject}
+          readOnly={mode === "collaboration"}
+          onChange={(e) => setSubject(e.target.value)}
+          className={inputTheme()}
+        />
 
-        <label htmlFor="contact-question" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })} text-off-white`}>Question</label>
+        <label htmlFor="contact-question" className={`${formLabelTheme()} ${typographyTheme({ size: 'paragraph' })} text-off-white`}>
+          {mode === "collaboration" ? "Parlez-nous de votre proposition" : "Question"}
+        </label>
         <textarea id="contact-question" name="question" rows={10} required onChange={(e) => setQuestion(e.target.value)} className={inputTheme()} />
 
         <p className="mt-4 text-sm text-off-white">

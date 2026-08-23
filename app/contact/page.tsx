@@ -4,13 +4,16 @@ import typographyTheme from "../components/theme/Typography";
 import Typography from "../components/Typography/Typography";
 import Map from "../components/GoogleMap";
 import FormContact from "../components/forms/FormContact";
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { contactPageQuery, contactQuery, queryFetcher } from "../queries";
 import type { Contact } from "@/sanity.types";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import SectionRenderer, { SectionProps } from "../components/SectionRenderer";
 
-export default function Contact() {
+function ContactContent() {
+    const searchParams = useSearchParams();
+    const isCollaboration = searchParams.get("motif") === "collaboration";
     const markers = [
         { lat: 45.66297421713217, lng: -73.57978371107636 },
     ];
@@ -63,12 +66,16 @@ export default function Contact() {
                         <Map apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} markers={markers} />
                     </div>
                 </div>
-                <div className="form-section-wrapper w-full xl:w-1/2 xl:ml-auto px-10">
+                <div id="formulaire-contact" className="form-section-wrapper w-full scroll-mt-28 xl:w-1/2 xl:ml-auto px-10">
                     <div className="w-full flex flex-col bg-primary-orange px-7 my-7 rounded-3xl shadow-text-sm shadow-big-box-bg">
                         <div className="m-auto">
-                            <Typography as="h3" className={`text-off-white ${typographyTheme({ size: 'h5' })}`}>{success ? "Merci de votre question!" : "Vous avez une question?"}</Typography>
+                            <Typography as="h3" className={`text-off-white ${typographyTheme({ size: 'h5' })}`}>
+                                {success
+                                    ? isCollaboration ? "Merci pour votre intérêt!" : "Merci de votre question!"
+                                    : isCollaboration ? "Vous souhaitez collaborer avec nous?" : "Vous avez une question?"}
+                            </Typography>
                         </div>
-                        <FormContact success={success} setSuccess={setSuccess} />
+                        <FormContact success={success} setSuccess={setSuccess} mode={isCollaboration ? "collaboration" : "default"} />
                     </div>
                 </div>
 
@@ -80,4 +87,12 @@ export default function Contact() {
             </div>
         </div>
     )
+}
+
+export default function Contact() {
+    return (
+        <Suspense fallback={null}>
+            <ContactContent />
+        </Suspense>
+    );
 }

@@ -25,7 +25,7 @@ export const EmployeeCard = ({ employee }: EmployeeCardProps) => {
 
     return (
         <motion.div
-            className={`w-[800px] sm:h-80 flex flex-col sm:flex-row mt-12 bg-primary-orange rounded-2xl shadow-big-box-bg mx-4 overflow-hidden shadow-text-sm text-off-white hover:cursor-pointer ${isClicked ? "justify-center items-center" : ""}`}
+            className={`mt-8 flex w-full max-w-[800px] flex-col overflow-hidden rounded-2xl bg-primary-orange text-off-white shadow-big-box-bg shadow-text-sm hover:cursor-pointer sm:min-h-80 sm:flex-row sm:mt-12 ${isClicked ? "justify-center items-center" : ""}`}
             onClick={handleCardClick}
             whileHover={{
                 scale: 0.95, // Shrinks the card slightly
@@ -38,31 +38,31 @@ export const EmployeeCard = ({ employee }: EmployeeCardProps) => {
         >
             {!isClicked ? (
                 <>
-                    <div className="flex flex-col p-8 h-full">
+                    <div className="flex min-w-0 flex-1 flex-col p-5 sm:p-8">
                         <Typography as={"h5"} className={`my-4 ${typographyTheme({ size: 'h4' })}`}>
                             {employee.name}
                         </Typography>
                         <Typography as="p" className={` ${typographyTheme({ size: 'h6' })}`}>
                             {employee.role}
                         </Typography>
-                        <div className="flex flex-row items-center mt-10">
-                            <FaPhone className="mr-2" />
+                        <div className="mt-8 flex flex-row items-center sm:mt-10">
+                            <FaPhone className="mr-2 shrink-0" />
                             <Typography as="p" className={` ${typographyTheme({ size: 'paragraph' })}`}>
                                 {employee.contacts?.phone}
                             </Typography>
                         </div>
-                        <div className="flex flex-row items-center">
-                            <FaEnvelope className="mr-2" />
-                            <Typography as="p" className={` ${typographyTheme({ size: 'paragraph' })}`}>
+                        <div className="flex min-w-0 flex-row items-center">
+                            <FaEnvelope className="mr-2 shrink-0" />
+                            <Typography as="p" className={`min-w-0 break-all ${typographyTheme({ size: 'paragraph' })}`}>
                                 {employee.contacts?.email}
                             </Typography>
                         </div>
                     </div>
                     {/* // @ts-expect-error Ignore missing alt field */}
-                    <img src={sanityImgUrl(employee.picture).crop("focalpoint").fit("crop").size(200, 225).auto("format").url()} alt={(employee.picture as any)?.asset?.altText || "Alt text"} className="sm:w-2/5 sm:ml-auto h-full shadow-big-box-bg" />
+                    <img src={sanityImgUrl(employee.picture).crop("focalpoint").fit("crop").size(600, 450).auto("format").url()} alt={(employee.picture as any)?.asset?.altText || "Portrait du membre de l’équipe"} className="aspect-[4/3] w-full object-cover shadow-big-box-bg sm:ml-auto sm:h-auto sm:w-2/5" />
                 </>
             ) : (
-                <Typography as="p" className={`text-center px-12 ${typographyTheme({ size: 'paragraph' })}`}>
+                <Typography as="p" className={`px-5 py-8 text-center sm:px-12 ${typographyTheme({ size: 'paragraph' })}`}>
                     {employee.description || "No description available."}
                 </Typography>
             )}

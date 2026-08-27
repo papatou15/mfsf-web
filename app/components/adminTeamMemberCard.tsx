@@ -14,7 +14,7 @@ export const AdminTeamMemberCard = ({ adminTeamMember }: AdminTeamMemberCardProp
     const borderColor = borderColors[borderIndex];
 
     return (
-        <div className={`w-[480px] h-56 m-10 bg-custom-beige flex flex-col items-center justify-center gap-3 text-center rounded-2xl shadow-big-box-bg p-8 border-4 ${borderColor}`}>
+        <div className={`my-5 flex min-h-56 w-full max-w-[480px] flex-col items-center justify-center gap-3 rounded-2xl border-4 bg-custom-beige p-6 text-center shadow-big-box-bg sm:m-8 sm:p-8 ${borderColor}`}>
             <Typography as={"h5"} className={`w-full text-center shadow-text-sm ${typographyTheme({ size: 'h3' })}`}>
                 {adminTeamMember.name}
             </Typography>

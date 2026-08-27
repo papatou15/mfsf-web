@@ -32,14 +32,14 @@ export default function Modal({ open, onClose, title, image, modalContent, formC
     return (
         <div className={`modal w-full h-full overflow-y-scroll fixed inset-0 z-50 ${open ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300 ease-in-out ${open ? 'pointer-events-auto' : 'pointer-events-none'}`}>
             <div className="modal-overlay fixed inset-0 bg-black opacity-50" onClick={onClose}></div>
-            <div className={`modal-container w-full lg:w-4/5 relative bg-custom-beige max-w-6xl mx-auto my-20 rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 ease-in-out ${open ? 'translate-y-0' : 'translate-y-full'}`} onClick={(event) => event.stopPropagation()}>
-                <div className="relative h-64 w-full overflow-hidden">
-                    {image && <img src={sanityImgUrl(image).height(400).url()} alt={title} className="w-full filter blur-sm brightness-90" />}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <Typography as="h2" className={`${typographyTheme({ size: "h2" })} text-white shadow-text-sm`}>{title}</Typography>
+            <div className={`modal-container relative mx-auto my-4 w-[calc(100%_-_2rem)] max-w-6xl overflow-hidden rounded-lg bg-custom-beige shadow-lg transition-transform duration-300 ease-in-out sm:my-10 lg:my-20 lg:w-4/5 ${open ? 'translate-y-0' : 'translate-y-full'}`} onClick={(event) => event.stopPropagation()}>
+                <div className="relative h-48 w-full overflow-hidden sm:h-64">
+                    {image && <img src={sanityImgUrl(image).height(400).url()} alt={title} className="h-full w-full object-cover filter blur-sm brightness-90" />}
+                    <div className="absolute inset-0 flex items-center justify-center px-4">
+                        <Typography as="h2" className={`${typographyTheme({ size: "h2" })} text-center text-white shadow-text-sm`}>{title}</Typography>
                     </div>
                 </div>
-                <div className="modal-content w-full *:!px-20 *:!items-start">
+                <div className="modal-content w-full [&>*]:!items-start [&>*]:!px-4 sm:[&>*]:!px-10 lg:[&>*]:!px-20">
                     {type === "regular" && modalContent && <SectionRenderer section={modalContent} />}
                     {type === "form" && formContent && (
                         <FormRenderer sections={formContent} formRef={formRef} activite={activite} />

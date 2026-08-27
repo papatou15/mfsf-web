@@ -38,7 +38,7 @@ export default function NewsletterSignup() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-xl flex-col items-center gap-5" noValidate>
+    <form onSubmit={handleSubmit} className="flex w-full max-w-xl flex-col items-center gap-5 px-4 sm:px-6 xl:px-0" noValidate>
       <input
         type="text"
         name="website"
@@ -55,9 +55,9 @@ export default function NewsletterSignup() {
         required
         autoComplete="email"
         placeholder="Votre adresse courriel"
-        className={`${inputTheme()} bg-off-white w-[75%] xl:w-full mt-10`}
+        className={`${inputTheme()} mt-6 w-full bg-off-white sm:mt-8`}
       />
-      <label className="flex max-w-lg items-start gap-3 text-sm">
+      <label className="flex w-full max-w-lg items-start gap-3 text-sm leading-relaxed">
         <input name="consent" type="checkbox" required className="mt-1 h-5 w-5 shrink-0" />
         <span>
           J’accepte de recevoir l’infolettre de la Maison de la Famille de St-François. Je peux retirer
@@ -73,8 +73,8 @@ export default function NewsletterSignup() {
       >
         {status === "submitting" ? "Inscription en cours…" : "S’inscrire"}
       </MFButton>
-      {status === "success" ? <p role="status">Votre inscription à l’infolettre est confirmée.</p> : null}
-      {status === "error" ? <p role="alert">L’inscription a échoué. Réessayez un peu plus tard.</p> : null}
+      {status === "success" ? <p role="status" className="text-center">Votre inscription à l’infolettre est confirmée.</p> : null}
+      {status === "error" ? <p role="alert" className="text-center">L’inscription a échoué. Réessayez un peu plus tard.</p> : null}
     </form>
   );
 }

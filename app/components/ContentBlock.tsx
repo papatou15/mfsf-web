@@ -9,7 +9,7 @@ interface ContentBlockProps extends StackBlock {
 
 export default function ContentBlock({ children = [], items = [], layout = 'vertical', bgColor, _type }: ContentBlockProps) {
     return (
-        <div style={{ backgroundColor: bgColor?.hex}} className={`${_type} flex ${layout === 'vertical' ? 'flex-col items-center' : 'flex-row justify-around items-center flex-wrap'} gap-4 px-12 py-7 lg:px-24 lg:py-12`}>
+        <div style={{ backgroundColor: bgColor?.hex}} className={`${_type} flex w-full ${layout === 'vertical' ? 'flex-col items-center' : 'flex-row flex-wrap items-stretch justify-center'} gap-6 px-4 py-8 sm:px-8 lg:gap-8 lg:px-12 lg:py-12 xl:px-16`}>
             {items.map((item, index) => (
                 <SectionRenderer key={index} section={item} />
             ))}

@@ -27,13 +27,13 @@ export default async function Equipe() {
                     NOTRE MISSION
                 </Typography>
                 <img src={sanityImgUrl(fetchedImage.image).crop("focalpoint").fit("crop").size(1200, 600).auto("format").url()} alt={(fetchedImage.image as any)?.asset?.altText} className="w-full md:w-[80vw] md:max-w-[1500px] h-56 md:h-80 md:rounded-2xl my-6 md:my-12 border-y-4 border-black md:border-4" />
-                <div className="flex flex-col items-center w-5/6 md:max-w-7xl bg-primary-orange py-10 px-12 md:px-24 lg:px-36 text-off-white shadow-text-sm rounded-2xl shadow-big-box-bg text-center">
+                <div className="flex w-[calc(100%_-_2rem)] flex-col items-center rounded-2xl bg-primary-orange px-6 py-10 text-center text-off-white shadow-big-box-bg shadow-text-sm sm:w-5/6 sm:px-12 md:max-w-7xl md:px-24 lg:px-36">
                     <Typography as="p" className={`flex justify-center ${typographyTheme({ size: 'paragraph' })}`}>
                         {fetchedImage.missionText}
                     </Typography>
                 </div>
                 {fetchedImage.aboutText ? (
-                    <div className="flex flex-col items-center w-5/6 md:max-w-7xl mt-12 py-10 px-12 md:px-24 lg:px-36 text-center">
+                    <div className="mt-12 flex w-[calc(100%_-_2rem)] flex-col items-center px-6 py-10 text-center sm:w-5/6 sm:px-12 md:max-w-7xl md:px-24 lg:px-36">
                         <Typography as="h2" className={`font-semibold ${typographyTheme({ size: 'h2' })}`}>
                             QUI SOMMES-NOUS?
                         </Typography>
@@ -43,7 +43,7 @@ export default async function Equipe() {
                     </div>
                 ) : null}
                 {fetchedImage.memberBenefits?.length ? (
-                    <div className="w-5/6 md:max-w-7xl mt-8 bg-primary-green text-off-white rounded-2xl shadow-big-box-bg py-10 px-12 md:px-24">
+                    <div className="mt-8 w-[calc(100%_-_2rem)] rounded-2xl bg-primary-green px-6 py-10 text-off-white shadow-big-box-bg sm:w-5/6 sm:px-12 md:max-w-7xl md:px-24">
                         <Typography as="h2" className={`text-center font-semibold ${typographyTheme({ size: 'h3' })}`}>
                             ÊTRE MEMBRE DE LA MAISON DE LA FAMILLE, C’EST…
                         </Typography>
@@ -59,15 +59,15 @@ export default async function Equipe() {
                 ) : null}
             </div>
 
-            <div className="flex flex-col items-center bg-custom-beige sm:mx-16 my-24 rounded-2xl shadow-big-box-bg">
+            <div className="mx-4 my-16 flex flex-col items-center rounded-2xl bg-custom-beige shadow-big-box-bg sm:mx-16 sm:my-24">
                 <Typography as={"h2"} className={`flex justify-center shadow-text-sm font-semibold text-center mt-4 ${typographyTheme({ size: 'h2' })}`}>
                     TÉMOIGNAGES
                 </Typography>
-                <div className="flex flex-wrap justify-center m-16 mt-0 w-full">
+                <div className="flex w-full flex-wrap justify-center gap-6 px-4 pb-8 sm:px-8">
                     {
                         fetchedTemoignages.temoignages?.map((temoignage, index) => {
                             return (
-                                <div key={index} className="min-w-80 max-w-96 flex flex-col mt-12 items-center text-center first-of-type:bg-primary-green last-of-type:bg-primary-red bg-primary-blue rounded-2xl shadow-big-box-bg mx-4 p-8 shadow-text-sm text-off-white">
+                                <div key={index} className="mt-6 flex w-full min-w-0 max-w-96 flex-col items-center rounded-2xl bg-primary-blue p-6 text-center text-off-white shadow-big-box-bg shadow-text-sm first-of-type:bg-primary-green last-of-type:bg-primary-red sm:p-8">
                                     <Typography as="p" className={`flex justify-center ${typographyTheme({ size: 'paragraph' })}`}>
                                         {temoignage.text}
                                     </Typography>
@@ -85,7 +85,7 @@ export default async function Equipe() {
                 <Typography as="h2" className={`flex justify-center font-semibold text-center ${typographyTheme({ size: 'h2' })}`}>
                     NOTRE ÉQUIPE
                 </Typography>
-                <div className="flex flex-row flex-wrap justify-around items-center m-16">
+                <div className="mx-auto flex w-full max-w-[1700px] flex-row flex-wrap items-center justify-around gap-8 px-4 py-10 sm:px-8 sm:py-16">
                     {
                         fetchedTeamMembers.employees?.map((employee, index) => (
                             <EmployeeCard key={index} employee={employee} />
@@ -94,11 +94,11 @@ export default async function Equipe() {
                 </div>
             </div>
 
-            <div className="flex flex-col items-center sm:mx-16 my-24">
+            <div className="mx-4 my-16 flex flex-col items-center sm:mx-16 sm:my-24">
                 <Typography as={"h2"} className={`flex justify-center font-semibold text-center mt-4 ${typographyTheme({ size: 'h2' })}`}>
                     ÉQUIPE ADMINISTRATIVE
                 </Typography>
-                <div className="flex flex-wrap justify-center m-16 mt-0 w-full">
+                <div className="flex w-full flex-wrap justify-center gap-6 px-4 pb-8 sm:px-8">
                     {
                         fetchedAdminTeamMembers.members?.map((employee) => (
                             <AdminTeamMemberCard key={employee._key} adminTeamMember={employee} />

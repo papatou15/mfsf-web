@@ -24,23 +24,24 @@ const Carousel = ({ images, title, _type }: CarouselProps) => {
     const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
 
     return (
-        <div className={`${_type} relative mx-auto w-full max-w-7xl px-14 sm:px-16`}>
+        <div className={`${_type} relative mx-auto w-full max-w-7xl px-4 sm:px-10 lg:px-16`}>
             {title && (
                 <Typography
                     as="h2"
-                    className={`${typographyTheme({ size: "h4" })} text-center my-14`}
+                    className={`${typographyTheme({ size: "h4" })} mb-6 mt-10 text-center sm:mb-10 sm:mt-14`}
                 >
                     {title}
                 </Typography>
             )}
 
-            <div className="relative flex items-center ">
+            <div className="relative flex items-center">
                 {/* Navigation Buttons */}
                 <MFButton
                     _type="button"
                     style="smallbg"
                     onClick={() => swiperInstance?.slidePrev()} // Swiper instance method
-                    className="absolute left-0 z-10"
+                    extraCSS="!absolute left-1 z-10 !m-0 !h-10 !w-10 !p-0 sm:-left-2 sm:!h-12 sm:!w-12"
+                    aria-label="Partenaire précédent"
                 >
                     <FaArrowLeft />
                 </MFButton>
@@ -48,7 +49,7 @@ const Carousel = ({ images, title, _type }: CarouselProps) => {
                 {/* Swiper Carousel */}
                 <Swiper
                     modules={[Navigation, Autoplay]}
-                    spaceBetween={24}
+                    spaceBetween={16}
                     slidesPerView={1} // Default
                     autoplay={{ delay: 10000, disableOnInteraction: false }}
                     breakpoints={{
@@ -57,12 +58,12 @@ const Carousel = ({ images, title, _type }: CarouselProps) => {
                         1100: { slidesPerView: 4 }, // Medium screens
                     }}
                     onSwiper={setSwiperInstance} // Store Swiper instance
-                    className="carousel"
+                    className="carousel w-full"
                 >
                     {images?.map((image) => {
                         const imageWithAlt = image as typeof image & {alt?: string};
                         const logo = (
-                            <div className="flex aspect-[3/2] w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-gray-200 bg-white p-1 sm:p-2">
+                            <div className="flex aspect-[3/2] w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-gray-200 bg-white p-2 sm:p-3">
                                 <img
                                     src={sanityImgUrl(image?.carouselImage).auto("format").url()}
                                     alt={imageWithAlt.alt || "Logo d’un partenaire"}
@@ -87,7 +88,8 @@ const Carousel = ({ images, title, _type }: CarouselProps) => {
                     _type="button"
                     style="smallbg"
                     onClick={() => swiperInstance?.slideNext()} // Swiper instance method
-                    className="absolute right-0 z-10"
+                    extraCSS="!absolute right-1 z-10 !m-0 !h-10 !w-10 !p-0 sm:-right-2 sm:!h-12 sm:!w-12"
+                    aria-label="Partenaire suivant"
                 >
                     <FaArrowRight />
                 </MFButton>

@@ -87,7 +87,7 @@ const MFCard: React.FC<MFCardProps> = ({ image, layout, subtitle, title, modalCo
     }
 
     return (
-        <MFLink _type={"button"} link={(resolvedLink || link?.url || "")} target="_blank">
+        <MFLink _type={"button"} link={(resolvedLink || link?.url || "")} target="_blank" extraCSS="w-full max-w-[385px]">
             <div
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
@@ -97,16 +97,16 @@ const MFCard: React.FC<MFCardProps> = ({ image, layout, subtitle, title, modalCo
                         ? `${color?.hex} 0 15px, 0 0 100px rgba(0,0,0,0.25)`
                         : `${color?.hex} -15px 22px`,
                 }}
-                className={`${_type} flex flex-col h-[470px] w-[385px] my-5 2xl:my-0 rounded-xl border-4 overflow-hidden transition-all hover:cursor-pointer hover:translate-x-2 hover:-translate-y-2`}
+                className={`${_type} my-4 flex h-full min-h-[420px] w-[calc(100vw_-_2rem)] max-w-[385px] flex-col overflow-hidden rounded-xl border-4 transition-all hover:cursor-pointer hover:translate-x-2 hover:-translate-y-2 2xl:my-0`}
             >
-                <div className="pt-7 px-7 z-10 bg-custom-beige shrink-0">
+                <div className="z-10 shrink-0 bg-custom-beige px-4 pt-4 sm:px-6 sm:pt-6">
                     <img
                         src={sanityImgUrl(image).width(720).height(405).fit("crop").crop("focalpoint").auto("format").url()}
                         alt=""
                         className="w-full aspect-video object-cover rounded-xl border-black border-4"
                     />
                 </div>
-                <div className="h-full pt-8 px-6 bg-custom-beige flex flex-col text-center items-center shadow-text-sm">
+                <div className="flex flex-1 flex-col items-center bg-custom-beige px-5 pb-6 pt-4 text-center shadow-text-sm sm:px-6 sm:pt-5">
                     <Typography as="h3" className={typographyTheme({ size: 'h3' })}>
                         {title}
                     </Typography>

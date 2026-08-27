@@ -1,4 +1,5 @@
 import { isValidSignature, SIGNATURE_HEADER_NAME } from "@sanity/webhook";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
@@ -12,13 +13,21 @@ const contactFormSchema = z.object({
   message: z.string().trim().min(1).max(10_000),
 });
 
-export async function POST(request: Request) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.error("RESEND_API_KEY is not configured");
-    return NextResponse.json({ success: false }, { status: 503 });
-  }
+const publicContentTypes = new Set([
+  "activity",
+  "adminTeamMember",
+  "banner",
+  "contact",
+  "formulaires",
+  "menu",
+  "missionImage",
+  "pageMaker",
+  "produitStripe",
+  "teamMember",
+  "temoignages",
+]);
 
+export async function POST(request: Request) {
   const rawBody = await request.text();
   const webhookSecret = process.env.SANITY_WEBHOOK_SECRET;
   if (!webhookSecret) {
@@ -40,7 +49,21 @@ export async function POST(request: Request) {
 
   const parsed = contactFormSchema.safeParse(json);
   if (!parsed.success) {
-    return NextResponse.json({ success: false }, { status: 400 });
+    const contentType = z.object({ _type: z.string() }).safeParse(json);
+    if (!contentType.success || !publicContentTypes.has(contentType.data._type)) {
+      return NextResponse.json({ success: false }, { status: 400 });
+    }
+
+    // The navigation, banner and footer live in the root layout. Invalidating
+    // it refreshes every page that can depend on the published document.
+    revalidatePath("/", "layout");
+    return NextResponse.json({ success: true, revalidated: true });
+  }
+
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error("RESEND_API_KEY is not configured");
+    return NextResponse.json({ success: false }, { status: 503 });
   }
 
   const { email, subject, message } = parsed.data;

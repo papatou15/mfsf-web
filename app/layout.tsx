@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   keywords: ["Maison de la Famille de St-François", "MF", "St-François", "Famille", "Maison"],
 };
 
+// Safety net if a Sanity webhook is ever delayed or temporarily unavailable.
+export const revalidate = 300;
+
 export default async function RootLayout({
   children,
 }: Readonly<{

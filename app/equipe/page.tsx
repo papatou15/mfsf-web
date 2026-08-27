@@ -7,14 +7,18 @@ import { queryFetcher, aboutPageQuery } from "../queries";
 import sanityImgUrl from "../sanityImageBuilder";
 import { EmployeeCard } from "../components/EmployeeCard";
 import { AdminTeamMemberCard } from "../components/adminTeamMemberCard";
+import Link from "next/link";
 
 export default async function Equipe() {
 
     const data = await queryFetcher(aboutPageQuery);
-    const fetchedTeamMembers: TeamMember = data[2];
-    const fetchedAdminTeamMembers: AdminTeamMember = data[0];
-    const fetchedImage: MissionImage = data[1];
-    const fetchedTemoignages: Temoignages = data[3];
+    const fetchedTeamMembers = data.find((document: { _type: string }) => document._type === "teamMember") as TeamMember;
+    const fetchedAdminTeamMembers = data.find((document: { _type: string }) => document._type === "adminTeamMember") as AdminTeamMember;
+    const fetchedImage = data.find((document: { _type: string }) => document._type === "missionImage") as MissionImage & {
+        aboutText?: string;
+        memberBenefits?: string[];
+    };
+    const fetchedTemoignages = data.find((document: { _type: string }) => document._type === "temoignages") as Temoignages;
 
     return (
         <>
@@ -28,6 +32,31 @@ export default async function Equipe() {
                         {fetchedImage.missionText}
                     </Typography>
                 </div>
+                {fetchedImage.aboutText ? (
+                    <div className="flex flex-col items-center w-5/6 md:max-w-7xl mt-12 py-10 px-12 md:px-24 lg:px-36 text-center">
+                        <Typography as="h2" className={`font-semibold ${typographyTheme({ size: 'h2' })}`}>
+                            QUI SOMMES-NOUS?
+                        </Typography>
+                        <Typography as="p" className={typographyTheme({ size: 'paragraph' })}>
+                            {fetchedImage.aboutText}
+                        </Typography>
+                    </div>
+                ) : null}
+                {fetchedImage.memberBenefits?.length ? (
+                    <div className="w-5/6 md:max-w-7xl mt-8 bg-primary-green text-off-white rounded-2xl shadow-big-box-bg py-10 px-12 md:px-24">
+                        <Typography as="h2" className={`text-center font-semibold ${typographyTheme({ size: 'h3' })}`}>
+                            ÊTRE MEMBRE DE LA MAISON DE LA FAMILLE, C’EST…
+                        </Typography>
+                        <ul className="list-disc space-y-3 my-8 pl-6">
+                            {fetchedImage.memberBenefits.map((benefit) => (
+                                <li key={benefit} className={typographyTheme({ size: 'paragraph' })}>{benefit}</li>
+                            ))}
+                        </ul>
+                        <Link href="/account" className="mx-auto block w-fit rounded-xl bg-off-white px-6 py-3 font-semibold text-primary-green">
+                            Devenir membre
+                        </Link>
+                    </div>
+                ) : null}
             </div>
 
             <div className="flex flex-col items-center bg-custom-beige sm:mx-16 my-24 rounded-2xl shadow-big-box-bg">

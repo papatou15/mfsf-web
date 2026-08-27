@@ -39,6 +39,7 @@
     "react-icons": "^5.3.0",
     "resend": "^4.1.1",
     "stripe": "^17.6.0",
+    "svix": "^2.0.0",
     "swiper": "^14.1.0",
     "tailwind-variants": "^0.2.1",
     "zod": "^3.24.2"

@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { useUser } from "@clerk/nextjs";
-import { memberQueryFetcher, accountPageQuery } from "./queries";
 import { Activity, Inscription } from "@/sanity.types";
 
 type AccountLinkedActivity = {
@@ -11,19 +10,28 @@ type AccountLinkedActivity = {
     activityId?: Pick<Activity, "nom"> | null;
 };
 
+type AccountNewsletter = {
+    status?: "subscribed" | "unsubscribed" | "deleted" | "error";
+    consentAt?: string;
+    unsubscribedAt?: string;
+};
+
 export type AccountSanityMember = Omit<Inscription, "linkedActivities"> & {
     linkedActivities?: AccountLinkedActivity[];
+    newsletter?: AccountNewsletter | null;
 };
 
 interface AuthContextType {
     clerkUser: { id: string; email: string; firstName: string; lastName: string } | null;
     sanityMember: AccountSanityMember | null;
     loading: boolean;
+    memberLookupError: boolean;
 }
 
 type MemberResult = {
-    email: string;
+    userId: string;
     member: AccountSanityMember | null;
+    error: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -34,33 +42,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const email = user?.primaryEmailAddress?.emailAddress ?? "";
 
     useEffect(() => {
-        if (!isLoaded || !user || !email) return;
+        if (!isLoaded) return;
+        if (!user) return;
 
         let active = true;
-        const firstName = user.firstName ?? "";
-        const lastName = user.lastName ?? "";
 
-        memberQueryFetcher<AccountSanityMember[]>(accountPageQuery, {
-            email,
-            nom: firstName,
-            nom_famille: lastName,
-        })
-            .then((members) => {
-                if (active) setMemberResult({ email, member: members[0] ?? null });
+        fetch("/api/account", { cache: "no-store" })
+            .then(async (response) => {
+                if (!response.ok) throw new Error(`Member lookup failed with status ${response.status}`);
+                return response.json() as Promise<{ member: AccountSanityMember | null }>;
+            })
+            .then(({ member }) => {
+                if (active) setMemberResult({ userId: user.id, member, error: false });
             })
             .catch((error) => {
                 console.error(error);
-                if (active) setMemberResult({ email, member: null });
+                if (active) setMemberResult({ userId: user.id, member: null, error: true });
             });
 
         return () => {
             active = false;
         };
-    }, [email, isLoaded, user]);
+    }, [isLoaded, user]);
 
-    const resultMatchesUser = memberResult?.email === email;
-    const sanityMember = user && resultMatchesUser ? memberResult.member : null;
+    const resultMatchesUser = memberResult?.userId === user?.id;
+    const sanityMember = user && resultMatchesUser ? memberResult?.member ?? null : null;
     const loading = !isLoaded || Boolean(user && !resultMatchesUser);
+    const memberLookupError = Boolean(user && resultMatchesUser && memberResult?.error);
 
     return (
         <AuthContext.Provider
@@ -68,6 +76,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 clerkUser: user ? { id: user.id, email, firstName: user.firstName ?? "", lastName: user.lastName ?? "" } : null,
                 sanityMember,
                 loading,
+                memberLookupError,
             }}
         >
             {children}

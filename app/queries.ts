@@ -20,6 +20,15 @@ export const contactQuery = `
         email
     }`
 
+export const contactPageQuery = `
+    *[_type == "pageMaker" && title == "Contact"][0]{
+        sections[]{
+            ...,
+            items[]{...}
+        }
+    }
+`
+
 export const tabsQuery = `
     *[_type == "pageMaker"]{
         _id,
@@ -44,6 +53,19 @@ export const homePageQuery = `
               dates[]{date, inscriptionOuverte, isVisible, openDate},
               produitStripe->{_id, nom, description, actif}
             }
+          },
+          _type == "activityBlock" => {
+            "activite": activite->{
+              _id,
+              nom,
+              publicCible,
+              description,
+              horaire,
+              cout,
+              informationsComplementaires,
+              image,
+              dates[]{date, inscriptionOuverte, isVisible, openDate}
+            }
           }
         }
     }
@@ -67,31 +89,60 @@ export const servicesPagesQuery = `
               produitStripe->{_id, nom, description, actif}
             }
           },
+          _type == "activityBlock" => {
+            "activite": activite->{
+              _id,
+              nom,
+              publicCible,
+              description,
+              horaire,
+              cout,
+              informationsComplementaires,
+              image,
+              dates[]{date, inscriptionOuverte, isVisible, openDate}
+            }
+          },
             "form": form->
         }
     }
 
 `
 
-export const accountPageQuery = `
-    *[_type == 'inscription' && !(_id in path("drafts.**")) && email == $email && (nom match $nom || nom_famille match $nom_famille)]{
-    _id,
-    nom,
-    nom_famille,
-    email,
-    linkedActivities[]{
-      date,
-      activityId->{
-        nom
-      }
-    },
-    member_check
-}
+export const activitiesPageQuery = `
+    *[_type == 'pageMaker' && title == "Activités"][0]{
+        title,
+        sections[]{
+            ...,
+            _type == "activityBlock" => {
+                "activite": activite->{
+                    _id,
+                    nom,
+                    publicCible,
+                    description,
+                    horaire,
+                    cout,
+                    informationsComplementaires,
+                    image,
+                    dates[]{date, inscriptionOuverte, isVisible, openDate}
+                }
+            },
+            _type == "formButton" => {
+                "form": form->,
+                "activite": activite->{
+                    _id,
+                    nom,
+                    dates[]{date, inscriptionOuverte, isVisible, openDate},
+                    produitStripe->{_id, nom, description, actif}
+                }
+            }
+        }
+    }
 `
 
 export const menuQuery = `
     *[_type == "menu"]{
         pages[]->{
+            _id,
             title,
             slug{
                 current
@@ -139,7 +190,9 @@ export const aboutPageQuery = `
                     altText
                 }
             },
-            missionText
+            missionText,
+            aboutText,
+            memberBenefits
         },
         _type == "temoignages" => {
             temoignages[0...3]
@@ -166,12 +219,6 @@ export async function queryFetcher(query: string) {
 
 export async function accountActivitiesFetcher(query: string, params: { memberId: string }) {
     const data = await sanityClient.fetch(query, params)
-
-    return data
-}
-
-export async function memberQueryFetcher<T>(query: string, params: { email: string, nom: string, nom_famille: string }) {
-    const data = await sanityClient.fetch<T>(query, params)
 
     return data
 }

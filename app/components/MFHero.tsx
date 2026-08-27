@@ -9,9 +9,9 @@ export type MFHeroProps = HeroSection
 const MFHero: React.FC<MFHeroProps> = ({ title, subTitle, image, layout, _type, bgColor }) => {
 
     return (
-        <div className={`${_type} py-20 flex justify-center items-center`}>
-            <div style={{ backgroundColor: bgColor?.hex ? bgColor?.hex : ''}} className={`py-12 md:px-32 sm:rounded-xl shadow-big-box-bg flex flex-col ${layout == 'default' ? 'md:flex-row' : 'md:flex-row-reverse'} justify-center items-center`}>
-                <div className="md:w-[50%] flex flex-col justify-center items-start">
+        <div className={`${_type} flex items-center justify-center px-4 py-12 md:py-16`}>
+            <div style={{ backgroundColor: bgColor?.hex ? bgColor?.hex : ''}} className={`flex w-full max-w-7xl flex-col items-center justify-center gap-8 rounded-3xl px-6 py-10 shadow-big-box-bg md:px-10 lg:px-14 ${layout == 'default' ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+                <div className="flex w-full flex-col items-start justify-center md:w-[42%]">
                     <Typography as="h1" className={`${typographyTheme({ size: 'h1' })} !shadow-text py-4`}>
                         {title}
                     </Typography>
@@ -19,11 +19,11 @@ const MFHero: React.FC<MFHeroProps> = ({ title, subTitle, image, layout, _type, 
                         {subTitle}
                     </Typography>
                 </div>
-                <div className="w-full md:w-[50%] flex justify-center px-4 md:px-0">
+                <div className="flex w-full justify-center md:w-[58%]">
                     <img
-                        src={sanityImgUrl(image).width(900).height(900).fit("crop").crop("focalpoint").auto("format").url()}
+                        src={sanityImgUrl(image).width(1200).height(675).fit("crop").crop("focalpoint").auto("format").url()}
                         alt=""
-                        className="my-4 md:my-0 w-full aspect-square object-cover border-y-[3px] md:rounded-3xl md:border-black md:border-[3px]"
+                        className="aspect-video w-full max-w-2xl rounded-2xl border-[3px] border-black object-cover"
                     />
                 </div>
             </div>

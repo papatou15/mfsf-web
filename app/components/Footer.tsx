@@ -7,6 +7,7 @@ import { FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import typographyTheme from "./theme/Typography";
 import Typography from "./Typography/Typography";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 interface Props {
     tabs: PageMaker[];
@@ -33,7 +34,8 @@ const Footer: React.FC<Props> = ({ tabs, contacts, logo }) => {
 
                 <div className="min-w-44 lg:min-w-64 lg:max-w-96 flex flex-col items-center justify-center mx-16">
                     <img className="bg-black bg-opacity-40 rounded-2xl py-8 px-2" src={sanityImgUrl(logo.footerLogo).url()} alt="Maison de la Famille de St-François" />
-                    <Typography as="p" className={`${typographyTheme({size: 'footnote'})} shadow-text-sm mt-4`}>Maison de la famille de St-François © 2024</Typography>
+                    <Typography as="p" className={`${typographyTheme({size: 'footnote'})} shadow-text-sm mt-4`}>Maison de la Famille de St-François © 2026</Typography>
+                    <Link href="/confidentialite" className="mt-3 text-sm underline">Politique de confidentialité</Link>
                 </div>
 
                 <div className=" lg:h-[70%] flex flex-col justify-center items-center shadow-text-sm">

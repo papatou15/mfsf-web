@@ -57,12 +57,13 @@ export async function POST(request: Request) {
 
   try {
     const resend = new Resend(apiKey);
+    const isCollaboration = subject === "Demande de collaboration";
     const { error } = await resend.emails.send({
       from,
       to: recipients,
       replyTo: email,
-      subject: `Nouvelle question : ${subject}`,
-      text: `Une nouvelle question a ete envoyee depuis le formulaire de contact.\n\nSujet : ${subject}\nCourriel : ${email}\n\nMessage :\n${message}`,
+      subject: isCollaboration ? "Nouvelle demande de collaboration" : `Nouvelle question : ${subject}`,
+      text: `${isCollaboration ? "Une nouvelle demande de collaboration" : "Une nouvelle question"} a été envoyée depuis le formulaire de contact.\n\nSujet : ${subject}\nCourriel : ${email}\n\nMessage :\n${message}`,
     });
 
     if (error) throw new Error(error.message);

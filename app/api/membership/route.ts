@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { getSanityServerClient } from "@/app/lib/sanityServerClient";
 import { getMembershipPrice, getStripeClient } from "@/app/lib/stripeServer";
+import { newsletterSubscriberId } from "@/app/lib/newsletterSubscriber";
 
 export const runtime = "nodejs";
 
@@ -98,7 +99,12 @@ export async function POST(request: Request) {
     }
 
     const memberId = `inscription.${crypto.randomUUID()}`;
-    await sanity
+    const subscriberId = newsletterSubscriberId(email);
+    const existingSubscriberId = await sanity.fetch<string | null>(
+      `*[_id == $subscriberId][0]._id`,
+      { subscriberId },
+    );
+    let transaction = sanity
       .transaction()
       .create({
         _id: memberId,
@@ -122,8 +128,15 @@ export async function POST(request: Request) {
             _key: crypto.randomUUID(),
             ...answer,
           })),
-        }]))
-      .commit();
+        }]));
+
+    if (existingSubscriberId) {
+      transaction = transaction.patch(subscriberId, (patch) => patch.set({
+        member: {_type: "reference", _ref: memberId},
+      }));
+    }
+
+    await transaction.commit();
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -9,11 +9,11 @@ interface BannerProps {
 
 const Banner = ({ banner = [] }: BannerProps) => {
 
-    const shownBanner = banner[0] ?? null;
+    const shownBanner = banner[0];
+
+    if (!shownBanner?.isActive) return null;
 
     return (
-        <>
-            {shownBanner.isActive && (
                 <div
                     style={{ backgroundColor: shownBanner.bgColor?.hex }}
                     className={`h-20 mx-7 rounded-xl flex items-center overflow-hidden relative`}
@@ -38,8 +38,6 @@ const Banner = ({ banner = [] }: BannerProps) => {
                         </div>
                     )}
                 </div>
-            )}
-        </>
     );
 }
 

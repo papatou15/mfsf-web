@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Card, Formulaires } from "@/sanity.types";
-import { useEffect, type ReactNode } from "react";
+import { useEffect } from "react";
 
 import type { ActivityPaymentContext } from "@/app/types/payments";
 import FormRenderer from "./FormRenderer";
@@ -18,10 +18,9 @@ interface ModalProps extends Card {
     formContent?: FormSections;
     formRef?: string;
     activite?: ActivityPaymentContext;
-    children?: ReactNode;
 }
 
-export default function Modal({ open, onClose, title, image, modalContent, formContent, type, formRef, activite, children }: ModalProps) {
+export default function Modal({ open, onClose, title, image, modalContent, formContent, type, formRef, activite }: ModalProps) {
     useEffect(() => {
         document.body.style.overflow = open ? 'hidden' : '';
 
@@ -65,7 +64,6 @@ export default function Modal({ open, onClose, title, image, modalContent, formC
                     {type === "form" && formContent && (
                         <FormRenderer sections={formContent} formRef={formRef} activite={activite} />
                     )}
-                    {children}
                 </div>
             </div>
         </div>

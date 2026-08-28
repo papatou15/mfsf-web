@@ -17,7 +17,7 @@ export default async function ActivitiesPage() {
     renderedSections.push(
       <div
         key={`activities-${renderedSections.length}`}
-        className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-6 px-4 py-8 sm:px-8 lg:grid-cols-2 lg:gap-8 lg:px-12 xl:px-16"
+        className="grid w-full grid-cols-1 items-stretch gap-6 lg:grid-cols-2"
       >
         {activityGroup.map((section) => (
           <SectionRenderer key={section._key} section={section} {...section} />
@@ -41,6 +41,8 @@ export default async function ActivitiesPage() {
   flushActivities()
 
   return (
-    <div>{renderedSections}</div>
+    <div className="flex w-full flex-col items-center gap-6 px-4 py-8 sm:px-8 lg:gap-8 lg:px-12 lg:py-12 xl:px-16">
+      {renderedSections}
+    </div>
   )
 }

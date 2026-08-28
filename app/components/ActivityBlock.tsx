@@ -75,7 +75,7 @@ export default function ActivityBlock({activite}: ActivityBlockProps) {
     <>
       <article
         style={{borderColor: '#20453E'}}
-        className="relative col-start-1 row-start-1 grid h-[200px] w-full grid-cols-1 overflow-hidden rounded-3xl border-4"
+        className="relative grid h-[200px] w-full grid-cols-1 overflow-hidden rounded-3xl border-4"
       >
         <div
           className="absolute z-10 h-full w-full"

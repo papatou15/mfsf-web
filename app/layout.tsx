@@ -11,6 +11,7 @@ import { PageTransitionProvider } from "./components/PageTransition";
 import { Nunito } from 'next/font/google'
 import { AuthProvider } from "./AuthContext";
 import { Contact } from "@/sanity.types";
+import { Analytics } from '@vercel/analytics/next';
 
 const nunito = Nunito({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-nunito' })
 
@@ -49,6 +50,7 @@ export default async function RootLayout({
               {children}
               <Footer tabs={tabs} contacts={contacts} logo={footerLogo} />
             </PageTransitionProvider>
+            <Analytics />
           </body>
         </html>
       </AuthProvider>
